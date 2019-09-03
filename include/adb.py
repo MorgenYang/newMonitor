@@ -17,7 +17,7 @@ KEYTAP_CMD = 'adb shell input tap %s %s'  # x1, y1
 def shell(cmd=None, shell_cmd=None, para=None):
     command = cmd
     if shell_cmd == "SHELL":
-        command = PRE_CMD % (cmd)
+        command = PRE_CMD % cmd
     elif shell_cmd == "KEYEVENT":
         command = KEYEVENT_CMD % (str(para))
     elif shell_cmd == "SWIPE":
