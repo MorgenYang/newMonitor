@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMessageBox
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 import sys
+import adb
+from threading import Thread
 
 
 class MainWindow(QMainWindow):
@@ -10,7 +12,8 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        InitAdb()
+        self.ui.bindEventFunc()
+
         self.statusBar().addWidget(QLabel("Ready"))
 
 
@@ -124,11 +127,11 @@ class Ui_MainWindow(object):
         self.powerKey.setMaximumSize(QtCore.QSize(100, 25))
         self.powerKey.setStyleSheet("color: rgb(0, 0, 0);")
         self.powerKey.setObjectName("powerKey")
-        self.openPoint = QtWidgets.QPushButton(self.pageAdb)
-        self.openPoint.setGeometry(QtCore.QRect(0, 225, 100, 25))
-        self.openPoint.setMaximumSize(QtCore.QSize(100, 25))
-        self.openPoint.setStyleSheet("color: rgb(0, 0, 0);")
-        self.openPoint.setObjectName("openPoint")
+        self.openClosePoint = QtWidgets.QPushButton(self.pageAdb)
+        self.openClosePoint.setGeometry(QtCore.QRect(0, 225, 100, 25))
+        self.openClosePoint.setMaximumSize(QtCore.QSize(100, 25))
+        self.openClosePoint.setStyleSheet("color: rgb(0, 0, 0);")
+        self.openClosePoint.setObjectName("openClosePoint")
         self.screenShot = QtWidgets.QPushButton(self.pageAdb)
         self.screenShot.setGeometry(QtCore.QRect(0, 250, 100, 25))
         self.screenShot.setMaximumSize(QtCore.QSize(100, 25))
@@ -480,7 +483,7 @@ class Ui_MainWindow(object):
         self.checkDevice.setText(_translate("MainWindow", "CheckDevices"))
         self.hideShowVirtual.setText(_translate("MainWindow", "HideShowVirtual"))
         self.powerKey.setText(_translate("MainWindow", "PowerKey"))
-        self.openPoint.setText(_translate("MainWindow", "OpenPoint"))
+        self.openClosePoint.setText(_translate("MainWindow", "OpenClosePoint"))
         self.screenShot.setText(_translate("MainWindow", "ScreenShot"))
         self.shutDown.setText(_translate("MainWindow", "ShutDown"))
         self.reboot.setText(_translate("MainWindow", "Reboot"))
@@ -525,16 +528,157 @@ class Ui_MainWindow(object):
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabCommands), _translate("MainWindow", "Commands"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabHelp), _translate("MainWindow", "Help"))
 
+    def bindEventFunc(self):
+        # wifi
+        self.wifiConnect.clicked.connect(self.wifiConnectFunc)
+        self.wifiDisconnect.clicked.connect(self.wifiDisconnectFunc)
+        self.wifiReconnect.clicked.connect(self.wifiReconnectFunc)
 
-class BindEventFunc():
-    def test(self):
-        pass
+        # adb
+        self.homekey.clicked.connect(self.wifiConnectFunc)
+        self.backkey.clicked.connect(self.wifiConnectFunc)
+        self.volUp.clicked.connect(self.wifiConnectFunc)
+        self.volDown.clicked.connect(self.wifiConnectFunc)
+        self.getprop.clicked.connect(self.wifiConnectFunc)
+        self.interrupts.clicked.connect(self.wifiConnectFunc)
+        self.checkDevice.clicked.connect(self.wifiConnectFunc)
+        self.hideShowVirtual.clicked.connect(self.wifiConnectFunc)
+        self.powerKey.clicked.connect(self.wifiConnectFunc)
+        self.openClosePoint.clicked.connect(self.wifiConnectFunc)
+        self.screenShot.clicked.connect(self.wifiConnectFunc)
+        self.shutDown.clicked.connect(self.wifiConnectFunc)
+        self.reboot.clicked.connect(self.wifiConnectFunc)
+        self.pullHXFile.clicked.connect(self.wifiConnectFunc)
+
+        # touch
+        self.fwVersion.clicked.connect(self.wifiConnectFunc)
+        self.reset.clicked.connect(self.wifiConnectFunc)
+        self.senseon.clicked.connect(self.wifiConnectFunc)
+        self.senseoff.clicked.connect(self.wifiConnectFunc)
+        self.selftest.clicked.connect(self.wifiConnectFunc)
+        self.inten0.clicked.connect(self.wifiConnectFunc)
+        self.inten1.clicked.connect(self.wifiConnectFunc)
+        self.driverVersion.clicked.connect(self.wifiConnectFunc)
+        self.flashDump.clicked.connect(self.wifiConnectFunc)
+
+        # display
+        self.d1129.clicked.connect(self.wifiConnectFunc)
+        self.d2810.clicked.connect(self.wifiConnectFunc)
+        self.openBlight.clicked.connect(self.wifiConnectFunc)
+
+        # options
+        self.diagArr.clicked.connect(self.wifiConnectFunc)
+        self.updateFW.clicked.connect(self.wifiConnectFunc)
+
+        # rawdata show
+        self.rawdataRead.clicked.connect(self.wifiConnectFunc)
+        self.stop.clicked.connect(self.wifiConnectFunc)
+        self.sram.clicked.connect(self.wifiConnectFunc)
+        self.log.clicked.connect(self.wifiConnectFunc)
+        self.kmsg.clicked.connect(self.wifiConnectFunc)
+        self.getevent.clicked.connect(self.wifiConnectFunc)
+
+        # register read write
+        self.pushButtonRead.clicked.connect(self.wifiConnectFunc)
+        self.pushButtonRegWrite0.clicked.connect(self.wifiConnectFunc)
+        self.pushButtonRegWrite1.clicked.connect(self.wifiConnectFunc)
+        self.pushButtonRegWrite2.clicked.connect(self.wifiConnectFunc)
+        self.pushButtonRegWrite3.clicked.connect(self.wifiConnectFunc)
+        self.pushButtonRegWrite4.clicked.connect(self.wifiConnectFunc)
+
+        # swipe lines
+        # help
 
 
-class InitAdb():
-    def __init__(self):
-        pass
+    def wifiConnectFunc(self):
+        # print ("Click")
+        self.threadWifiConnect = Thread(target=self.waitConnectFunc)
+        self.threadWifiConnect.start()
 
+    def waitConnectFunc(self):
+        print("Start...")
+        self.wifi_connect_status = 1
+        device_info = (adb.shell("adb devices"))
+        print(device_info)
+        device_info = str(device_info, encoding='utf-8')
+        try:
+            device_list = device_info.split()
+            device_list.remove("List")
+            device_list.remove("of")
+            device_list.remove("devices")
+            device_list.remove("attached")
+            device_list.remove("device")
+        except:
+            print("Please connect device")
+            return False
+
+        device_name = device_list[0]
+        print(device_name)
+        self.wifiStatus.setText("Connect...")
+
+        # Get device ip & set port
+        cmd = "adb -s %s shell ip -f inet addr show wlan0" % (device_name)
+        ip = adb.shell(cmd)
+        ip = str(ip, encoding='utf-8')
+        ip = ip[ip.find("inet 1") + 5:ip.find("/")]
+        cmd = "adb -s %s tcpip %s" % (device_name, 8888)
+        print(adb.shell(cmd))
+        if self.wifi_connect_status == 0:
+            return
+
+        # Connect
+        self.device_ip = ip
+        self.device_ip_port = str(ip) + ":" + '8888'
+        cmd = "adb connect %s:%s" % (self.device_ip, 8888)
+
+        response = ""
+        while response.find("already") < 0 and self.wifi_connect_status != 0:
+            response = (adb.shell(cmd))
+            response = str(response, encoding='utf-8')
+        if self.wifi_connect_status == 0:
+            return
+
+        # Polling wait unplugin
+        devices = (adb.shell("adb devices"))
+        devices = str(devices, encoding='utf-8')
+        response = ""
+
+        print("Unplugin")
+        self.wifiStatus.setText("Unplugin...")
+
+        while devices.find(device_name) < 0 and self.wifi_connect_status != 0:
+            devices = (adb.shell("adb devices"))
+            devices = str(devices, encoding='utf-8')
+
+        if self.wifi_connect_status == 0:
+            return
+
+        # Connect
+        cmd = "adb connect %s:%s" % (self.device_ip, 8888)
+        while response.find("already") < 0 and self.wifi_connect_status != 0:
+            response = (adb.shell(cmd))
+            response = str(response, encoding='utf-8')
+            print(response)
+        if self.wifi_connect_status == 0:
+            return
+
+        print("Wifi Connect Done")
+        self.wifiStatus.setText("Connected")
+        self.wifiStatus.setStyleSheet("color: rgb(0, 255, 0)")
+
+    def wifiReconnectFunc(self):
+        cmd = "adb connect %s:%s" % (self.device_ip, 8888)
+        print(cmd)
+        response = (adb.shell(cmd))
+        print(response)
+
+    def wifiDisconnectFunc(self, event):
+        adb.shell("adb disconnect")
+        self.wifiStatus.setText("Disconnect")
+        self.wifiStatus.setStyleSheet("color: rgb(255, 0, 0)")
+        self.wifi_connect_status = 0
+        self.device_ip = ""
+        self.device_ip_port = ""
 
 
 if __name__ == '__main__':
