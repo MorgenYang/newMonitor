@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ADB Monitor 2.0.0</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -59,7 +59,7 @@
 color: rgb(255, 255, 255);</string>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="tabSpacing">
         <number>0</number>
@@ -69,8 +69,8 @@ color: rgb(255, 255, 255);</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>28</height>
+          <width>100</width>
+          <height>372</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -202,7 +202,7 @@ color: rgb(255, 255, 255);</string>
         <attribute name="label">
          <string>ADB</string>
         </attribute>
-        <widget class="QPushButton" name="shutDown">
+        <widget class="QPushButton" name="homekey">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -227,102 +227,14 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>ShutDown</string>
+          <string>Home</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="powerKey">
+        <widget class="QPushButton" name="backkey">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>25</y>
-           <width>100</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>PowerKey</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="screenShot">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>50</y>
-           <width>100</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>ScreenShot</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="reboot">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>75</y>
-           <width>100</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>Reboot</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="home">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>100</y>
-           <width>100</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>Home</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="back">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>125</y>
            <width>100</width>
            <height>25</height>
           </rect>
@@ -344,7 +256,7 @@ color: rgb(255, 255, 255);</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>150</y>
+           <y>50</y>
            <width>100</width>
            <height>25</height>
           </rect>
@@ -359,14 +271,14 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>Vol_up</string>
+          <string>Vol up</string>
          </property>
         </widget>
         <widget class="QPushButton" name="volDown">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>175</y>
+           <y>75</y>
            <width>100</width>
            <height>25</height>
           </rect>
@@ -381,14 +293,14 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>Vol_down</string>
+          <string>Vol down</string>
          </property>
         </widget>
         <widget class="QPushButton" name="getprop">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>200</y>
+           <y>100</y>
            <width>100</width>
            <height>25</height>
           </rect>
@@ -410,7 +322,7 @@ color: rgb(255, 255, 255);</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>225</y>
+           <y>125</y>
            <width>100</width>
            <height>25</height>
           </rect>
@@ -428,7 +340,95 @@ color: rgb(255, 255, 255);</string>
           <string>Interrupts</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="checkDevices">
+        <widget class="QPushButton" name="checkDevice">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>150</y>
+           <width>100</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>CheckDevices</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="hideShowVirtual">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>175</y>
+           <width>100</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>HideShowVirtual</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="powerKey">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>200</y>
+           <width>100</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>PowerKey</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="openPoint">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>225</y>
+           <width>100</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>OpenPoint</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="screenShot">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -447,10 +447,10 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>CheckDevices</string>
+          <string>ScreenShot</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="hideVirtual">
+        <widget class="QPushButton" name="shutDown">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -469,10 +469,10 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>HideVirtual</string>
+          <string>ShutDown</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="showVirtual">
+        <widget class="QPushButton" name="reboot">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -491,10 +491,10 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>ShowVirtual</string>
+          <string>Reboot</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="openPoint">
+        <widget class="QPushButton" name="pullHXFile">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -513,41 +513,6 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>OpenPoint</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="closePoint">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>350</y>
-           <width>100</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>ClosePoint</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="wifiConnect_19">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>510</y>
-           <width>110</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="text">
           <string>PullHXFile</string>
          </property>
         </widget>
@@ -557,8 +522,8 @@ color: rgb(255, 255, 255);</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>28</height>
+          <width>100</width>
+          <height>372</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -771,8 +736,8 @@ color: rgb(255, 255, 255);</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>28</height>
+          <width>100</width>
+          <height>372</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -853,8 +818,8 @@ color: rgb(255, 255, 255);</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>28</height>
+          <width>100</width>
+          <height>372</height>
          </rect>
         </property>
         <property name="font">
@@ -982,7 +947,7 @@ color: rgb(255, 255, 255);</string>
         </font>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="TabRawdataShow">
         <property name="font">
@@ -1183,9 +1148,9 @@ color: rgb(255, 255, 255);</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>30</y>
+           <y>40</y>
            <width>801</width>
-           <height>431</height>
+           <height>421</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1503,7 +1468,7 @@ color: rgb(255, 255, 255);</string>
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>215</y>
+           <y>220</y>
            <width>60</width>
            <height>20</height>
           </rect>
@@ -1525,20 +1490,14 @@ color: rgb(255, 255, 255);</string>
           <string>Length</string>
          </property>
         </widget>
-        <widget class="QTextEdit" name="textEditReadRegLen">
+        <widget class="QComboBox" name="reglength">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>235</y>
-           <width>150</width>
-           <height>30</height>
+           <x>80</x>
+           <y>220</y>
+           <width>69</width>
+           <height>22</height>
           </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>30</height>
-          </size>
          </property>
         </widget>
        </widget>
@@ -1561,7 +1520,7 @@ color: rgb(255, 255, 255);</string>
           </rect>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="TabAbout">
           <attribute name="title">
@@ -1582,16 +1541,6 @@ color: rgb(255, 255, 255);</string>
           <attribute name="title">
            <string>Commands</string>
           </attribute>
-          <widget class="QTextBrowser" name="commandsShowText">
-           <property name="geometry">
-            <rect>
-             <x>2</x>
-             <y>2</y>
-             <width>791</width>
-             <height>431</height>
-            </rect>
-           </property>
-          </widget>
          </widget>
         </widget>
        </widget>
