@@ -10,89 +10,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/uimonitor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" selection-start-line="12" selection-end-line="521" />
-              <folding>
-                <element signature="e#291#31612#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oldsrc/adb.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Monitor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="926" column="28" lean-forward="true" selection-start-line="926" selection-start-column="28" selection-end-line="926" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#74#0" expanded="true" />
-                <element signature="e#496#39581#0" />
-                <element signature="e#468#27001#0" />
-                <element signature="e#27052#31750#0" />
-                <element signature="e#31851#32026#0" />
-                <element signature="e#32188#32201#0" />
-                <element signature="e#34973#37360#0" />
-                <element signature="e#37596#37627#0" />
-                <element signature="e#37609#37843#0" />
-                <element signature="e#37858#37869#0" />
-                <element signature="e#37953#38003#0" />
-                <element signature="e#38030#38080#0" />
-                <element signature="e#38120#38175#0" />
-                <element signature="e#38224#38289#0" />
-                <element signature="e#38311#38379#0" />
-                <element signature="e#38436#38499#0" />
-                <element signature="e#38520#38685#0" />
-                <element signature="e#38700#38741#0" />
-                <element signature="e#38778#39078#0" />
-                <element signature="e#39086#39404#0" />
-                <element signature="e#39437#39479#0" />
-                <element signature="e#39508#39541#0" />
-                <element signature="e#39574#39581#0" />
-                <element signature="e#41214#45018#0" />
-                <element signature="e#44930#45341#0" />
-                <element signature="e#45399#45667#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oldsrc/DEFINE_SETTING">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oldsrc/Monitor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="252" column="22" selection-start-line="252" selection-start-column="13" selection-end-line="252" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#259#816#0" />
-                <element signature="e#13265#15557#0" />
-                <element signature="e#15613#16698#0" />
-                <element signature="e#16732#16976#0" />
-                <element signature="e#17015#17734#0" />
-                <element signature="e#17774#29932#0" />
-                <element signature="e#29979#38996#0" />
-                <element signature="e#39046#39186#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -100,91 +17,12 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>openPoint</find>
-      <find>openClosePoint</find>
-      <find>thread_wifi_connect</find>
-      <find>wifiStatus</find>
-      <find>wifiDisconnectFunc</find>
-      <find>ready</find>
-      <find>diag_raw_data</find>
-      <find>diag_line</find>
-      <find>DEBUG_PATH</find>
-      <find>SELFTEST_PATH</find>
-      <find>HX_FOLDER_PATH</find>
-      <find>FLASH_DUMP_PATH</find>
-      <find>FW_PATH</find>
-      <find>DEFINE_FILE</find>
-      <find>PATH_OPCODE</find>
-      <find>V1_DIAG_PATH</find>
-      <find>V1_REG_PATH</find>
-      <find>V1_INT_EN_PATH</find>
-      <find>V1_RESET_PATH</find>
-      <find>V1_SENSEONOFF_PATH</find>
-      <find>V1_DIAGARR_PATH</find>
-      <find>V2_READ_BANKS_PATH</find>
-      <find>V2_READ_DCS_PATH</find>
-      <find>V2_READ_STACK_PATH</find>
-      <find>pullHXFile</find>
-      <find>catFWVersion</find>
-      <find>echoWriteRegister</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>self</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/include/wifi.py" />
-        <option value="$PROJECT_DIR$/warelessadb.py" />
-        <option value="$PROJECT_DIR$/oldsrc/Monitor.py" />
-        <option value="$PROJECT_DIR$/Monitor.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-2" />
-    <option name="y" value="1" />
-    <option name="width" value="1310" />
-    <option name="height" value="1047" />
   </component>
   <component name="ProjectId" id="1QKTVNv8PBImG1JpSWmUvwZ8U6Q" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="newmonitor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="newmonitor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="newmonitor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="newmonitor" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="newmonitor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="newmonitor" type="462c0819:PsiDirectoryNode" />
-              <item name="oldsrc" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -252,41 +90,13 @@
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-2" y="1" width="1310" height="1047" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15015723" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21686748" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32968238" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
@@ -306,93 +116,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/uimonitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" selection-start-line="12" selection-end-line="521" />
-          <folding>
-            <element signature="e#291#31612#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oldsrc/adb.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1055577769/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="4776" column="8" selection-start-line="4776" selection-start-column="8" selection-end-line="4776" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/warelessadb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1452">
-          <caret line="66" column="17" lean-forward="true" selection-start-line="66" selection-start-column="17" selection-end-line="66" selection-end-column="17" />
-          <folding>
-            <element signature="e#48#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oldsrc/Monitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="252" column="22" selection-start-line="252" selection-start-column="13" selection-end-line="252" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#259#816#0" />
-            <element signature="e#13265#15557#0" />
-            <element signature="e#15613#16698#0" />
-            <element signature="e#16732#16976#0" />
-            <element signature="e#17015#17734#0" />
-            <element signature="e#17774#29932#0" />
-            <element signature="e#29979#38996#0" />
-            <element signature="e#39046#39186#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oldsrc/DEFINE_SETTING">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Monitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="926" column="28" lean-forward="true" selection-start-line="926" selection-start-column="28" selection-end-line="926" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#74#0" expanded="true" />
-            <element signature="e#496#39581#0" />
-            <element signature="e#468#27001#0" />
-            <element signature="e#27052#31750#0" />
-            <element signature="e#31851#32026#0" />
-            <element signature="e#32188#32201#0" />
-            <element signature="e#34973#37360#0" />
-            <element signature="e#37596#37627#0" />
-            <element signature="e#37609#37843#0" />
-            <element signature="e#37858#37869#0" />
-            <element signature="e#37953#38003#0" />
-            <element signature="e#38030#38080#0" />
-            <element signature="e#38120#38175#0" />
-            <element signature="e#38224#38289#0" />
-            <element signature="e#38311#38379#0" />
-            <element signature="e#38436#38499#0" />
-            <element signature="e#38520#38685#0" />
-            <element signature="e#38700#38741#0" />
-            <element signature="e#38778#39078#0" />
-            <element signature="e#39086#39404#0" />
-            <element signature="e#39437#39479#0" />
-            <element signature="e#39508#39541#0" />
-            <element signature="e#39574#39581#0" />
-            <element signature="e#41214#45018#0" />
-            <element signature="e#44930#45341#0" />
-            <element signature="e#45399#45667#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

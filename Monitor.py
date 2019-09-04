@@ -14,7 +14,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.bindEventFunc()
-        self.ui.rootFunc()
+        #self.ui.rootFunc()
         self.initPath = InitPath()
 
         self.statusBar().addWidget(QLabel("Ready"))
