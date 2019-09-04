@@ -4,6 +4,7 @@ from PyQt5.QtGui import QIcon
 import sys
 import adb
 from threading import Thread
+import time
 
 
 class MainWindow(QMainWindow):
@@ -13,6 +14,8 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.bindEventFunc()
+        self.ui.rootFunc()
+        self.initPath = InitPath()
 
         self.statusBar().addWidget(QLabel("Ready"))
 
@@ -535,20 +538,20 @@ class Ui_MainWindow(object):
         self.wifiReconnect.clicked.connect(self.wifiReconnectFunc)
 
         # adb
-        self.homekey.clicked.connect(self.wifiConnectFunc)
-        self.backkey.clicked.connect(self.wifiConnectFunc)
-        self.volUp.clicked.connect(self.wifiConnectFunc)
-        self.volDown.clicked.connect(self.wifiConnectFunc)
-        self.getprop.clicked.connect(self.wifiConnectFunc)
-        self.interrupts.clicked.connect(self.wifiConnectFunc)
-        self.checkDevice.clicked.connect(self.wifiConnectFunc)
-        self.hideShowVirtual.clicked.connect(self.wifiConnectFunc)
-        self.powerKey.clicked.connect(self.wifiConnectFunc)
-        self.openClosePoint.clicked.connect(self.wifiConnectFunc)
-        self.screenShot.clicked.connect(self.wifiConnectFunc)
-        self.shutDown.clicked.connect(self.wifiConnectFunc)
-        self.reboot.clicked.connect(self.wifiConnectFunc)
-        self.pullHXFile.clicked.connect(self.wifiConnectFunc)
+        self.homekey.clicked.connect(self.homeKeyFunc)
+        self.backkey.clicked.connect(self.backKeyFunc)
+        self.volUp.clicked.connect(self.volUpFunc)
+        self.volDown.clicked.connect(self.volDownFunc)
+        self.getprop.clicked.connect(self.getpropFunc)
+        self.interrupts.clicked.connect(self.interruptsFunc)
+        self.checkDevice.clicked.connect(self.checkDeviceFunc)
+        self.hideShowVirtual.clicked.connect(self.hideShowVirtualFunc)
+        self.powerKey.clicked.connect(self.powerKeyFunc)
+        self.openClosePoint.clicked.connect(self.openClosePointFunc)
+        self.screenShot.clicked.connect(self.screenShotFunc)
+        self.shutDown.clicked.connect(self.shutDownFunc)
+        self.reboot.clicked.connect(self.rebootFunc)
+        self.pullHXFile.clicked.connect(self.pullHXFileFunc)
 
         # touch
         self.fwVersion.clicked.connect(self.wifiConnectFunc)
@@ -589,6 +592,13 @@ class Ui_MainWindow(object):
         # swipe lines
         # help
 
+    def rootFunc(self):
+        adb.shell("adb root")
+        adb.shell("adb remount")
+        adb.shell("adb shell setenforce 0")
+        adb.shell("adb shell chmod 777 /proc/android_touch/*")
+        adb.shell("adb shell chmod 777 /proc/android_touch/diag/*")
+        print("execute root, remount, setenforce 0, chmod")
 
     def wifiConnectFunc(self):
         # print ("Click")
@@ -679,6 +689,234 @@ class Ui_MainWindow(object):
         self.wifi_connect_status = 0
         self.device_ip = ""
         self.device_ip_port = ""
+
+    def homeKeyFunc(self):
+        adb.shell("adb shell input keyevent KEYCODE_HOME")
+
+    def backKeyFunc(self):
+        adb.shell("adb shell input keyevent KEYCODE_BACK")
+
+    def volUpFunc(self):
+        adb.shell("adb shell input keyevent KEYCODE_VOLUME_UP")
+
+    def volDownFunc(self):
+        adb.shell("adb shell input keyevent KEYCODE_VOLUME_DOWN")
+
+    def getpropFunc(self):
+        ret = adb.shell("adb shell getprop")
+        print(ret)
+
+    def interruptsFunc(self):
+        ret = adb.shell("adb shell cat /proc/interrupts")
+        print(ret)
+
+    def checkDeviceFunc(self):
+        res = adb.shell("adb devices")
+        print(res)
+
+    def hideShowVirtualFunc(self):
+        adb.shell("adb shell settings put global policy_control immersive.full=*")
+
+        adb.shell("adb shell settings put global policy_control null")
+
+    def powerKeyFunc(self):
+        adb.shell(None, "KEYEVENT", 26)
+
+    def openClosePointFunc(self, e):
+        adb.shell("settings put system pointer_location 1", "SHELL")
+        adb.shell("settings put system show_touches 1", "SHELL")
+
+        adb.shell("settings put system pointer_location 0", "SHELL")
+        adb.shell("settings put system show_touches 0", "SHELL")
+
+    def screenShotFunc(self):
+        print("Screen Shot...")
+        name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".png"
+        cmd = "adb wait-for-device shell screencap -p /sdcard/%s" % (name)
+        adb.shell(cmd)
+        cmd = "adb pull /sdcard/%s" % name
+        adb.shell(cmd)
+        print("Screen Shot Done")
+
+    def shutDownFunc(self):
+        adb.shell("adb shell reboot -p")
+
+    def rebootFunc(self):
+        adb.shell("adb reboot")
+
+    def pullHXFileFunc(self):
+        print("will be add")
+
+
+class InitPath():
+    def __init__(self):
+        # common path
+        self.debugPath = ''
+        self.selfTestPath = ''
+        self.hxFolderPath = ''
+        self.flashDumpPath = ''
+        self.fwPath = ''
+
+        # common vars
+        self.historyValue = []
+        self.BT_ID = []
+        self.defineFile = './DEFINE_SETTING'
+        self.historyFile = './HISTORY'
+        self.pathCode = [
+            "V1_REG_PATH",
+            "V1_DIAG_PATH",
+            "V1_INT_EN_PATH",
+            "V1_RESET_PATH",
+            "V1_SENSEONOFF_PATH",
+            "V1_DIAGARR_PATH",
+
+            "V2_BANKS_PATH",
+            "V2_DCS_PATH",
+            "V2_IIRS_PATH",
+            "V2_STACK_PATH",
+
+            "DEBUG_PATH",
+            "SELFTEST_PATH",
+            "FLASH_DUMP_PATH",
+            "HX_FOLDER_PATH",
+            "FW_PATH",
+
+            "PORT_NUM"]
+
+        # common v1 path
+        self.v1DiagPath = ''
+        self.v1RegisterPath = ''
+        self.v1IntEnPath = ''
+        self.v1ResetPath = ''
+        self.v1SenseOnOffPath = ''
+        self.v1DiagArrPath = ''
+
+        # common v2 path
+        self.v2ReadStackPath = ''
+
+        self.driverVersion = 2
+
+        self.setDriverNodePath(self.driverVersion)
+
+    def setDriverNodePath(self, mode):
+        print(mode)
+        if mode == 1:
+            self.driverVersion = 1
+        elif mode == 2:
+            self.driverVersion = 2
+
+        with open(self.defineFile, 'rb') as r:
+            for line in r.readlines():
+                line = str(line, encoding='UTF-8')
+                if line.find('#') >= 0:
+                    continue
+                l = line.split()
+                l = (''.join(l))
+                l = l.split('=')
+
+                if len(l) >= 2:
+                    if l[0] in self.pathCode:
+                        path = l[1]
+                        if path[0] != '/':
+                            path = '/' + path
+                        if path[-1] == '/':
+                            path = path[:-1]
+                        # Assign path
+                        # common
+                        if l[0] == "DEBUG_PATH":
+                            self.debugPath = path
+                        elif l[0] == 'SELFTEST_PATH':
+                            self.selfTestPath = path
+                        elif l[0] == 'FLASH_DUMP_PATH':
+                            self.flashDumpPath = path
+                        elif l[0] == 'HX_FOLDER_PATH':
+                            self.hxFolderPath = path
+                        elif l[0] == 'FW_PATH':
+                            self.fwPath = path
+
+                        # v1 or v2
+                        if self.driverVersion == 1:
+                            if l[0] == "V1_REG_PATH":
+                                self.v1RegisterPath = path
+                            elif l[0] == "V1_DIAG_PATH":
+                                self.v1DiagPath = path
+                            elif l[0] == 'V1_INT_EN_PATH':
+                                self.v1IntEnPath = path
+                            elif l[0] == 'V1_RESET_PATH':
+                                self.v1ResetPath = path
+                            elif l[0] == 'V1_SENSEONOFF_PATH':
+                                self.v1SenseOnOffPath = path
+                            elif l[0] == 'V1_DIAGARR_PATH':
+                                self.v1DiagArrPath = path
+
+                        elif self.driverVersion == 2:
+                            if l[0] == "V2_STACK_PATH":
+                                self.v2ReadStackPath = path
+                        else:
+                            print("please check the DEFINE_SETTING file")
+
+        if self.driverVersion == 1:
+            self.echoDiag = "echo %s > " + self.v1DiagPath
+            self.catDiag = "cat " + self.v1DiagPath
+
+            self.echoWriteRegister = "echo w:x%s:x%s > " + self.v1RegisterPath
+            self.echoReadRegister = "echo r:x%s > " + self.v1RegisterPath
+            self.catRegister = "cat " + self.v1RegisterPath
+
+            self.echoIntEn = "echo %s > " + self.v1IntEnPath
+            self.echoReset = "echo %s > " + self.v1ResetPath
+
+            self.echoSenseOn = "echo 1 > " + self.v1SenseOnOffPath
+            self.echoSenseOff = "echo 0 > " + self.v1SenseOnOffPath
+        elif self.driverVersion == 2:
+            self.echoDiag = "echo diag,%s > " + self.debugPath
+            self.catDiag = "cat " + self.v2ReadStackPath
+
+            self.echoWriteRegister = "echo register,w:x%s:x%s > " + self.debugPath
+            self.echoReadRegister = "echo register,r:x%s > " + self.debugPath
+            self.catRegister = "cat " + self.debugPath
+
+            self.echoIntEn = "echo int_en,%s > " + self.debugPath
+            self.echoReset = "echo reset,%s > " + self.debugPath
+
+            self.echoSenseOn = "echo senseonoff,1 > " + self.debugPath
+            self.echoSenseOff = "echo senseonoff,0 > " + self.debugPath
+
+        self.catSelfTest = "cat " + self.selfTestPath
+        self.echoFWVersion = "echo %s > " + self.debugPath
+        self.catFWVersion = "cat " + self.debugPath
+
+        self.pullHXFileCmd = "adb pull " + self.hxFolderPath
+
+    def writeReadRegHistoryFile(self, addr):
+        if addr == '\n' or addr == '\r\n' or addr == '':
+            return
+
+        addr = addr.split('\n')
+
+        i = 0
+        cmd = 'R:'
+        length = len(addr)
+        while i < length:
+            if i == length - 1:
+                cmd += addr[i]
+            else:
+                cmd += addr[i] + ':'
+            i = i + 1
+
+        f = open(self.historyFile, 'a+')
+        f.write(cmd + '\n')
+        f.close()
+
+    def writeWriteRegHistoryFile(self, addr, val, e):
+        if addr == '\n' or val == '\n' or addr == '' or val == '':
+            return
+
+        if e.Id in self.BT_ID:
+            cmd = 'W%s' % self.BT_ID.index(e.Id) + ':' + addr + ':' + val
+            f = open(self.historyFile, 'a+')
+            f.write(cmd + '\n')
+            f.close()
 
 
 if __name__ == '__main__':
