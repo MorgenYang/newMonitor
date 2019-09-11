@@ -5,6 +5,7 @@ import sys
 import adb
 from threading import Thread
 import time
+import subprocess
 
 PORT = 8888
 
@@ -17,42 +18,11 @@ class MainWindow(QMainWindow):
 
         self.uiThreadRoot = Thread(target=self.ui.rootFunc)
         self.uiThreadInitPath = Thread(target=self.ui.initPath)
+        self.uiThreadInitHistory = Thread(target=self.ui.initHistoryFunc)
         self.uiThreadRoot.start()
         self.uiThreadInitPath.start()
+        self.uiThreadInitHistory.start()
         self.statusBar().addWidget(QLabel("Ready"))
-
-
-class InitPath():
-
-    def writeReadRegHistoryFile(self, addr):
-        if addr == '\n' or addr == '\r\n' or addr == '':
-            return
-
-        addr = addr.split('\n')
-
-        i = 0
-        cmd = 'R:'
-        length = len(addr)
-        while i < length:
-            if i == length - 1:
-                cmd += addr[i]
-            else:
-                cmd += addr[i] + ':'
-            i = i + 1
-
-        f = open(self.historyFile, 'a+')
-        f.write(cmd + '\n')
-        f.close()
-
-    def writeWriteRegHistoryFile(self, addr, val, e):
-        if addr == '\n' or val == '\n' or addr == '' or val == '':
-            return
-
-        if e.Id in self.BT_ID:
-            cmd = 'W%s' % self.BT_ID.index(e.Id) + ':' + addr + ':' + val
-            f = open(self.historyFile, 'a+')
-            f.write(cmd + '\n')
-            f.close()
 
 
 class Ui_MainWindow(object):
@@ -527,9 +497,9 @@ class Ui_MainWindow(object):
         self.getprop.setText(_translate("MainWindow", "Getprop"))
         self.interrupts.setText(_translate("MainWindow", "Interrupts"))
         self.checkDevice.setText(_translate("MainWindow", "CheckDevices"))
-        self.hideShowVirtual.setText(_translate("MainWindow", "HideShowVirtual"))
+        self.hideShowVirtual.setText(_translate("MainWindow", "ShowVirtual"))
         self.powerKey.setText(_translate("MainWindow", "PowerKey"))
-        self.openClosePoint.setText(_translate("MainWindow", "OpenClosePoint"))
+        self.openClosePoint.setText(_translate("MainWindow", "OpenPoint"))
         self.screenShot.setText(_translate("MainWindow", "ScreenShot"))
         self.shutDown.setText(_translate("MainWindow", "ShutDown"))
         self.reboot.setText(_translate("MainWindow", "Reboot"))
@@ -635,11 +605,11 @@ class Ui_MainWindow(object):
 
         # register read write
         self.pushButtonRead.clicked.connect(self.readRegFunc)
-        self.pushButtonRegWrite0.clicked.connect(self.writeRegFunc0)
-        self.pushButtonRegWrite1.clicked.connect(self.writeRegFunc1)
-        self.pushButtonRegWrite2.clicked.connect(self.writeRegFunc2)
-        self.pushButtonRegWrite3.clicked.connect(self.writeRegFunc3)
-        self.pushButtonRegWrite4.clicked.connect(self.writeRegFunc4)
+        self.pushButtonRegWrite0.clicked.connect(lambda: self.writeRegFunc(0))
+        self.pushButtonRegWrite1.clicked.connect(lambda: self.writeRegFunc(1))
+        self.pushButtonRegWrite2.clicked.connect(lambda: self.writeRegFunc(2))
+        self.pushButtonRegWrite3.clicked.connect(lambda: self.writeRegFunc(3))
+        self.pushButtonRegWrite4.clicked.connect(lambda: self.writeRegFunc(4))
 
         # swipe lines
         # help
@@ -656,6 +626,58 @@ class Ui_MainWindow(object):
         print("execute root, remount, setenforce 0, chmod")
 
     # register read write
+    def initHistoryFunc(self):
+        print("inithis")
+        self.textEditKmsg.append("HX")
+        self.textEditGetevent.setDisabled(True)
+        self.getevent.setDisabled(True)
+        self.sram.setDisabled(True)
+        self.d1129.setDisabled(True)
+        self.d2810.setDisabled(True)
+        self.openBlight.setDisabled(True)
+        self.flashDump.setDisabled(True)
+        self.pullHXFile.setDisabled(True)
+
+        self.showRawdataFlag = 1
+
+        with open(self.historyFile, 'rb') as r:
+            for line in r.readlines():
+                line = str(line, encoding='UTF-8')
+                line = line[:len(line) - 2]
+                line = line.split(':')
+                if line[0] == 'R':
+                    length = len(line)
+                    self.textEditReadRegAddr.clear()
+                    for i in range(length):
+                        if i == 0:
+                            continue
+                        self.textEditReadRegAddr.append(line[i])
+                elif line[0] == 'W0':
+                    self.textEditWriteAddr0.clear()
+                    self.textEditWriteAddr0.append(line[1])
+                    self.textEditWriteVal0.clear()
+                    self.textEditWriteVal0.append(line[2])
+                elif line[0] == 'W1':
+                    self.textEditWriteAddr1.clear()
+                    self.textEditWriteAddr1.append(line[1])
+                    self.textEditWriteVal1.clear()
+                    self.textEditWriteVal1.append(line[2])
+                elif line[0] == 'W2':
+                    self.textEditWriteAddr2.clear()
+                    self.textEditWriteAddr2.append(line[1])
+                    self.textEditWriteVal2.clear()
+                    self.textEditWriteVal2.append(line[2])
+                elif line[0] == 'W3':
+                    self.textEditWriteAddr3.clear()
+                    self.textEditWriteAddr3.append(line[1])
+                    self.textEditWriteVal3.clear()
+                    self.textEditWriteVal3.append(line[2])
+                elif line[0] == 'W4':
+                    self.textEditWriteAddr4.clear()
+                    self.textEditWriteAddr4.append(line[1])
+                    self.textEditWriteVal4.clear()
+                    self.textEditWriteVal4.append(line[2])
+
     def readRegFunc(self):
         readRegInfo = ""
         lines = int(self.reglength.currentText())
@@ -664,12 +686,12 @@ class Ui_MainWindow(object):
         for i in range(len(addr)):
             regAddress = (addr[i])
             regInfo = self.readRegister(regAddress)
-            regInfo = str(regInfo, encoding='utf-8')
+            #regInfo = str(regInfo, encoding='utf-8')
             regInfo = regInfo[:103 + 82 * (lines - 1)] + '\n'
             readRegInfo += regInfo
 
         self.readRegValShowText.append(readRegInfo)
-        self.writeHistoryFile(addr)
+        self.writeHistoryFile(addr, 9, 9)
 
     def readRegister(self, regAddress):
         readRegInfo = ""
@@ -694,63 +716,37 @@ class Ui_MainWindow(object):
 
         return readRegInfo
 
-    def writeHistoryFile(self, addr):
+    def writeHistoryFile(self, addr, val, n):
         if addr == '\n' or addr == '\r\n' or addr == '':
             return
 
-        cmd = 'R:'
-        i = 0
-        length = len(addr)
-        while i < length:
-            if i == length - 1:
-                cmd += addr[i]
-            else:
-                cmd += addr[i] + ':'
-            i = i + 1
+        if val == 9 and n == 9:
+            cmd = 'R:'
+            i = 0
+            length = len(addr)
+            while i < length:
+                if i == length - 1:
+                    cmd += addr[i]
+                else:
+                    cmd += addr[i] + ':'
+                i = i + 1
+        else:
+            cmd = 'W%s:' % n
+            cmd = cmd + addr + ':' + val
+
+            print(cmd)
 
         f = open(self.historyFile, 'a+')
         f.write(cmd + '\n')
         f.close()
 
-    def writeRegFunc0(self):
+    def writeRegFunc(self, n):
         addr = self.textEditWriteAddr0.toPlainText()
         val = self.textEditWriteVal0.toPlainText()
         if addr == '' or val == '':
-            print("value0 and addr is empty")
             return
         self.writeRegister(addr, val)
-
-    def writeRegFunc1(self):
-        addr = self.textEditWriteAddr1.toPlainText()
-        val = self.textEditWriteVal1.toPlainText()
-        if addr == '' or val == '':
-            print("value1 and addr is empty")
-            return
-        self.writeRegister(addr, val)
-
-    def writeRegFunc2(self):
-        addr = self.textEditWriteAddr2.toPlainText()
-        val = self.textEditWriteVal2.toPlainText()
-        if addr == '' or val == '':
-            print("value2 and addr is empty")
-            return
-        self.writeRegister(addr, val)
-
-    def writeRegFunc3(self):
-        addr = self.textEditWriteAddr3.toPlainText()
-        val = self.textEditWriteVal3.toPlainText()
-        if addr == '' or val == '':
-            print("value3 and addr is empty")
-            return
-        self.writeRegister(addr, val)
-
-    def writeRegFunc4(self):
-        addr = self.textEditWriteAddr4.toPlainText()
-        val = self.textEditWriteVal4.toPlainText()
-        if addr == '' or val == '':
-            print("value4 and addr is empty")
-            return
-        self.writeRegister(addr, val)
+        self.writeHistoryFile(addr, val, n)
 
     def writeRegister(self, reg_address, write_value):
         reg_address_list = reg_address.split()
@@ -800,18 +796,21 @@ class Ui_MainWindow(object):
         self.readRawdataThread.start()
 
     def showRawdata(self):
-        self.showRawdataFlag = 1
+
         while self.showRawdataFlag:
             ret = adb.shell(self.catDiag, "SHELL")
-            ret = str(ret, encoding='utf-8')
-            var = self.rawdataShowText.verticalScrollBar().maximum()
-            self.rawdataShowText.verticalScrollBar().setValue(var)
-            self.rawdataShowText.append(ret)
-        self.rawdataShowText.append("Break")
+            #ret = str(ret, encoding='utf-8')
+            self.rawdataShowText.setFontPointSize(8)
+            # var = self.rawdataShowText.verticalScrollBar().maximum()
+            # self.rawdataShowText.verticalScrollBar().setValue(var)
+            #self.rawdataShowText.clear()
+            # self.rawdataShowText.append(ret)
+            print(ret)
+        #self.rawdataShowText.append("Break")
 
     def stopShowRawdataFunc(self):
         self.showRawdataFlag = 0
-        self.rawdataShowText.append("Stop show rawdata and close diag")
+        self.rawdataShowText.append("Stop show rawdata and close diag, stop kmsg")
         adb.shell(self.echoDiag % '0', "SHELL")
 
     def sramFunc(self):
@@ -821,10 +820,29 @@ class Ui_MainWindow(object):
         print("will be add")
 
     def kmsgFunc(self):
-        print("will be add")
+        self.kmsgThread = Thread(target=self.getKmsg)
+        self.kmsgThread.start()
+
+    def getKmsg(self):
+        arg = self.textEditKmsg.toPlainText()
+        cmd = 'adb shell "cat dev/kmsg | grep %s"' % arg
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
+        while self.showRawdataFlag:
+            l = p.stdout.readline()
+            if not l:
+                break
+            l = l[:len(l)-2]
+            print(l)
 
     def geteventFunc(self):
-        print("will be add")
+        cmd = 'adb shell "getevent -lr"'
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
+        while True:
+            l = p.stdout.readline()
+            if not l:
+                break
+            l = l[:len(l) - 2]
+            print(l)
 
     # touch
     def initPath(self):
@@ -982,13 +1000,13 @@ class Ui_MainWindow(object):
 
     def touchSelfTestFunc(self):
         ret = adb.shell(self.catSelfTest, "SHELL")
-        ret = str(ret, encoding='utf-8')
+        #ret = str(ret, encoding='utf-8')
         self.rawdataShowText.append(ret)
 
     def touchFWVersionFunc(self):
         adb.shell(self.echoFWVersion % "v", "SHELL")
         ret = adb.shell(self.catFWVersion, "SHELL")
-        ret = str(ret, encoding='utf-8')
+        #ret = str(ret, encoding='utf-8')
         self.rawdataShowText.append(ret)
 
     def touchResetFunc(self):
@@ -1014,7 +1032,7 @@ class Ui_MainWindow(object):
     def touchFlashDumpFunc(self):
         self.rawdataShowText.append("will be add flash dump func\n")
 
-    def touchUpdateFWFunc(self, e):
+    def touchUpdateFWFunc(self):
         fw_path = self.updateFWText.toPlainText()
         if fw_path == "":
             return
@@ -1024,7 +1042,7 @@ class Ui_MainWindow(object):
         print(ret)
 
     # display
-    def display1129Func(self,e):
+    def display1129Func(self):
         print("1129")
         if self.driverVersion == 1:
             adb.shell("echo w:x30011000 > " + self.v1RegisterPath, "SHELL")
@@ -1034,7 +1052,7 @@ class Ui_MainWindow(object):
             adb.shell("echo register,w:x30011000 > " + self.debugPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo register,w:x30029000 > " + self.debugPath, "SHELL")
-    def display2810Func(self,e):
+    def display2810Func(self):
         print("2810")
         if self.driverVersion == 1:
             adb.shell("echo w:x30028000 > " + self.v1RegisterPath, "SHELL")
@@ -1059,7 +1077,7 @@ class Ui_MainWindow(object):
         self.wifiConnectFlag = 1
         deviceInfo = (adb.shell("adb devices"))
         print(deviceInfo)
-        deviceInfo = str(deviceInfo, encoding='utf-8')
+        #deviceInfo = str(deviceInfo, encoding='utf-8')
         try:
             device_list = deviceInfo.split()
             device_list.remove("List")
@@ -1080,7 +1098,7 @@ class Ui_MainWindow(object):
         # Get device ip & set port
         cmd = "adb -s %s shell ip -f inet addr show wlan0" % deviceName
         ip = adb.shell(cmd)
-        ip = str(ip, encoding='utf-8')
+        #ip = str(ip, encoding='utf-8')
         ip = ip[ip.find("inet 1") + 5:ip.find("/")]
         cmd = "adb -s %s tcpip %s" % (deviceName, self.port)
         print(adb.shell(cmd))
@@ -1097,7 +1115,7 @@ class Ui_MainWindow(object):
         response = ""
         while response.find("already") < 0 and self.wifiConnectFlag != 0:
             response = (adb.shell(cmd))
-            response = str(response, encoding='utf-8')
+            #response = str(response, encoding='utf-8')
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
@@ -1105,7 +1123,7 @@ class Ui_MainWindow(object):
 
         # Polling wait unplugin
         devices = (adb.shell("adb devices"))
-        devices = str(devices, encoding='utf-8')
+        #devices = str(devices, encoding='utf-8')
         response = ""
 
         print("Unplugin")
@@ -1113,7 +1131,7 @@ class Ui_MainWindow(object):
 
         while devices.find(deviceName) < 0 and self.wifiConnectFlag != 0:
             devices = (adb.shell("adb devices"))
-            devices = str(devices, encoding='utf-8')
+            #devices = str(devices, encoding='utf-8')
 
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
@@ -1124,7 +1142,7 @@ class Ui_MainWindow(object):
         cmd = "adb connect %s:%s" % (self.device_ip, self.port)
         while response.find("already") < 0 and self.wifiConnectFlag != 0:
             response = (adb.shell(cmd))
-            response = str(response, encoding='utf-8')
+            #response = str(response, encoding='utf-8')
             print(response)
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
@@ -1143,7 +1161,7 @@ class Ui_MainWindow(object):
         response = (adb.shell(cmd))
         print(response)
 
-    def wifiDisconnectFunc(self, event):
+    def wifiDisconnectFunc(self):
         adb.shell("adb disconnect")
         self.wifiStatus.setText("Disconnect")
         self.wifiStatus.setStyleSheet("color: rgb(255, 0, 0)")
@@ -1180,19 +1198,25 @@ class Ui_MainWindow(object):
         print(res)
 
     def hideShowVirtualFunc(self):
-        adb.shell("adb shell settings put global policy_control immersive.full=*")
-
-        adb.shell("adb shell settings put global policy_control null")
+        if self.hideShowVirtual.text() == 'ShowVirtual':
+            self.hideShowVirtual.setText("HideVirtual")
+            adb.shell("adb shell settings put global policy_control immersive.full=*")
+        else:
+            self.hideShowVirtual.setText("ShowVirtual")
+            adb.shell("adb shell settings put global policy_control null")
 
     def powerKeyFunc(self):
         adb.shell(None, "KEYEVENT", 26)
 
-    def openClosePointFunc(self, e):
-        adb.shell("settings put system pointer_location 1", "SHELL")
-        adb.shell("settings put system show_touches 1", "SHELL")
-
-        adb.shell("settings put system pointer_location 0", "SHELL")
-        adb.shell("settings put system show_touches 0", "SHELL")
+    def openClosePointFunc(self):
+        if self.openClosePoint.text() == 'OpenPoint':
+            self.openClosePoint.setText("ClosePoint")
+            adb.shell("settings put system pointer_location 1", "SHELL")
+            adb.shell("settings put system show_touches 1", "SHELL")
+        else:
+            self.openClosePoint.setText("OpenPoint")
+            adb.shell("settings put system pointer_location 0", "SHELL")
+            adb.shell("settings put system show_touches 0", "SHELL")
 
     def screenShotFunc(self):
         print("Screen Shot...")

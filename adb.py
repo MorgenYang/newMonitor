@@ -25,7 +25,7 @@ def shell(cmd=None, shell_cmd=None, para=None):
     elif shell_cmd == "TAP":
         command = KEYTAP_CMD % (str(para[0]), str(para[1]))
 
-    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
 
     return p.stdout.read()
 
