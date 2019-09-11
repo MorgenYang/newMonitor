@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 import sys
@@ -8,6 +8,7 @@ import time
 import subprocess
 
 PORT = 8888
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -615,7 +616,6 @@ class Ui_MainWindow(object):
         # help
         print("bind end")
 
-
     def rootFunc(self):
         print("start root")
         adb.shell("adb root")
@@ -1052,6 +1052,7 @@ class Ui_MainWindow(object):
             adb.shell("echo register,w:x30011000 > " + self.debugPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo register,w:x30029000 > " + self.debugPath, "SHELL")
+
     def display2810Func(self):
         print("2810")
         if self.driverVersion == 1:

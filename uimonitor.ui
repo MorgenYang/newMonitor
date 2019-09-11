@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>927</width>
-    <height>514</height>
+    <width>1101</width>
+    <height>647</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
        <property name="maximumSize">
         <size>
          <width>100</width>
-         <height>600</height>
+         <height>500</height>
         </size>
        </property>
        <property name="font">
@@ -54,12 +54,15 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(85, 170, 127);
 color: rgb(255, 255, 255);</string>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>2</number>
        </property>
        <property name="tabSpacing">
         <number>0</number>
@@ -381,7 +384,7 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>HideShowVirtual</string>
+          <string>ShowVirtual</string>
          </property>
         </widget>
         <widget class="QPushButton" name="powerKey">
@@ -705,7 +708,7 @@ color: rgb(255, 255, 255);</string>
           <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
-          <string>DriverVersion</string>
+          <string>V2</string>
          </property>
         </widget>
         <widget class="QPushButton" name="flashDump">
@@ -947,7 +950,7 @@ color: rgb(255, 255, 255);</string>
         </font>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="TabRawdataShow">
         <property name="font">
@@ -1501,6 +1504,11 @@ color: rgb(255, 255, 255);</string>
          </property>
          <item>
           <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>2</string>
           </property>
          </item>
@@ -1555,7 +1563,7 @@ color: rgb(255, 255, 255);</string>
           </rect>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="TabAbout">
           <attribute name="title">

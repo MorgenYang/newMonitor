@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abfa5a11-2cf1-4ec6-a642-eb94502978ca" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/HISTORY" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Monitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adb.py" beforeDir="false" afterPath="$PROJECT_DIR$/adb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uimonitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uimonitor.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.ui" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,15 +17,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="691" lean-forward="true" selection-start-line="691" selection-end-line="691" />
+            <state relative-caret-position="308">
+              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
               <folding>
                 <element signature="e#0#74#0" expanded="true" />
+                <element signature="e#277#765#0" />
                 <element signature="e#600#27225#0" />
                 <element signature="e#27276#31984#0" />
                 <element signature="e#33139#35998#0" />
                 <element signature="e#36122#36411#0" />
                 <element signature="e#36427#38652#0" />
+                <element signature="e#38688#39189#0" />
                 <element signature="e#37114#37919#0" />
                 <element signature="e#38449#39008#0" />
                 <element signature="e#38941#39219#0" />
@@ -70,6 +72,9 @@
                 <element signature="e#56452#56483#0" />
                 <element signature="e#57236#57496#0" />
                 <element signature="e#39480#39776#0" />
+                <element signature="e#57164#57196#0" />
+                <element signature="e#57232#57255#0" />
+                <element signature="e#57295#57315#0" />
               </folding>
             </state>
           </provider>
@@ -354,17 +359,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PyQt5_gpl-5.13.0/examples/tools/i18n/i18n.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="105" column="23" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Monitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="691" lean-forward="true" selection-start-line="691" selection-end-line="691" />
+        <state relative-caret-position="308">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
           <folding>
             <element signature="e#0#74#0" expanded="true" />
+            <element signature="e#277#765#0" />
             <element signature="e#600#27225#0" />
             <element signature="e#27276#31984#0" />
             <element signature="e#33139#35998#0" />
             <element signature="e#36122#36411#0" />
             <element signature="e#36427#38652#0" />
+            <element signature="e#38688#39189#0" />
             <element signature="e#37114#37919#0" />
             <element signature="e#38449#39008#0" />
             <element signature="e#38941#39219#0" />
@@ -409,6 +423,9 @@
             <element signature="e#56452#56483#0" />
             <element signature="e#57236#57496#0" />
             <element signature="e#39480#39776#0" />
+            <element signature="e#57164#57196#0" />
+            <element signature="e#57232#57255#0" />
+            <element signature="e#57295#57315#0" />
           </folding>
         </state>
       </provider>
