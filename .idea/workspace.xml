@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abfa5a11-2cf1-4ec6-a642-eb94502978ca" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/HISTORY" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Monitor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uimonitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uimonitor.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.ui" afterDir="false" />
@@ -17,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+            <state relative-caret-position="155">
+              <caret line="1132" selection-start-line="1132" selection-end-line="1132" />
               <folding>
                 <element signature="e#0#74#0" expanded="true" />
                 <element signature="e#277#765#0" />
@@ -27,19 +28,14 @@
                 <element signature="e#33139#35998#0" />
                 <element signature="e#36122#36411#0" />
                 <element signature="e#36427#38652#0" />
-                <element signature="e#38688#39189#0" />
+                <element signature="e#38743#39245#0" />
                 <element signature="e#37114#37919#0" />
                 <element signature="e#38449#39008#0" />
                 <element signature="e#38941#39219#0" />
                 <element signature="e#38597#39535#0" />
                 <element signature="e#36330#36832#0" />
-                <element signature="e#42887#43315#0" />
-                <element signature="e#37306#37422#0" />
                 <element signature="e#37484#37491#0" />
                 <element signature="e#37541#37548#0" />
-                <element signature="e#43697#43774#0" />
-                <element signature="e#43150#43505#0" />
-                <element signature="e#43360#43380#0" />
                 <element signature="e#41236#42401#0" />
                 <element signature="e#41583#42042#0" />
                 <element signature="e#41252#45216#0" />
@@ -83,7 +79,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HISTORY">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
+            <state relative-caret-position="264">
               <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
@@ -109,7 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>device_ip</find>
       <find>print</find>
       <find>touchDiagArrFunc</find>
       <find>diagArr</find>
@@ -139,6 +134,7 @@
       <find>openClosePoint</find>
       <find>hideShowVirtualFunc</find>
       <find>hideShowVirtual</find>
+      <find>device_ip</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -154,7 +150,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-4" />
     <option name="width" value="1499" />
     <option name="height" value="1047" />
@@ -174,6 +170,11 @@
             <path>
               <item name="newmonitor" type="b2602c69:ProjectViewProjectNode" />
               <item name="newmonitor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="newmonitor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="newmonitor" type="462c0819:PsiDirectoryNode" />
+              <item name="oldsrc" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -272,15 +273,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1499" height="1047" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.092402466" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.071127504" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.19496167" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4078091" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -345,13 +346,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HISTORY">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/adb.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
@@ -366,10 +360,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/HISTORY">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Monitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        <state relative-caret-position="155">
+          <caret line="1132" selection-start-line="1132" selection-end-line="1132" />
           <folding>
             <element signature="e#0#74#0" expanded="true" />
             <element signature="e#277#765#0" />
@@ -378,19 +379,14 @@
             <element signature="e#33139#35998#0" />
             <element signature="e#36122#36411#0" />
             <element signature="e#36427#38652#0" />
-            <element signature="e#38688#39189#0" />
+            <element signature="e#38743#39245#0" />
             <element signature="e#37114#37919#0" />
             <element signature="e#38449#39008#0" />
             <element signature="e#38941#39219#0" />
             <element signature="e#38597#39535#0" />
             <element signature="e#36330#36832#0" />
-            <element signature="e#42887#43315#0" />
-            <element signature="e#37306#37422#0" />
             <element signature="e#37484#37491#0" />
             <element signature="e#37541#37548#0" />
-            <element signature="e#43697#43774#0" />
-            <element signature="e#43150#43505#0" />
-            <element signature="e#43360#43380#0" />
             <element signature="e#41236#42401#0" />
             <element signature="e#41583#42042#0" />
             <element signature="e#41252#45216#0" />
