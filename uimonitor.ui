@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1075</width>
-    <height>701</height>
+    <width>1002</width>
+    <height>685</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -940,7 +940,7 @@ color: rgb(255, 255, 255);</string>
      <property name="topMargin">
       <number>3</number>
      </property>
-     <item>
+     <item alignment="Qt::AlignLeft|Qt::AlignTop">
       <widget class="QTabWidget" name="TabMainWindow">
        <property name="font">
         <font>
@@ -1164,19 +1164,19 @@ color: rgb(255, 255, 255);</string>
           <bool>false</bool>
          </attribute>
          <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>28</number>
+          <number>18</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>25</number>
+          <number>27</number>
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
          </attribute>
          <attribute name="verticalHeaderMinimumSectionSize">
-          <number>17</number>
+          <number>12</number>
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
-          <number>17</number>
+          <number>14</number>
          </attribute>
          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>

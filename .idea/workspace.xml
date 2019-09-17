@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abfa5a11-2cf1-4ec6-a642-eb94502978ca" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/HISTORY" beforeDir="false" afterPath="$PROJECT_DIR$/HISTORY" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Monitor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uimonitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uimonitor.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uimonitor1.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,59 +19,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="1132" selection-start-line="1132" selection-end-line="1132" />
+            <state relative-caret-position="493">
+              <caret line="697" column="30" selection-start-line="697" selection-start-column="30" selection-end-line="697" selection-end-column="30" />
               <folding>
-                <element signature="e#0#74#0" expanded="true" />
-                <element signature="e#277#765#0" />
-                <element signature="e#600#27225#0" />
-                <element signature="e#27276#31984#0" />
-                <element signature="e#33139#35998#0" />
-                <element signature="e#36122#36411#0" />
-                <element signature="e#36427#38652#0" />
-                <element signature="e#38743#39245#0" />
-                <element signature="e#37114#37919#0" />
-                <element signature="e#38449#39008#0" />
-                <element signature="e#38941#39219#0" />
-                <element signature="e#38597#39535#0" />
-                <element signature="e#36330#36832#0" />
-                <element signature="e#37484#37491#0" />
-                <element signature="e#37541#37548#0" />
-                <element signature="e#41236#42401#0" />
-                <element signature="e#41583#42042#0" />
-                <element signature="e#41252#45216#0" />
-                <element signature="e#41238#41520#0" />
-                <element signature="e#48936#48972#0" />
-                <element signature="e#49015#49052#0" />
-                <element signature="e#49095#49220#0" />
-                <element signature="e#49264#49443#0" />
-                <element signature="e#49483#49581#0" />
-                <element signature="e#49622#49662#0" />
-                <element signature="e#49703#49743#0" />
-                <element signature="e#42680#42961#0" />
-                <element signature="e#50176#50236#0" />
-                <element signature="e#43165#43419#0" />
-                <element signature="e#43179#43786#0" />
-                <element signature="e#43830#44437#0" />
-                <element signature="e#43904#44131#0" />
-                <element signature="e#35197#35322#0" />
-                <element signature="e#35337#38516#0" />
-                <element signature="e#37794#37923#0" />
-                <element signature="e#37974#38208#0" />
-                <element signature="e#55612#55662#0" />
-                <element signature="e#55699#55749#0" />
-                <element signature="e#55784#55839#0" />
-                <element signature="e#55876#55933#0" />
-                <element signature="e#55970#56025#0" />
-                <element signature="e#56065#56133#0" />
-                <element signature="e#56174#56223#0" />
-                <element signature="e#56968#57114#0" />
-                <element signature="e#56452#56483#0" />
-                <element signature="e#57236#57496#0" />
-                <element signature="e#39480#39776#0" />
-                <element signature="e#57164#57196#0" />
-                <element signature="e#57232#57255#0" />
-                <element signature="e#57295#57315#0" />
+                <element signature="e#0#61#0" expanded="true" />
+                <element signature="e#785#27262#0" />
+                <element signature="e#27304#32716#0" />
+                <element signature="e#32746#35317#0" />
+                <element signature="e#35342#35623#0" />
+                <element signature="e#35739#37367#0" />
+                <element signature="e#37396#37814#0" />
+                <element signature="e#37855#38434#0" />
               </folding>
             </state>
           </provider>
@@ -79,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HISTORY">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="594">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
@@ -88,7 +47,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/adb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
+            <state relative-caret-position="594">
               <caret line="27" column="119" selection-start-line="27" selection-start-column="94" selection-end-line="27" selection-end-column="119" />
             </state>
           </provider>
@@ -105,7 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print</find>
       <find>touchDiagArrFunc</find>
       <find>diagArr</find>
       <find>dia</find>
@@ -135,6 +93,7 @@
       <find>hideShowVirtualFunc</find>
       <find>hideShowVirtual</find>
       <find>device_ip</find>
+      <find>TabMainWindow</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -150,7 +109,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-4" />
     <option name="width" value="1499" />
     <option name="height" value="1047" />
@@ -273,15 +232,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-4" y="0" width="1499" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.071127504" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.092402466" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4078091" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2365827" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -329,9 +288,7 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/demo.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/demo.py" />
     <entry file="file://$PROJECT_DIR$/PyQt5_gpl-5.13.0/examples/dbus/chat/chat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
@@ -346,13 +303,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/adb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="27" column="119" selection-start-line="27" selection-start-column="94" selection-end-line="27" selection-end-column="119" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyQt5_gpl-5.13.0/examples/tools/i18n/i18n.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="500">
@@ -362,66 +312,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HISTORY">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="594">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/adb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="27" column="119" selection-start-line="27" selection-start-column="94" selection-end-line="27" selection-end-column="119" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1055577769/PyQt5/QtWidgets/QTableWidget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="474" column="17" lean-forward="true" selection-start-line="474" selection-start-column="17" selection-end-line="474" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1055577769/PyQt5/QtWidgets/QTableWidgetItem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="171" column="8" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Monitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="1132" selection-start-line="1132" selection-end-line="1132" />
+        <state relative-caret-position="493">
+          <caret line="697" column="30" selection-start-line="697" selection-start-column="30" selection-end-line="697" selection-end-column="30" />
           <folding>
-            <element signature="e#0#74#0" expanded="true" />
-            <element signature="e#277#765#0" />
-            <element signature="e#600#27225#0" />
-            <element signature="e#27276#31984#0" />
-            <element signature="e#33139#35998#0" />
-            <element signature="e#36122#36411#0" />
-            <element signature="e#36427#38652#0" />
-            <element signature="e#38743#39245#0" />
-            <element signature="e#37114#37919#0" />
-            <element signature="e#38449#39008#0" />
-            <element signature="e#38941#39219#0" />
-            <element signature="e#38597#39535#0" />
-            <element signature="e#36330#36832#0" />
-            <element signature="e#37484#37491#0" />
-            <element signature="e#37541#37548#0" />
-            <element signature="e#41236#42401#0" />
-            <element signature="e#41583#42042#0" />
-            <element signature="e#41252#45216#0" />
-            <element signature="e#41238#41520#0" />
-            <element signature="e#48936#48972#0" />
-            <element signature="e#49015#49052#0" />
-            <element signature="e#49095#49220#0" />
-            <element signature="e#49264#49443#0" />
-            <element signature="e#49483#49581#0" />
-            <element signature="e#49622#49662#0" />
-            <element signature="e#49703#49743#0" />
-            <element signature="e#42680#42961#0" />
-            <element signature="e#50176#50236#0" />
-            <element signature="e#43165#43419#0" />
-            <element signature="e#43179#43786#0" />
-            <element signature="e#43830#44437#0" />
-            <element signature="e#43904#44131#0" />
-            <element signature="e#35197#35322#0" />
-            <element signature="e#35337#38516#0" />
-            <element signature="e#37794#37923#0" />
-            <element signature="e#37974#38208#0" />
-            <element signature="e#55612#55662#0" />
-            <element signature="e#55699#55749#0" />
-            <element signature="e#55784#55839#0" />
-            <element signature="e#55876#55933#0" />
-            <element signature="e#55970#56025#0" />
-            <element signature="e#56065#56133#0" />
-            <element signature="e#56174#56223#0" />
-            <element signature="e#56968#57114#0" />
-            <element signature="e#56452#56483#0" />
-            <element signature="e#57236#57496#0" />
-            <element signature="e#39480#39776#0" />
-            <element signature="e#57164#57196#0" />
-            <element signature="e#57232#57255#0" />
-            <element signature="e#57295#57315#0" />
+            <element signature="e#0#61#0" expanded="true" />
+            <element signature="e#785#27262#0" />
+            <element signature="e#27304#32716#0" />
+            <element signature="e#32746#35317#0" />
+            <element signature="e#35342#35623#0" />
+            <element signature="e#35739#37367#0" />
+            <element signature="e#37396#37814#0" />
+            <element signature="e#37855#38434#0" />
           </folding>
         </state>
       </provider>
