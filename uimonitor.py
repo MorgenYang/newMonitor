@@ -33,8 +33,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.LeftMainWindow.setFont(font)
         self.LeftMainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.LeftMainWindow.setStyleSheet("background-color: rgb(85, 170, 127);\n"
-"color: rgb(255, 255, 255);")
+        self.LeftMainWindow.setStyleSheet("background-color: rgb(85, 170, 127); color: rgb(255, 255, 255);")
         self.LeftMainWindow.setObjectName("LeftMainWindow")
         self.pageWifi = QtWidgets.QWidget()
         self.pageWifi.setGeometry(QtCore.QRect(0, 0, 100, 352))
