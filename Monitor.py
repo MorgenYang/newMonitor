@@ -267,11 +267,6 @@ class Ui_MainWindow(object):
         self.selftest.setFont(font)
         self.selftest.setStyleSheet("color: rgb(0, 0, 0);")
         self.selftest.setObjectName("selftest")
-        self.diagArrText = QtWidgets.QTextEdit(self.groupBox_3)
-        self.diagArrText.setGeometry(QtCore.QRect(325, 50, 50, 30))
-        self.diagArrText.setMaximumSize(QtCore.QSize(100, 30))
-        self.diagArrText.setStyleSheet("color: rgb(0, 0, 0);")
-        self.diagArrText.setObjectName("diagArrText")
         self.senseoff = QtWidgets.QPushButton(self.groupBox_3)
         self.senseoff.setGeometry(QtCore.QRect(259, 15, 75, 30))
         self.senseoff.setMaximumSize(QtCore.QSize(100, 30))
@@ -317,6 +312,9 @@ class Ui_MainWindow(object):
         self.updateFW.setFont(font)
         self.updateFW.setStyleSheet("color: rgb(0, 0, 0);")
         self.updateFW.setObjectName("updateFW")
+        self.diagArrText = QtWidgets.QLineEdit(self.groupBox_3)
+        self.diagArrText.setGeometry(QtCore.QRect(325, 50, 50, 30))
+        self.diagArrText.setObjectName("diagArrText")
         self.groupBox_4 = QtWidgets.QGroupBox(self.tab_2)
         self.groupBox_4.setGeometry(QtCore.QRect(0, 240, 570, 50))
         font = QtGui.QFont()
@@ -390,8 +388,8 @@ class Ui_MainWindow(object):
         self.radioTmp.setText("")
         self.radioTmp.setObjectName("radioTmp")
         self.horizontalLayout_2.addWidget(self.radioTmp)
-        self.textEditDiag = QtWidgets.QTextEdit(self.horizontalLayoutWidget_3)
-        self.textEditDiag.setMaximumSize(QtCore.QSize(60, 29))
+        self.textEditDiag = QtWidgets.QLineEdit(self.horizontalLayoutWidget_3)
+        self.textEditDiag.setMaximumSize(QtCore.QSize(50, 29))
         self.textEditDiag.setObjectName("textEditDiag")
         self.horizontalLayout_2.addWidget(self.textEditDiag)
         self.stop = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
@@ -453,8 +451,8 @@ class Ui_MainWindow(object):
         self.kmsg.setStyleSheet("background-color: rgb(255, 170, 0);")
         self.kmsg.setObjectName("kmsg")
         self.horizontalLayout_3.addWidget(self.kmsg)
-        self.textEditKmsg = QtWidgets.QTextEdit(self.horizontalLayoutWidget_2)
-        self.textEditKmsg.setMaximumSize(QtCore.QSize(60, 29))
+        self.textEditKmsg = QtWidgets.QLineEdit(self.horizontalLayoutWidget_2)
+        self.textEditKmsg.setMaximumSize(QtCore.QSize(50, 29))
         self.textEditKmsg.setObjectName("textEditKmsg")
         self.horizontalLayout_3.addWidget(self.textEditKmsg)
         self.getevent = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
@@ -466,9 +464,8 @@ class Ui_MainWindow(object):
         self.getevent.setStyleSheet("background-color: rgb(255, 170, 0);")
         self.getevent.setObjectName("getevent")
         self.horizontalLayout_3.addWidget(self.getevent)
-        self.textEditGetevent = QtWidgets.QTextEdit(self.horizontalLayoutWidget_2)
-        self.textEditGetevent.setMaximumSize(QtCore.QSize(60, 29))
-        self.textEditGetevent.setToolTipDuration(0)
+        self.textEditGetevent = QtWidgets.QLineEdit(self.horizontalLayoutWidget_2)
+        self.textEditGetevent.setMaximumSize(QtCore.QSize(50, 29))
         self.textEditGetevent.setObjectName("textEditGetevent")
         self.horizontalLayout_3.addWidget(self.textEditGetevent)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -778,7 +775,7 @@ class Ui_MainWindow(object):
 
     # register read write
     def initHistoryFunc(self):
-        self.textEditKmsg.append("HX")
+        self.textEditKmsg.setText("HX")
         #self.sram.setDisabled(True)
         self.d1129.setDisabled(True)
         self.d2810.setDisabled(True)
@@ -952,7 +949,7 @@ class Ui_MainWindow(object):
         elif self.radioIIR.isChecked():
             adb.shell(self.echoDiag % '1', "SHELL")
         elif self.radioTmp.isChecked():
-            type = self.textEditDiag.toPlainText()
+            type = self.textEditDiag.text()
             if type == '':
                 print("value null")
                 return
@@ -1033,7 +1030,7 @@ class Ui_MainWindow(object):
     def getKmsg(self):
         self.showKmsgFlag = 1
         self.kmsg.setDisabled(True)
-        arg = self.textEditKmsg.toPlainText()
+        arg = self.textEditKmsg.text()
         cmd = 'adb shell "cat dev/kmsg | grep %s"' % arg
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
         while self.showKmsgFlag:
@@ -1202,7 +1199,7 @@ class Ui_MainWindow(object):
         self.pullHXFileCmd = "adb pull " + self.hxFolderPath
 
     def touchDiagArrFunc(self):
-        name = self.diagArrText.toPlainText()
+        name = self.diagArrText.text()
         print(name)
         if self.driverVersionMode == 1:
             adb.shell("echo %s > " % name + self.v1DiagArrPath, "SHELL")

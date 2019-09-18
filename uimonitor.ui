@@ -782,25 +782,6 @@
            <string>SelfTest</string>
           </property>
          </widget>
-         <widget class="QTextEdit" name="diagArrText">
-          <property name="geometry">
-           <rect>
-            <x>325</x>
-            <y>50</y>
-            <width>50</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="senseoff">
           <property name="geometry">
            <rect>
@@ -953,6 +934,16 @@
           </property>
           <property name="text">
            <string>UpdateFW</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="diagArrText">
+          <property name="geometry">
+           <rect>
+            <x>325</x>
+            <y>50</y>
+            <width>50</width>
+            <height>30</height>
+           </rect>
           </property>
          </widget>
         </widget>
@@ -1169,10 +1160,10 @@
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEditDiag">
+           <widget class="QLineEdit" name="textEditDiag">
             <property name="maximumSize">
              <size>
-              <width>60</width>
+              <width>50</width>
               <height>29</height>
              </size>
             </property>
@@ -1330,10 +1321,10 @@
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEditKmsg">
+           <widget class="QLineEdit" name="textEditKmsg">
             <property name="maximumSize">
              <size>
-              <width>60</width>
+              <width>50</width>
               <height>29</height>
              </size>
             </property>
@@ -1367,15 +1358,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEditGetevent">
+           <widget class="QLineEdit" name="textEditGetevent">
             <property name="maximumSize">
              <size>
-              <width>60</width>
+              <width>50</width>
               <height>29</height>
              </size>
-            </property>
-            <property name="toolTipDuration">
-             <number>0</number>
             </property>
            </widget>
           </item>
