@@ -18,14 +18,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="632" column="52" selection-start-line="632" selection-start-column="52" selection-end-line="632" selection-end-column="52" />
+            <state relative-caret-position="88">
+              <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
               <folding>
-                <element signature="e#0#70#0" expanded="true" />
-                <element signature="e#851#27847#0" />
-                <element signature="e#27898#33174#0" />
-                <element signature="e#32804#35682#0" />
-                <element signature="e#35628#35641#0" />
+                <element signature="e#282#776#0" />
+                <element signature="e#912#34357#0" />
+                <element signature="e#34416#39982#0" />
+                <element signature="e#33265#36143#0" />
                 <element signature="e#35716#36033#0" />
                 <element signature="e#36147#38453#0" />
                 <element signature="e#38490#38964#0" />
@@ -195,11 +194,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="y" value="2" />
-    <option name="width" value="1378" />
-    <option name="height" value="733" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="width" value="1364" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectId" id="1QKTVNv8PBImG1JpSWmUvwZ8U6Q" />
   <component name="ProjectLevelVcsManager">
@@ -334,10 +331,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="2" width="1378" height="733" extended-state="0" />
+    <frame x="0" y="0" width="1364" height="1047" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10074627" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.101809956" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -350,7 +347,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.16648045" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="10" side_tool="true" visible="true" weight="0.2854758" />
+      <window_info active="true" anchor="bottom" id="Run" order="10" side_tool="true" visible="true" weight="0.26396495" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -399,14 +396,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Monitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="632" column="52" selection-start-line="632" selection-start-column="52" selection-end-line="632" selection-end-column="52" />
+        <state relative-caret-position="88">
+          <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
           <folding>
-            <element signature="e#0#70#0" expanded="true" />
-            <element signature="e#851#27847#0" />
-            <element signature="e#27898#33174#0" />
-            <element signature="e#32804#35682#0" />
-            <element signature="e#35628#35641#0" />
+            <element signature="e#282#776#0" />
+            <element signature="e#912#34357#0" />
+            <element signature="e#34416#39982#0" />
+            <element signature="e#33265#36143#0" />
             <element signature="e#35716#36033#0" />
             <element signature="e#36147#38453#0" />
             <element signature="e#38490#38964#0" />
