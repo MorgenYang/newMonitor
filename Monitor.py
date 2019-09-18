@@ -28,7 +28,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(585, 416)
+        MainWindow.resize(585, 415)
+        MainWindow.setMinimumSize(QtCore.QSize(585, 415))
+        MainWindow.setMaximumSize(QtCore.QSize(585, 415))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
