@@ -7,7 +7,7 @@ V1_REG_PATH = /proc/android_touch/register
 V1_INT_EN_PATH = /proc/android_touch/int_en
 V1_RESET_PATH = /proc/android_touch/reset
 V1_SENSEONOFF_PATH = /proc/android_touch/SenseOnOff
-V1_DIAGARR_PATH = /proc/android_touch/SenseOnOff
+V1_DIAGARR_PATH = /proc/android_touch/diag_arr
 
 #V1_DIAG_PATH = /proc/touchpanel/debug_info/himax/diag
 #V1_REG_PATH = /proc/touchpanel/debug_info/himax/register

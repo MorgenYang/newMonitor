@@ -1,40 +1,42 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QEvent
-from PyQt5.QtGui import QMouseEvent
 import sys
 import adb
 from threading import Thread
 import time
 import subprocess
+import re
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
+        self.ui.initPath()
         self.ui.setupUi(self)
         self.ui.bindEventFunc()
 
         self.uiThreadRoot = Thread(target=self.ui.rootFunc)
-        self.uiThreadInitPath = Thread(target=self.ui.initPath)
         self.uiThreadInitHistory = Thread(target=self.ui.initHistoryFunc)
         self.uiThreadRoot.start()
-        self.uiThreadInitPath.start()
         self.uiThreadInitHistory.start()
         self.statusBar().addWidget(QLabel("Ready"))
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
+        self.getRXTX()
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(585, 415)
-        MainWindow.setMinimumSize(QtCore.QSize(585, 415))
-        MainWindow.setMaximumSize(QtCore.QSize(585, 415))
+        MainWindow.resize(585, 493)
+        MainWindow.setMinimumSize(QtCore.QSize(585, 493))
+        MainWindow.setMaximumSize(QtCore.QSize(800, 600))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 581, 394))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 581, 471))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
@@ -98,7 +100,7 @@ class Ui_MainWindow(object):
         self.wifiStatus.setWordWrap(False)
         self.wifiStatus.setObjectName("wifiStatus")
         self.groupBox_2 = QtWidgets.QGroupBox(self.tab_2)
-        self.groupBox_2.setGeometry(QtCore.QRect(0, 55, 571, 86))
+        self.groupBox_2.setGeometry(QtCore.QRect(0, 50, 571, 86))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.groupBox_2.setFont(font)
@@ -212,7 +214,7 @@ class Ui_MainWindow(object):
         self.shutDown.setStyleSheet("color: rgb(0, 0, 0);")
         self.shutDown.setObjectName("shutDown")
         self.groupBox_3 = QtWidgets.QGroupBox(self.tab_2)
-        self.groupBox_3.setGeometry(QtCore.QRect(0, 145, 570, 91))
+        self.groupBox_3.setGeometry(QtCore.QRect(0, 135, 570, 91))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.groupBox_3.setFont(font)
@@ -316,7 +318,7 @@ class Ui_MainWindow(object):
         self.diagArrText.setGeometry(QtCore.QRect(325, 50, 50, 30))
         self.diagArrText.setObjectName("diagArrText")
         self.groupBox_4 = QtWidgets.QGroupBox(self.tab_2)
-        self.groupBox_4.setGeometry(QtCore.QRect(0, 240, 570, 50))
+        self.groupBox_4.setGeometry(QtCore.QRect(0, 225, 570, 50))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(False)
@@ -349,21 +351,55 @@ class Ui_MainWindow(object):
         self.d2810.setFont(font)
         self.d2810.setStyleSheet("color: rgb(0, 0, 0);")
         self.d2810.setObjectName("d2810")
+        self.rawdataShowText = QtWidgets.QTextBrowser(self.tab_2)
+        self.rawdataShowText.setGeometry(QtCore.QRect(10, 277, 560, 161))
+        self.rawdataShowText.setObjectName("rawdataShowText")
         self.TabMainWindow.addTab(self.tab_2, "")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
-        self.rawdataShowText = QtWidgets.QTextBrowser(self.tab)
-        self.rawdataShowText.setGeometry(QtCore.QRect(0, 75, 571, 286))
-        self.rawdataShowText.setObjectName("rawdataShowText")
-        self.horizontalLayoutWidget_3 = QtWidgets.QWidget(self.tab)
-        self.horizontalLayoutWidget_3.setGeometry(QtCore.QRect(0, 0, 571, 31))
-        self.horizontalLayoutWidget_3.setObjectName("horizontalLayoutWidget_3")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_3)
-        self.horizontalLayout_2.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_2.setSpacing(7)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.rawdataRead = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
+        self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.tab)
+        self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(89, 2, 481, 431))
+        self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
+        self.MainRawdataShowtableWidget.setColumnCount(0)
+        self.MainRawdataShowtableWidget.setRowCount(0)
+
+        # morgen
+        width = 25
+        height = 13
+
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        self.MainRawdataShowtableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.MainRawdataShowtableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        sizePolicy.setHeightForWidth(self.MainRawdataShowtableWidget.sizePolicy().hasHeightForWidth())
+        self.MainRawdataShowtableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.MainRawdataShowtableWidget.setSizePolicy(sizePolicy)
+        self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
+        self.MainRawdataShowtableWidget.setRowCount(self.rxnum + 1)
+        self.MainRawdataShowtableWidget.setColumnCount(self.txnum + 1)
+        self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
+        self.MainRawdataShowtableWidget.verticalHeader().setVisible(False)
+        self.MainRawdataShowtableWidget.horizontalHeader().setVisible(False)
+        self.MainRawdataShowtableWidget.horizontalHeader().setDefaultSectionSize(20)
+        self.MainRawdataShowtableWidget.horizontalHeader().setMinimumSectionSize(20)
+        self.MainRawdataShowtableWidget.verticalHeader().setDefaultSectionSize(10)
+        self.MainRawdataShowtableWidget.verticalHeader().setMinimumSectionSize(10)
+        font = QtGui.QFont()
+        font.setPointSize(6)
+        self.MainRawdataShowtableWidget.setFont(font)
+        # need setting per col and row
+        for i in range(self.txnum + 1):
+            self.MainRawdataShowtableWidget.setColumnWidth(i, width)
+
+        for i in range(self.rxnum + 1):
+            self.MainRawdataShowtableWidget.setRowHeight(i, height)
+
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.tab)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 81, 431))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.rawdataRead = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.rawdataRead.setMinimumSize(QtCore.QSize(0, 0))
         self.rawdataRead.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
@@ -374,56 +410,47 @@ class Ui_MainWindow(object):
         self.rawdataRead.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.rawdataRead.setStyleSheet("background-color: rgb(170, 255, 127);")
         self.rawdataRead.setObjectName("rawdataRead")
-        self.horizontalLayout_2.addWidget(self.rawdataRead)
-        self.radioDC = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
+        self.verticalLayout.addWidget(self.rawdataRead)
+        self.radioDC = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioDC.setMaximumSize(QtCore.QSize(50, 30))
         self.radioDC.setObjectName("radioDC")
-        self.horizontalLayout_2.addWidget(self.radioDC)
-        self.radioIIR = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
+        self.verticalLayout.addWidget(self.radioDC)
+        self.radioIIR = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioIIR.setMaximumSize(QtCore.QSize(50, 30))
         self.radioIIR.setObjectName("radioIIR")
-        self.horizontalLayout_2.addWidget(self.radioIIR)
-        self.radioTmp = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
+        self.verticalLayout.addWidget(self.radioIIR)
+        self.radioTmp = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioTmp.setMaximumSize(QtCore.QSize(15, 30))
         self.radioTmp.setText("")
         self.radioTmp.setObjectName("radioTmp")
-        self.horizontalLayout_2.addWidget(self.radioTmp)
-        self.textEditDiag = QtWidgets.QLineEdit(self.horizontalLayoutWidget_3)
-        self.textEditDiag.setMaximumSize(QtCore.QSize(50, 29))
+        self.verticalLayout.addWidget(self.radioTmp)
+        self.textEditDiag = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.textEditDiag.setMaximumSize(QtCore.QSize(100, 30))
         self.textEditDiag.setObjectName("textEditDiag")
-        self.horizontalLayout_2.addWidget(self.textEditDiag)
-        self.stop = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
-        self.stop.setMaximumSize(QtCore.QSize(70, 30))
+        self.verticalLayout.addWidget(self.textEditDiag)
+        self.stop = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.stop.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.stop.setFont(font)
         self.stop.setObjectName("stop")
-        self.horizontalLayout_2.addWidget(self.stop)
-        self.log = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
-        self.log.setMaximumSize(QtCore.QSize(70, 30))
+        self.verticalLayout.addWidget(self.stop)
+        self.log = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.log.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.log.setFont(font)
         self.log.setObjectName("log")
-        self.horizontalLayout_2.addWidget(self.log)
-        self.pullHXFile = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
-        self.pullHXFile.setMaximumSize(QtCore.QSize(100, 29))
+        self.verticalLayout.addWidget(self.log)
+        self.pullHXFile = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.pullHXFile.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.pullHXFile.setFont(font)
         self.pullHXFile.setStyleSheet("color: rgb(0, 0, 0);")
         self.pullHXFile.setObjectName("pullHXFile")
-        self.horizontalLayout_2.addWidget(self.pullHXFile)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem)
-        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.tab)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(0, 40, 571, 31))
-        self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setSpacing(0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.recalled = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.verticalLayout.addWidget(self.pullHXFile)
+        self.recalled = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.recalled.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -435,41 +462,39 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.recalled.setFont(font)
         self.recalled.setObjectName("recalled")
-        self.horizontalLayout_3.addWidget(self.recalled)
-        self.sram = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.sram.setMaximumSize(QtCore.QSize(70, 30))
+        self.verticalLayout.addWidget(self.recalled)
+        self.sram = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.sram.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.sram.setFont(font)
         self.sram.setObjectName("sram")
-        self.horizontalLayout_3.addWidget(self.sram)
-        self.kmsg = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.kmsg.setMaximumSize(QtCore.QSize(70, 30))
+        self.verticalLayout.addWidget(self.sram)
+        self.kmsg = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.kmsg.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.kmsg.setFont(font)
         self.kmsg.setStyleSheet("background-color: rgb(255, 170, 0);")
         self.kmsg.setObjectName("kmsg")
-        self.horizontalLayout_3.addWidget(self.kmsg)
-        self.textEditKmsg = QtWidgets.QLineEdit(self.horizontalLayoutWidget_2)
-        self.textEditKmsg.setMaximumSize(QtCore.QSize(50, 29))
+        self.verticalLayout.addWidget(self.kmsg)
+        self.textEditKmsg = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.textEditKmsg.setMaximumSize(QtCore.QSize(100, 30))
         self.textEditKmsg.setObjectName("textEditKmsg")
-        self.horizontalLayout_3.addWidget(self.textEditKmsg)
-        self.getevent = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.verticalLayout.addWidget(self.textEditKmsg)
+        self.getevent = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.getevent.setMinimumSize(QtCore.QSize(0, 0))
-        self.getevent.setMaximumSize(QtCore.QSize(70, 30))
+        self.getevent.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.getevent.setFont(font)
         self.getevent.setStyleSheet("background-color: rgb(255, 170, 0);")
         self.getevent.setObjectName("getevent")
-        self.horizontalLayout_3.addWidget(self.getevent)
-        self.textEditGetevent = QtWidgets.QLineEdit(self.horizontalLayoutWidget_2)
-        self.textEditGetevent.setMaximumSize(QtCore.QSize(50, 29))
+        self.verticalLayout.addWidget(self.getevent)
+        self.textEditGetevent = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.textEditGetevent.setMaximumSize(QtCore.QSize(100, 30))
         self.textEditGetevent.setObjectName("textEditGetevent")
-        self.horizontalLayout_3.addWidget(self.textEditGetevent)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem1)
+        self.verticalLayout.addWidget(self.textEditGetevent)
         self.TabMainWindow.addTab(self.tab, "")
         self.TabRWRegister = QtWidgets.QWidget()
         self.TabRWRegister.setObjectName("TabRWRegister")
@@ -576,7 +601,7 @@ class Ui_MainWindow(object):
         self.reglength.addItem("")
         self.reglength.addItem("")
         self.readRegValShowText = QtWidgets.QTextBrowser(self.TabRWRegister)
-        self.readRegValShowText.setGeometry(QtCore.QRect(0, 150, 571, 211))
+        self.readRegValShowText.setGeometry(QtCore.QRect(0, 150, 571, 291))
         self.readRegValShowText.setObjectName("readRegValShowText")
         self.TabMainWindow.addTab(self.TabRWRegister, "")
         self.TabSwiplines = QtWidgets.QWidget()
@@ -671,7 +696,7 @@ class Ui_MainWindow(object):
         self.reglength.setItemText(6, _translate("MainWindow", "7"))
         self.reglength.setItemText(7, _translate("MainWindow", "8"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabRWRegister), _translate("MainWindow", "Register"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabSwiplines), _translate("MainWindow", "Swipe"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabSwiplines), _translate("MainWindow", "File"))
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabAbout), _translate("MainWindow", "About"))
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabCommands), _translate("MainWindow", "Commands"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabHelp), _translate("MainWindow", "Help"))
@@ -748,28 +773,52 @@ class Ui_MainWindow(object):
         adb.shell("adb shell chmod 777 /proc/android_touch/diag/*")
         print("execute root, remount, setenforce 0, chmod")
 
+    def getRXTX(self):
+        adb.shell(self.echoDiag % '1', "SHELL")
+        ret = adb.shell(self.catDiag, "SHELL")
+        ret = ret.split('\n')
+        index = ret[0].find(':')
+        ret = ret[0][index+1:].split(',')
+        self.rxnum = int(ret[0])
+        self.txnum = int(ret[1])
+
     def showDiag(self):
+        self.getRXTX()
+        width = 25
+        height = 15
         self.dialog = QDialog()
-        self.dialog.resize(480, 640)
+        self.dialog.resize(480, 505)
         self.rawdataShowTableWidget = QtWidgets.QTableWidget(self.dialog)
-        self.rawdataShowTableWidget.setGeometry(QtCore.QRect(0, 0, 481, 641))
-        self.rawdataShowTableWidget.setDisabled(True)
+        self.rawdataShowTableWidget.setGeometry(QtCore.QRect(0, 0, 480, 505))
+        self.rawdataShowTableWidget.setDisabled(False)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
+        self.rawdataShowTableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.rawdataShowTableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         sizePolicy.setHeightForWidth(self.rawdataShowTableWidget.sizePolicy().hasHeightForWidth())
+        self.rawdataShowTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.rawdataShowTableWidget.setSizePolicy(sizePolicy)
         self.rawdataShowTableWidget.setObjectName("rawdataShowTableWidget")
-        self.rawdataShowTableWidget.setColumnCount(6)
-        self.rawdataShowTableWidget.setRowCount(12)
-        self.rawdataShowTableWidget.horizontalHeader().setDefaultSectionSize(69)
+        self.rawdataShowTableWidget.setRowCount(self.rxnum + 1)
+        self.rawdataShowTableWidget.setColumnCount(self.txnum + 1)
+        self.rawdataShowTableWidget.setObjectName("rawdataShowTableWidget")
+        self.rawdataShowTableWidget.verticalHeader().setVisible(False)
+        self.rawdataShowTableWidget.horizontalHeader().setVisible(False)
+        self.rawdataShowTableWidget.horizontalHeader().setDefaultSectionSize(20)
+        self.rawdataShowTableWidget.horizontalHeader().setMinimumSectionSize(20)
+        self.rawdataShowTableWidget.verticalHeader().setDefaultSectionSize(10)
+        self.rawdataShowTableWidget.verticalHeader().setMinimumSectionSize(10)
+        # need setting per col and row
+        for i in range(self.txnum + 1):
+            self.rawdataShowTableWidget.setColumnWidth(i, width)
+
+        for i in range(self.rxnum + 1):
+            self.rawdataShowTableWidget.setRowHeight(i, height)
 
         _translate = QtCore.QCoreApplication.translate
-        self.dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.dialog.setWindowTitle(_translate("Dialog", "Show"))
 
         # self.dialog.setWindowFlags(Qt.FramelessWindowHint)  # set hide menu bar
 
-        # self.dialog.setWindowModality(Qt.ApplicationModal)
         self.dialog.exec_()
     # dialog function end
 
@@ -975,9 +1024,30 @@ class Ui_MainWindow(object):
         self.showRawdataFlag = 1
         while self.showRawdataFlag:
             ret = adb.shell(self.catDiag, "SHELL")
-            print(ret)
+            # print(ret)
+            data = self.analysisRawdata(ret)
+            self.fillRawdataToTable(data)
             if self.logFlag:
                 self.logFile.write(ret)
+
+    def analysisRawdata(self, rawdata):
+        index = rawdata.find('[00]')
+        rawdata = rawdata[index:]
+        rawdata = (' '.join(rawdata.split()))
+        index = rawdata.find('[' + str(self.txnum) + ']')
+        rawdata = rawdata[index + 4:]
+        # print(rawdata)
+        info = re.compile(' \[..\] ')
+        rawdata = info.sub(' ', rawdata)
+        rawdata = rawdata.split(' ')
+        return rawdata
+
+    def fillRawdataToTable(self, rawdata):
+        for i in range(self.rxnum):
+            for j in range(self.txnum):
+                tmp = rawdata[j + i*j]
+                a = QTableWidgetItem(tmp)
+                self.MainRawdataShowtableWidget.setItem(j, i, a)
 
     def stopFunc(self):
         self.showRawdataFlag = 0
@@ -1007,7 +1077,6 @@ class Ui_MainWindow(object):
         adb.shell(self.echoDiag % '0', "SHELL")
 
     def sramFunc(self):
-        print("morgen")
         self.showDiag()
 
     def logFunc(self):
@@ -1200,21 +1269,32 @@ class Ui_MainWindow(object):
 
     def touchDiagArrFunc(self):
         name = self.diagArrText.text()
-        print(name)
+        if name == '':
+            self.rawdataShowText.append("please set value!")
+            return
+
         if self.driverVersionMode == 1:
-            adb.shell("echo %s > " % name + self.v1DiagArrPath, "SHELL")
+            cmd = "echo %s > " % name + self.v1DiagArrPath
         elif self.driverVersionMode == 2:
-            adb.shell("echo diag_arr,%s > " % name + self.debugPath, "SHELL")
+            cmd = "echo diag_arr,%s > " % name + self.debugPath
+        adb.shell(cmd, "SHELL")
+
+        self.rawdataShowText.append(cmd)
 
     def touchSenseOnFunc(self):
         adb.shell(self.echoSenseOn, "SHELL")
+        self.rawdataShowText.append(self.echoSenseOn)
 
     def touchSenseOffFunc(self):
         adb.shell(self.echoSenseOff, "SHELL")
+        self.rawdataShowText.append(self.echoSenseOff)
 
     def touchSelfTestFunc(self):
+        self.selftestThread = Thread(target=self.selftestThreadFunc)
+        self.selftestThread.start()
+
+    def selftestThreadFunc(self):
         ret = adb.shell(self.catSelfTest, "SHELL")
-        # ret = str(ret, encoding='utf-8')
         self.rawdataShowText.append(ret)
 
     def touchFWVersionFunc(self):
@@ -1225,13 +1305,15 @@ class Ui_MainWindow(object):
 
     def touchResetFunc(self):
         adb.shell(self.echoReset % "1", "SHELL")
-        self.rawdataShowText.append("toggle reset pin\n")
+        self.rawdataShowText.append(self.echoReset % "1")
 
     def touchInten0Func(self):
         adb.shell(self.echoIntEn % "0", "SHELL")
+        self.rawdataShowText.append("disable irq")
 
     def touchInten1Func(self):
         adb.shell(self.echoIntEn % "1", "SHELL")
+        self.rawdataShowText.append("enable irq")
 
     def touchSwitchDriverVersionFunc(self):
         if self.driverVersion.text() == "V2":
@@ -1249,11 +1331,12 @@ class Ui_MainWindow(object):
     def touchUpdateFWFunc(self):
         fw_path = self.updateFWText.toPlainText()
         if fw_path == "":
+            self.rawdataShowText.append("please choose fw file!")
             return
         ret = adb.shell("adb push %s " % fw_path + self.fwPath)
-        print(ret)
+        self.rawdataShowText.append(ret)
         ret = adb.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
-        print(ret)
+        self.rawdataShowText.append(ret)
 
     # display
     def display1129Func(self):
@@ -1284,13 +1367,13 @@ class Ui_MainWindow(object):
         self.threadWifiConnect.start()
 
     def waitConnectFunc(self):
-        print("Start...")
+        self.rawdataShowText.append("Start connect wifi adb")
         self.port = 8888
         self.wifiConnect.setDisabled(True)
         self.wifiConnect.setStyleSheet("color: rgb(105, 105, 105)")
         self.wifiConnectFlag = 1
         deviceInfo = (adb.shell("adb devices"))
-        print(deviceInfo)
+        self.rawdataShowText.append(deviceInfo)
         # deviceInfo = str(deviceInfo, encoding='utf-8')
         try:
             device_list = deviceInfo.split()
@@ -1301,12 +1384,13 @@ class Ui_MainWindow(object):
             device_list.remove("device")
         except:
             print("Please connect device")
+            self.rawdataShowText.append("Please connect device first!")
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
             return False
 
         deviceName = device_list[0]
-        print(deviceName)
+        self.rawdataShowText.append(deviceName)
         self.wifiStatus.setText("Connect...")
 
         # Get device ip & set port
@@ -1315,7 +1399,8 @@ class Ui_MainWindow(object):
         # ip = str(ip, encoding='utf-8')
         ip = ip[ip.find("inet 1") + 5:ip.find("/")]
         cmd = "adb -s %s tcpip %s" % (deviceName, self.port)
-        print(adb.shell(cmd))
+        ret = adb.shell(cmd)
+        self.rawdataShowText.append(ret)
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
@@ -1340,7 +1425,7 @@ class Ui_MainWindow(object):
         # devices = str(devices, encoding='utf-8')
         response = ""
 
-        print("Unplugin")
+        self.rawdataShowText.append("Unplugin")
         self.wifiStatus.setText("Unplugin...")
 
         while devices.find(deviceName) < 0 and self.wifiConnectFlag != 0:
@@ -1363,7 +1448,7 @@ class Ui_MainWindow(object):
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
             return
 
-        print("Wifi Connect Done")
+        self.rawdataShowText.append("Wifi Connect Done")
         self.wifiStatus.setText("Connected")
         self.wifiStatus.setStyleSheet("color: rgb(0, 255, 0)")
         self.wifiConnect.setDisabled(False)
@@ -1371,8 +1456,8 @@ class Ui_MainWindow(object):
 
     def wifiReconnectFunc(self):
         cmd = "adb connect %s:%s" % (self.device_ip, self.port)
-        print(cmd)
         adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
 
     def wifiDisconnectFunc(self):
         adb.shell("adb disconnect")
@@ -1383,39 +1468,56 @@ class Ui_MainWindow(object):
         self.wifiConnectFlag = 0
         self.device_ip = ""
         self.device_ip_port = ""
+        self.rawdataShowText.append("adb disconnect")
 
     # adb
     def homeKeyFunc(self):
-        adb.shell("adb shell input keyevent KEYCODE_HOME")
+        cmd = "adb shell input keyevent KEYCODE_HOME"
+        adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
 
     def backKeyFunc(self):
-        adb.shell("adb shell input keyevent KEYCODE_BACK")
+        cmd = "adb shell input keyevent KEYCODE_BACK"
+        adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
 
     def volUpFunc(self):
-        adb.shell("adb shell input keyevent KEYCODE_VOLUME_UP")
+        cmd = "adb shell input keyevent KEYCODE_VOLUME_UP"
+        adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
 
     def volDownFunc(self):
-        adb.shell("adb shell input keyevent KEYCODE_VOLUME_DOWN")
+        cmd = "adb shell input keyevent KEYCODE_VOLUME_DOWN"
+        adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
 
     def getpropFunc(self):
-        ret = adb.shell("adb shell getprop")
-        print(ret)
+        cmd = "adb shell getprop"
+        ret = adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
+        self.rawdataShowText.append(ret)
 
     def interruptsFunc(self):
-        ret = adb.shell("adb shell cat /proc/interrupts")
-        print(ret)
+        cmd = "adb shell cat /proc/interrupts"
+        ret = adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
+        self.rawdataShowText.append(ret)
 
     def checkDeviceFunc(self):
-        res = adb.shell("adb devices")
-        print(res)
+        ret = adb.shell("adb devices")
+        self.rawdataShowText.append(ret)
 
     def hideShowVirtualFunc(self):
         if self.hideShowVirtual.text() == 'ShowVirtual':
             self.hideShowVirtual.setText("HideVirtual")
-            adb.shell("adb shell settings put global policy_control immersive.full=*")
+            cmd = "adb shell settings put global policy_control immersive.full=*"
+            adb.shell(cmd)
+            self.rawdataShowText.append(cmd)
         else:
             self.hideShowVirtual.setText("ShowVirtual")
-            adb.shell("adb shell settings put global policy_control null")
+            cmd = "adb shell settings put global policy_control null"
+            adb.shell(cmd)
+            self.rawdataShowText.append(cmd)
 
     def powerKeyFunc(self):
         adb.shell(None, "KEYEVENT", 26)
@@ -1423,24 +1525,34 @@ class Ui_MainWindow(object):
     def openClosePointFunc(self):
         if self.openClosePoint.text() == 'OpenPoint':
             self.openClosePoint.setText("ClosePoint")
-            adb.shell("settings put system pointer_location 1", "SHELL")
-            adb.shell("settings put system show_touches 1", "SHELL")
+            cmd = "settings put system pointer_location 1"
+            adb.shell(cmd, "SHELL")
+            self.rawdataShowText.append(cmd)
+            cmd = "settings put system show_touches 1"
+            adb.shell(cmd, "SHELL")
+            self.rawdataShowText.append(cmd)
         else:
             self.openClosePoint.setText("OpenPoint")
-            adb.shell("settings put system pointer_location 0", "SHELL")
-            adb.shell("settings put system show_touches 0", "SHELL")
+            cmd = "settings put system pointer_location 0"
+            adb.shell(cmd, "SHELL")
+            self.rawdataShowText.append(cmd)
+            cmd = "settings put system show_touches 0"
+            adb.shell(cmd, "SHELL")
+            self.rawdataShowText.append(cmd)
 
     def screenShotFunc(self):
-        print("Screen Shot...")
+        self.rawdataShowText.append("Screen Shot...")
         name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".png"
         cmd = "adb wait-for-device shell screencap -p /sdcard/%s" % (name)
         adb.shell(cmd)
+        self.rawdataShowText.append(cmd)
         cmd = "adb pull /sdcard/%s" % name
         adb.shell(cmd)
-        print("Screen Shot Done")
+        self.rawdataShowText.append(cmd)
 
     def shutDownFunc(self):
         adb.shell("adb shell reboot -p")
+        self.rawdataShowText.append("adb shell reboot -p")
 
     def rebootFunc(self):
         adb.shell("adb reboot")
