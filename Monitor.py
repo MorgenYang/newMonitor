@@ -776,6 +776,12 @@ class Ui_MainWindow(object):
     def getRXTX(self):
         adb.shell(self.echoDiag % '1', "SHELL")
         ret = adb.shell(self.catDiag, "SHELL")
+        if ret == '':
+            self.rxnum = 32
+            self.txnum = 18
+            print("get rx tx num failed, set default rx:32 tx:18")
+            return
+
         ret = ret.split('\n')
         index = ret[0].find(':')
         ret = ret[0][index+1:].split(',')
@@ -1048,6 +1054,7 @@ class Ui_MainWindow(object):
                 tmp = rawdata[j + i*j]
                 a = QTableWidgetItem(tmp)
                 self.MainRawdataShowtableWidget.setItem(j, i, a)
+                self.MainRawdataShowtableWidget.update()
 
     def stopFunc(self):
         self.showRawdataFlag = 0
