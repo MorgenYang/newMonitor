@@ -6,6 +6,7 @@ from threading import Thread
 import time
 import subprocess
 import re
+from PyQt5.QtCore import QObject, pyqtSignal
 
 
 class MainWindow(QMainWindow):
@@ -25,14 +26,12 @@ class MainWindow(QMainWindow):
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-
         self.getRXTX()
-
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(585, 493)
-        MainWindow.setMinimumSize(QtCore.QSize(585, 493))
-        MainWindow.setMaximumSize(QtCore.QSize(800, 600))
+        MainWindow.resize(585, 490)
+        MainWindow.setMinimumSize(QtCore.QSize(585, 490))
+        MainWindow.setMaximumSize(QtCore.QSize(585, 490))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -359,6 +358,9 @@ class Ui_MainWindow(object):
         self.tab.setObjectName("tab")
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.tab)
         self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(89, 2, 481, 431))
+        font = QtGui.QFont()
+        font.setPointSize(6)
+        self.MainRawdataShowtableWidget.setFont(font)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
         self.MainRawdataShowtableWidget.setColumnCount(0)
         self.MainRawdataShowtableWidget.setRowCount(0)
@@ -392,6 +394,7 @@ class Ui_MainWindow(object):
 
         for i in range(self.rxnum + 1):
             self.MainRawdataShowtableWidget.setRowHeight(i, height)
+
 
         self.verticalLayoutWidget = QtWidgets.QWidget(self.tab)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 81, 431))
@@ -606,11 +609,184 @@ class Ui_MainWindow(object):
         self.TabMainWindow.addTab(self.TabRWRegister, "")
         self.TabSwiplines = QtWidgets.QWidget()
         self.TabSwiplines.setObjectName("TabSwiplines")
+        self.DDpushButtonRegWrite0 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDpushButtonRegWrite0.setGeometry(QtCore.QRect(180, 0, 60, 25))
+        self.DDpushButtonRegWrite0.setMaximumSize(QtCore.QSize(150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.DDpushButtonRegWrite0.setFont(font)
+        self.DDpushButtonRegWrite0.setStyleSheet("background-color: rgb(170, 170, 255);")
+        self.DDpushButtonRegWrite0.setObjectName("DDpushButtonRegWrite0")
+        self.DDpushButtonRegWrite2 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDpushButtonRegWrite2.setGeometry(QtCore.QRect(180, 60, 60, 25))
+        self.DDpushButtonRegWrite2.setMaximumSize(QtCore.QSize(150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.DDpushButtonRegWrite2.setFont(font)
+        self.DDpushButtonRegWrite2.setStyleSheet("background-color: rgb(170, 170, 255);")
+        self.DDpushButtonRegWrite2.setObjectName("DDpushButtonRegWrite2")
+        self.DDRead0 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDRead0.setGeometry(QtCore.QRect(0, 0, 60, 25))
+        self.DDRead0.setMaximumSize(QtCore.QSize(150, 150))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.DDRead0.setFont(font)
+        self.DDRead0.setStyleSheet("background-color: rgb(255, 170, 0);")
+        self.DDRead0.setObjectName("DDRead0")
+        self.DDreadRegValShowText = QtWidgets.QTextBrowser(self.TabSwiplines)
+        self.DDreadRegValShowText.setGeometry(QtCore.QRect(0, 150, 571, 291))
+        self.DDreadRegValShowText.setObjectName("DDreadRegValShowText")
+        self.DDpushButtonRegWrite3 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDpushButtonRegWrite3.setGeometry(QtCore.QRect(180, 90, 60, 25))
+        self.DDpushButtonRegWrite3.setMaximumSize(QtCore.QSize(150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.DDpushButtonRegWrite3.setFont(font)
+        self.DDpushButtonRegWrite3.setStyleSheet("background-color: rgb(170, 170, 255);")
+        self.DDpushButtonRegWrite3.setObjectName("DDpushButtonRegWrite3")
+        self.DDpushButtonRegWrite1 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDpushButtonRegWrite1.setGeometry(QtCore.QRect(180, 30, 60, 25))
+        self.DDpushButtonRegWrite1.setMaximumSize(QtCore.QSize(150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.DDpushButtonRegWrite1.setFont(font)
+        self.DDpushButtonRegWrite1.setStyleSheet("background-color: rgb(170, 170, 255);")
+        self.DDpushButtonRegWrite1.setObjectName("DDpushButtonRegWrite1")
+        self.DDpushButtonRegWrite4 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDpushButtonRegWrite4.setGeometry(QtCore.QRect(180, 120, 60, 25))
+        self.DDpushButtonRegWrite4.setMaximumSize(QtCore.QSize(150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.DDpushButtonRegWrite4.setFont(font)
+        self.DDpushButtonRegWrite4.setStyleSheet("background-color: rgb(170, 170, 255);")
+        self.DDpushButtonRegWrite4.setObjectName("DDpushButtonRegWrite4")
+        self.DDWLineEditAddr0 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditAddr0.setGeometry(QtCore.QRect(250, 0, 60, 25))
+        self.DDWLineEditAddr0.setObjectName("DDWLineEditAddr0")
+        self.DDWLineEditBank0 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditBank0.setGeometry(QtCore.QRect(320, 0, 60, 25))
+        self.DDWLineEditBank0.setObjectName("DDWLineEditBank0")
+        self.DDWLineEditLen0 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditLen0.setGeometry(QtCore.QRect(390, 0, 60, 25))
+        self.DDWLineEditLen0.setObjectName("DDWLineEditLen0")
+        self.DDWLineEditAddr1 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditAddr1.setGeometry(QtCore.QRect(250, 30, 60, 25))
+        self.DDWLineEditAddr1.setObjectName("DDWLineEditAddr1")
+        self.DDWLineEditBank1 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditBank1.setGeometry(QtCore.QRect(320, 30, 60, 25))
+        self.DDWLineEditBank1.setObjectName("DDWLineEditBank1")
+        self.DDWLineEditLen1 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditLen1.setGeometry(QtCore.QRect(390, 30, 60, 25))
+        self.DDWLineEditLen1.setObjectName("DDWLineEditLen1")
+        self.DDWLineEditAddr2 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditAddr2.setGeometry(QtCore.QRect(250, 60, 60, 25))
+        self.DDWLineEditAddr2.setObjectName("DDWLineEditAddr2")
+        self.DDWLineEditBank2 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditBank2.setGeometry(QtCore.QRect(320, 60, 60, 25))
+        self.DDWLineEditBank2.setObjectName("DDWLineEditBank2")
+        self.DDWLineEditLen2 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditLen2.setGeometry(QtCore.QRect(390, 60, 60, 25))
+        self.DDWLineEditLen2.setObjectName("DDWLineEditLen2")
+        self.DDWLineEditAddr3 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditAddr3.setGeometry(QtCore.QRect(250, 90, 60, 25))
+        self.DDWLineEditAddr3.setObjectName("DDWLineEditAddr3")
+        self.DDWLineEditBank3 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditBank3.setGeometry(QtCore.QRect(320, 90, 60, 25))
+        self.DDWLineEditBank3.setObjectName("DDWLineEditBank3")
+        self.DDWLineEditLen3 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditLen3.setGeometry(QtCore.QRect(390, 90, 60, 25))
+        self.DDWLineEditLen3.setObjectName("DDWLineEditLen3")
+        self.DDWLineEditAddr4 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditAddr4.setGeometry(QtCore.QRect(250, 120, 60, 25))
+        self.DDWLineEditAddr4.setObjectName("DDWLineEditAddr4")
+        self.DDWLineEditBank4 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditBank4.setGeometry(QtCore.QRect(320, 120, 60, 25))
+        self.DDWLineEditBank4.setObjectName("DDWLineEditBank4")
+        self.DDWLineEditLen4 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditLen4.setGeometry(QtCore.QRect(390, 120, 60, 25))
+        self.DDWLineEditLen4.setObjectName("DDWLineEditLen4")
+        self.DDWLineEditVal4 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditVal4.setGeometry(QtCore.QRect(460, 120, 60, 25))
+        self.DDWLineEditVal4.setObjectName("DDWLineEditVal4")
+        self.DDWLineEditVal1 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditVal1.setGeometry(QtCore.QRect(460, 30, 60, 25))
+        self.DDWLineEditVal1.setObjectName("DDWLineEditVal1")
+        self.DDWLineEditVal0 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditVal0.setGeometry(QtCore.QRect(460, 0, 60, 25))
+        self.DDWLineEditVal0.setObjectName("DDWLineEditVal0")
+        self.DDWLineEditVal2 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditVal2.setGeometry(QtCore.QRect(460, 60, 60, 25))
+        self.DDWLineEditVal2.setObjectName("DDWLineEditVal2")
+        self.DDWLineEditVal3 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDWLineEditVal3.setGeometry(QtCore.QRect(460, 90, 60, 25))
+        self.DDWLineEditVal3.setObjectName("DDWLineEditVal3")
+        self.DDRlineEdit0 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDRlineEdit0.setGeometry(QtCore.QRect(70, 0, 90, 25))
+        self.DDRlineEdit0.setObjectName("DDRlineEdit0")
+        self.DDRlineEdit2 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDRlineEdit2.setGeometry(QtCore.QRect(70, 60, 90, 25))
+        self.DDRlineEdit2.setObjectName("DDRlineEdit2")
+        self.DDRlineEdit3 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDRlineEdit3.setGeometry(QtCore.QRect(70, 90, 90, 25))
+        self.DDRlineEdit3.setObjectName("DDRlineEdit3")
+        self.DDRlineEdit1 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDRlineEdit1.setGeometry(QtCore.QRect(70, 30, 90, 25))
+        self.DDRlineEdit1.setObjectName("DDRlineEdit1")
+        self.DDRlineEdit4 = QtWidgets.QLineEdit(self.TabSwiplines)
+        self.DDRlineEdit4.setGeometry(QtCore.QRect(70, 120, 90, 25))
+        self.DDRlineEdit4.setObjectName("DDRlineEdit4")
+        self.DDRead4 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDRead4.setGeometry(QtCore.QRect(0, 120, 60, 25))
+        self.DDRead4.setMaximumSize(QtCore.QSize(150, 150))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.DDRead4.setFont(font)
+        self.DDRead4.setStyleSheet("background-color: rgb(255, 170, 0);")
+        self.DDRead4.setObjectName("DDRead4")
+        self.DDRead1 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDRead1.setGeometry(QtCore.QRect(0, 30, 60, 25))
+        self.DDRead1.setMaximumSize(QtCore.QSize(150, 150))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.DDRead1.setFont(font)
+        self.DDRead1.setStyleSheet("background-color: rgb(255, 170, 0);")
+        self.DDRead1.setObjectName("DDRead1")
+        self.DDRead2 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDRead2.setGeometry(QtCore.QRect(0, 60, 60, 25))
+        self.DDRead2.setMaximumSize(QtCore.QSize(150, 150))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.DDRead2.setFont(font)
+        self.DDRead2.setStyleSheet("background-color: rgb(255, 170, 0);")
+        self.DDRead2.setObjectName("DDRead2")
+        self.DDRead3 = QtWidgets.QPushButton(self.TabSwiplines)
+        self.DDRead3.setGeometry(QtCore.QRect(0, 90, 60, 25))
+        self.DDRead3.setMaximumSize(QtCore.QSize(150, 150))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.DDRead3.setFont(font)
+        self.DDRead3.setStyleSheet("background-color: rgb(255, 170, 0);")
+        self.DDRead3.setObjectName("DDRead3")
         self.TabMainWindow.addTab(self.TabSwiplines, "")
         self.TabHelp = QtWidgets.QWidget()
         self.TabHelp.setObjectName("TabHelp")
         self.TabHelpSubMain = QtWidgets.QTabWidget(self.TabHelp)
-        self.TabHelpSubMain.setGeometry(QtCore.QRect(0, 0, 801, 461))
+        self.TabHelpSubMain.setGeometry(QtCore.QRect(0, 0, 571, 441))
         self.TabHelpSubMain.setObjectName("TabHelpSubMain")
         self.TabAbout = QtWidgets.QWidget()
         self.TabAbout.setObjectName("TabAbout")
@@ -696,7 +872,17 @@ class Ui_MainWindow(object):
         self.reglength.setItemText(6, _translate("MainWindow", "7"))
         self.reglength.setItemText(7, _translate("MainWindow", "8"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabRWRegister), _translate("MainWindow", "Register"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabSwiplines), _translate("MainWindow", "File"))
+        self.DDpushButtonRegWrite0.setText(_translate("MainWindow", "Write 0"))
+        self.DDpushButtonRegWrite2.setText(_translate("MainWindow", "Write 2"))
+        self.DDRead0.setText(_translate("MainWindow", "Read"))
+        self.DDpushButtonRegWrite3.setText(_translate("MainWindow", "Write 3"))
+        self.DDpushButtonRegWrite1.setText(_translate("MainWindow", "Write 1"))
+        self.DDpushButtonRegWrite4.setText(_translate("MainWindow", "Write 4"))
+        self.DDRead4.setText(_translate("MainWindow", "Read"))
+        self.DDRead1.setText(_translate("MainWindow", "Read"))
+        self.DDRead2.setText(_translate("MainWindow", "Read"))
+        self.DDRead3.setText(_translate("MainWindow", "Read"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabSwiplines), _translate("MainWindow", "DD"))
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabAbout), _translate("MainWindow", "About"))
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabCommands), _translate("MainWindow", "Commands"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabHelp), _translate("MainWindow", "Help"))
@@ -745,6 +931,7 @@ class Ui_MainWindow(object):
         self.updateFW.clicked.connect(self.touchUpdateFWFunc)
 
         # rawdata show
+        signal1 = pyqtSignal()
         self.rawdataRead.clicked.connect(self.rawdataReadFunc)
         self.stop.clicked.connect(self.stopFunc)
         self.sram.clicked.connect(self.sramFunc)
@@ -759,6 +946,19 @@ class Ui_MainWindow(object):
         self.pushButtonRegWrite2.clicked.connect(lambda: self.writeRegFunc(2))
         self.pushButtonRegWrite3.clicked.connect(lambda: self.writeRegFunc(3))
         self.pushButtonRegWrite4.clicked.connect(lambda: self.writeRegFunc(4))
+
+        # dd register read write
+        self.DDRead0.clicked.connect(lambda: self.readDDRegisterFunc(0))
+        self.DDRead1.clicked.connect(lambda: self.readDDRegisterFunc(1))
+        self.DDRead2.clicked.connect(lambda: self.readDDRegisterFunc(2))
+        self.DDRead3.clicked.connect(lambda: self.readDDRegisterFunc(3))
+        self.DDRead4.clicked.connect(lambda: self.readDDRegisterFunc(4))
+
+        self.DDpushButtonRegWrite0.clicked.connect(lambda: self.writeDDRegisterFunc(0))
+        self.DDpushButtonRegWrite1.clicked.connect(lambda: self.writeDDRegisterFunc(1))
+        self.DDpushButtonRegWrite2.clicked.connect(lambda: self.writeDDRegisterFunc(2))
+        self.DDpushButtonRegWrite3.clicked.connect(lambda: self.writeDDRegisterFunc(3))
+        self.DDpushButtonRegWrite4.clicked.connect(lambda: self.writeDDRegisterFunc(4))
 
         # swipe lines
         # help
@@ -822,13 +1022,142 @@ class Ui_MainWindow(object):
 
         _translate = QtCore.QCoreApplication.translate
         self.dialog.setWindowTitle(_translate("Dialog", "Show"))
-
         # self.dialog.setWindowFlags(Qt.FramelessWindowHint)  # set hide menu bar
-
         self.dialog.exec_()
-    # dialog function end
 
-    # register read write
+    """ display register read write """
+    def readDDRegisterFunc(self, n):
+        ret = ""
+        if n == 0:
+            ret = self.DDRlineEdit0.text()
+        elif n == 1:
+            ret = self.DDRlineEdit1.text()
+        elif n == 2:
+            ret = self.DDRlineEdit2.text()
+        elif n == 3:
+            ret = self.DDRlineEdit3.text()
+        elif n == 4:
+            ret = self.DDRlineEdit4.text()
+
+        if ret == '':
+            self.DDreadRegValShowText.append("you need set value first")
+            return
+        elif len(ret) != 6:
+            self.DDreadRegValShowText.append("value length isn't right")
+            return
+
+        # exc read dd register cmd
+        val = "AA" + str(ret)
+        cmd = self.echoWriteRegister % ("900000FC", val)
+        adb.shell(cmd, "SHELL")
+        self.DDreadRegValShowText.append(cmd)
+        # adb.shell(cmd, "SHELL")
+        cmd = self.echoReadRegister % "10007F80"
+        adb.shell(cmd, "SHELL")
+        self.DDreadRegValShowText.append(cmd)
+        cmd = self.catRegister
+        ret = adb.shell(cmd, "SHELL")
+        self.DDreadRegValShowText.append(cmd)
+        self.DDreadRegValShowText.append(ret)
+
+    def writeDDRegisterFunc(self, n):
+        addr = ''
+        bank = ''
+        length = ''
+        val = ''
+        if n == 0:
+            addr = self.DDWLineEditAddr0.text()
+            bank = self.DDWLineEditBank0.text()
+            length = self.DDWLineEditLen0.text()
+            val = self.DDWLineEditVal0.text()
+        elif n == 1:
+            addr = self.DDWLineEditAddr1.text()
+            bank = self.DDWLineEditBank1.text()
+            length = self.DDWLineEditLen1.text()
+            val = self.DDWLineEditVal1.text()
+        elif n == 2:
+            addr = self.DDWLineEditAddr2.text()
+            bank = self.DDWLineEditBank2.text()
+            length = self.DDWLineEditLen2.text()
+            val = self.DDWLineEditVal2.text()
+        elif n == 3:
+            addr = self.DDWLineEditAddr3.text()
+            bank = self.DDWLineEditBank3.text()
+            length = self.DDWLineEditLen3.text()
+            val = self.DDWLineEditVal3.text()
+        elif n == 4:
+            addr = self.DDWLineEditAddr4.text()
+            bank = self.DDWLineEditBank4.text()
+            length = self.DDWLineEditLen4.text()
+            val = self.DDWLineEditVal4.text()
+
+        if addr == '' and bank == '' and length == '' and val == '':
+            self.DDreadRegValShowText.append("please set value")
+            return
+
+        bufAddr = '10007f80'
+        tmp = "AA" + addr + bank + length
+        cmd = self.echoWriteRegister % ("900000FC", tmp)
+        adb.shell(cmd, "SHELL")
+        cmd = self.echoReadRegister % bufAddr
+        adb.shell(cmd, "SHELL")
+        cmd = self.catRegister
+        ret = adb.shell(cmd, "SHELL")
+
+        if ret == '':
+            print("wrong")
+            return
+
+        ret = ret[22:]
+        info = re.compile('0x')
+        ret = info.sub('', ret)
+        ret = ret.split(' ')
+        print(ret)
+
+"""
+doha:/proc # cd an
+doha:/proc # cd android_touch/
+doha:/proc/android_touch # echo register,w:x10007f84:xffeeddcc > debug
+echo register,w:x10007f84:xffeeddcc > debug
+doha:/proc/android_touch # echo register,w:x900000fc:xccc10008 > debug
+echo register,w:x900000fc:xccc10008 > debug
+doha:/proc/android_touch # echo register,r:x10007f80 > debug
+echo register,r:x10007f80 > debug
+doha:/proc/android_touch # cat debug
+cat debug
+command:  10,00,7F,80
+0x01 0x00 0x00 0x00 0xCC 0xDD 0xEE 0xFF 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x08 0x81 0x77 0x6D 0x00 0x00 0x00 0x00 0x53 0x4A 0x00 0x00 0xB2 0xA7 0x52 0xFA
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xFF 0x1F 0x00 0x00 0x00 0x00
+0xA4 0x3A 0xAD 0x85 0x05 0x00 0x00 0x00 0x0D 0x86 0x7D 0x34 0x96 0x8D 0x7C 0x68
+0x00 0x00 0xCD 0x79 0x55 0xE4 0xAF 0xF6 0x4C 0x1A 0x4B 0xA9 0x80 0x32 0xCC 0xC9
+
+doha:/proc/android_touch # echo register,w:x10007f88:xffeeddcc > debug
+echo register,w:x10007f88:xffeeddcc > debug
+doha:/proc/android_touch # echo register,w:x900000fc:xccc10008 > debug
+echo register,w:x900000fc:xccc10008 > debug
+doha:/proc/android_touch # echo register,r:x10007f80 > debug
+echo register,r:x10007f80 > debug
+doha:/proc/android_touch # cat debug
+cat debug
+command:  10,00,7F,80
+0x01 0x00 0x00 0x00 0xCC 0xDD 0xEE 0xFF 0xCC 0xDD 0xEE 0xFF 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x08 0x81 0x77 0x6D 0x00 0x00 0x00 0x00 0x53 0x4A 0x00 0x00 0xB2 0xA7 0x52 0xFA
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xFF 0x1F 0x00 0x00 0x00 0x00
+0xA4 0x3A 0xAD 0x85 0x05 0x00 0x00 0x00 0x0D 0x86 0x7D 0x34 0x96 0x8D 0x7C 0x68
+0x00 0x00 0xCD 0x79 0x55 0xE4 0xAF 0xF6 0x4C 0x1A 0x4B 0xA9 0x80 0x32 0xCC 0xC9
+
+doha:/proc/android_touch #
+"""
+
+
+    """ touch register read write """
     def initHistoryFunc(self):
         self.textEditKmsg.setText("HX")
         #self.sram.setDisabled(True)
@@ -996,7 +1325,7 @@ class Ui_MainWindow(object):
             cmd = self.echoWriteRegister % (regAddress, write_value)
             adb.shell(cmd, "SHELL")
 
-    # rawdata show
+    """ rawdata show """
     def rawdataReadFunc(self):
         # choose rawdata type
         if self.radioDC.isChecked():
@@ -1033,6 +1362,7 @@ class Ui_MainWindow(object):
             # print(ret)
             data = self.analysisRawdata(ret)
             self.fillRawdataToTable(data)
+            time.sleep(1)
             if self.logFlag:
                 self.logFile.write(ret)
 
@@ -1042,18 +1372,17 @@ class Ui_MainWindow(object):
         rawdata = (' '.join(rawdata.split()))
         index = rawdata.find('[' + str(self.txnum) + ']')
         rawdata = rawdata[index + 4:]
-        # print(rawdata)
         info = re.compile(' \[..\] ')
         rawdata = info.sub(' ', rawdata)
         rawdata = rawdata.split(' ')
+        rawdata.remove(rawdata[0])
         return rawdata
 
     def fillRawdataToTable(self, rawdata):
-        for i in range(self.rxnum):
-            for j in range(self.txnum):
-                tmp = rawdata[j + i*j]
-                a = QTableWidgetItem(tmp)
-                self.MainRawdataShowtableWidget.setItem(j, i, a)
+        for i in range(self.rxnum + 1):
+            for j in range(self.txnum + 1):
+                a = QTableWidgetItem(rawdata[i * (self.txnum + 1) + j])
+                self.MainRawdataShowtableWidget.setItem(i, j, a)
                 self.MainRawdataShowtableWidget.update()
 
     def stopFunc(self):
@@ -1134,7 +1463,7 @@ class Ui_MainWindow(object):
             #self.rawdataShowText.append(l)
             print(l)
 
-    # touch
+    """ touch """
     def initPath(self):
         # common path
         self.debugPath = ''
@@ -1345,7 +1674,7 @@ class Ui_MainWindow(object):
         ret = adb.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
         self.rawdataShowText.append(ret)
 
-    # display
+    """ display """
     def display1129Func(self):
         print("1129")
         if self.driverVersion == 1:
@@ -1368,7 +1697,7 @@ class Ui_MainWindow(object):
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo register,w:x30010000 > " + self.debugPath, "SHELL")
 
-    # wifi func
+    """ wifi func """
     def wifiConnectFunc(self):
         self.threadWifiConnect = Thread(target=self.waitConnectFunc)
         self.threadWifiConnect.start()
@@ -1477,7 +1806,7 @@ class Ui_MainWindow(object):
         self.device_ip_port = ""
         self.rawdataShowText.append("adb disconnect")
 
-    # adb
+    """ adb """
     def homeKeyFunc(self):
         cmd = "adb shell input keyevent KEYCODE_HOME"
         adb.shell(cmd)
