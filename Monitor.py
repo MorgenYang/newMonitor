@@ -1476,7 +1476,7 @@ class Ui_MainWindow(object):
         self.tableWidget = QtWidgets.QTableWidget(self.TabSwiplines)
         self.tableWidget.setGeometry(QtCore.QRect(2, 2, 570, 440))
         self.tableWidget.setMaximumSize(QtCore.QSize(570, 440))
-        self.tableWidget.setRowCount(23)
+        self.tableWidget.setRowCount(17)
         self.tableWidget.setColumnCount(16)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.horizontalHeader().setVisible(False)
@@ -1486,13 +1486,20 @@ class Ui_MainWindow(object):
 
         # morgen
         for i in range(23):
-            self.tableWidget.setRowHeight(i, 19)
+            self.tableWidget.setRowHeight(i, 25)
         for i in range(16):
             self.tableWidget.setColumnWidth(i, 34)
 
-        a = QTableWidgetItem("G1")
+        string = 'G1'
+        a = QTableWidgetItem(string)
         self.tableWidget.setItem(0, 0, a)
-        # self.tableWidget.
+        string = 'G2'
+        a = QTableWidgetItem(string)
+        self.tableWidget.setItem(6, 0, a)
+        string = 'G3'
+        a = QTableWidgetItem(string)
+        self.tableWidget.setItem(12, 0, a)
+        self.tableWidget.setSpan(0, 1, 1, 1)
         self.tableWidget.update()
         # https://www.cnblogs.com/wangqiguo/p/4625611.html#_label6
 
