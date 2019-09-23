@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="abfa5a11-2cf1-4ec6-a642-eb94502978ca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/Monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Monitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uimonitor - 副本.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor - 副本.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uimonitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uimonitor.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.ui" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="1487" column="87" selection-start-line="1487" selection-start-column="87" selection-end-line="1487" selection-end-column="87" />
+            <state relative-caret-position="519">
+              <caret line="1496" column="66" selection-start-line="1496" selection-start-column="66" selection-end-line="1496" selection-end-column="66" />
               <folding>
                 <element signature="e#0#88#0" expanded="true" />
                 <element signature="e#827#43344#0" />
@@ -340,8 +337,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Monitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="1487" column="87" selection-start-line="1487" selection-start-column="87" selection-end-line="1487" selection-end-column="87" />
+        <state relative-caret-position="519">
+          <caret line="1496" column="66" selection-start-line="1496" selection-start-column="66" selection-end-line="1496" selection-end-column="66" />
           <folding>
             <element signature="e#0#88#0" expanded="true" />
             <element signature="e#827#43344#0" />
