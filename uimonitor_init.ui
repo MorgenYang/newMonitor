@@ -9,20 +9,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>585</width>
-    <height>490</height>
+    <width>680</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>585</width>
-    <height>490</height>
+    <width>680</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>585</width>
-    <height>490</height>
+    <width>680</width>
+    <height>530</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,8 +34,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>581</width>
-      <height>471</height>
+      <width>681</width>
+      <height>511</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -66,7 +66,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>570</width>
+           <width>595</width>
            <height>50</height>
           </rect>
          </property>
@@ -218,7 +218,7 @@
           <rect>
            <x>0</x>
            <y>50</y>
-           <width>571</width>
+           <width>595</width>
            <height>86</height>
           </rect>
          </property>
@@ -602,7 +602,7 @@
           <rect>
            <x>0</x>
            <y>135</y>
-           <width>570</width>
+           <width>595</width>
            <height>91</height>
           </rect>
          </property>
@@ -945,6 +945,9 @@
             <height>30</height>
            </rect>
           </property>
+          <property name="placeholderText">
+           <string>eg:6</string>
+          </property>
          </widget>
         </widget>
         <widget class="QGroupBox" name="groupBox_4">
@@ -952,7 +955,7 @@
           <rect>
            <x>0</x>
            <y>225</y>
-           <width>570</width>
+           <width>595</width>
            <height>50</height>
           </rect>
          </property>
@@ -1058,10 +1061,16 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>277</y>
-           <width>560</width>
-           <height>161</height>
+           <y>275</y>
+           <width>585</width>
+           <height>178</height>
           </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>585</width>
+           <height>205</height>
+          </size>
          </property>
         </widget>
        </widget>
@@ -1072,24 +1081,39 @@
         <widget class="QTableWidget" name="MainRawdataShowtableWidget">
          <property name="geometry">
           <rect>
-           <x>89</x>
-           <y>2</y>
-           <width>481</width>
-           <height>431</height>
+           <x>42</x>
+           <y>0</y>
+           <width>630</width>
+           <height>450</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>630</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>640</width>
+           <height>482</height>
+          </size>
          </property>
          <property name="font">
           <font>
            <pointsize>6</pointsize>
           </font>
          </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
         </widget>
         <widget class="QWidget" name="verticalLayoutWidget">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>81</width>
+           <width>41</width>
            <height>431</height>
           </rect>
          </property>
@@ -1173,6 +1197,14 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="placeholderText">
+             <string>Type</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -1212,27 +1244,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pullHXFile">
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);</string>
-            </property>
-            <property name="text">
-             <string>Pull</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="recalled">
             <property name="enabled">
              <bool>true</bool>
@@ -1255,7 +1266,25 @@
              </font>
             </property>
             <property name="text">
-             <string>Recall</string>
+             <string>ReL</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="placeholderText">
+             <string>Time</string>
             </property>
            </widget>
           </item>
@@ -1306,6 +1335,14 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="placeholderText">
+             <string>HX</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -1342,6 +1379,14 @@
               <width>100</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="placeholderText">
+             <string>Himax</string>
             </property>
            </widget>
           </item>
@@ -1755,9 +1800,21 @@
           <rect>
            <x>0</x>
            <y>150</y>
-           <width>571</width>
-           <height>291</height>
+           <width>625</width>
+           <height>303</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>625</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>625</width>
+           <height>330</height>
+          </size>
          </property>
         </widget>
        </widget>
@@ -1854,9 +1911,21 @@
           <rect>
            <x>0</x>
            <y>150</y>
-           <width>571</width>
-           <height>291</height>
+           <width>625</width>
+           <height>303</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>625</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>625</width>
+           <height>330</height>
+          </size>
          </property>
         </widget>
         <widget class="QPushButton" name="DDpushButtonRegWrite3">
@@ -1949,6 +2018,9 @@
            <height>25</height>
           </rect>
          </property>
+         <property name="placeholderText">
+          <string>reg</string>
+         </property>
         </widget>
         <widget class="QLineEdit" name="DDWLineEditBank0">
          <property name="geometry">
@@ -1959,6 +2031,9 @@
            <height>25</height>
           </rect>
          </property>
+         <property name="placeholderText">
+          <string>bank</string>
+         </property>
         </widget>
         <widget class="QLineEdit" name="DDWLineEditLen0">
          <property name="geometry">
@@ -1968,6 +2043,9 @@
            <width>60</width>
            <height>25</height>
           </rect>
+         </property>
+         <property name="placeholderText">
+          <string>len</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="DDWLineEditAddr1">
@@ -2119,6 +2197,9 @@
            <height>25</height>
           </rect>
          </property>
+         <property name="placeholderText">
+          <string>value</string>
+         </property>
         </widget>
         <widget class="QLineEdit" name="DDWLineEditVal2">
          <property name="geometry">
@@ -2148,6 +2229,9 @@
            <width>90</width>
            <height>25</height>
           </rect>
+         </property>
+         <property name="placeholderText">
+          <string>c10008</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="DDRlineEdit2">
@@ -2331,6 +2415,16 @@
           <attribute name="title">
            <string>About</string>
           </attribute>
+          <widget class="QTableView" name="tableView">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>561</width>
+             <height>411</height>
+            </rect>
+           </property>
+          </widget>
          </widget>
          <widget class="QWidget" name="TabCommands">
           <attribute name="title">
