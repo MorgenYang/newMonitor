@@ -990,7 +990,10 @@ class Ui_MainWindow(object):
 
     def rootFunc(self):
         print("start root")
-        adb.shell("adb root")
+        ret = adb.shell("adb root")
+        if ret == '':
+            print("root failed")
+            return
         adb.shell("adb remount")
         adb.shell("adb shell setenforce 0")
         adb.shell("adb shell chmod 777 /proc/android_touch/*")
@@ -1001,6 +1004,8 @@ class Ui_MainWindow(object):
     def getRXTX(self):
         adb.shell(self.echoDiag % '1', "SHELL")
         ret = adb.shell(self.catDiag, "SHELL")
+        if ret == '':
+            return
         ret = (' '.join(ret.split()))
         ret = ret[14:20]
         ret = ret.split(', ')
@@ -1010,7 +1015,6 @@ class Ui_MainWindow(object):
             self.rawdataShowText.append("DEFINE_SETTING rx and tx num were not match! please reset file and restart app")
 
     def showDiag(self):
-        self.getRXTX()
         width = 25
         height = 15
         self.dialog = QDialog()
@@ -1044,6 +1048,33 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         self.dialog.setWindowTitle(_translate("Dialog", "Show"))
         # self.dialog.setWindowFlags(Qt.FramelessWindowHint)  # set hide menu bar
+        self.dialog.exec_()
+
+    def dialogWin(self, string):
+        self.dialog = QDialog()
+        self.dialog.resize(300, 115)
+        self.dialog.setMaximumSize(QtCore.QSize(300, 115))
+        self.buttonBoxTmp = QtWidgets.QDialogButtonBox(self.dialog)
+        self.buttonBoxTmp.setGeometry(QtCore.QRect(0, 80, 291, 32))
+        self.buttonBoxTmp.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBoxTmp.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBoxTmp.setObjectName("buttonBoxTmp")
+        self.labelTmp = QtWidgets.QLabel(self.dialog)
+        self.labelTmp.setGeometry(QtCore.QRect(5, 11, 295, 61))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        self.labelTmp.setFont(font)
+        self.labelTmp.setObjectName("labelTmp")
+        self.labelTmp.setText(string)
+        self.labelTmp.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.retranslateUi(self.dialog)
+        self.buttonBoxTmp.accepted.connect(self.dialog.accept)
+        self.buttonBoxTmp.rejected.connect(self.dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(self.dialog)
+
+        _translate = QtCore.QCoreApplication.translate
+        self.dialog.setWindowTitle(_translate("Dialog", "Confirm"))
         self.dialog.exec_()
 
     """ display register read write """
@@ -1385,7 +1416,8 @@ class Ui_MainWindow(object):
                 return
             adb.shell(self.echoDiag % type, "SHELL")
         else:
-            print("please set diag type")
+            string = "Please set diag type!"
+            self.dialogWin(string)
             return
 
         self.rawdataRead.setText("Ing..")
@@ -1416,16 +1448,9 @@ class Ui_MainWindow(object):
         index = rawdata.find('[00]')
         rawdata = rawdata[index:]
         rawdata = (' '.join(rawdata.split()))
-        # index = rawdata.find('[' + str(self.txnum) + ']')
-        # rawdata = rawdata[index + 4:]
-        # info = re.compile(' \[..\] ')
-        # rawdata = info.sub(' ', rawdata)
-        # print(rawdata)
         rawdata = rawdata.split(' ')
-        # rawdata.remove(rawdata[0])
         rawdata.insert(19, '0')
         rawdata.insert((self.rxnum + 1) * (self.txnum + 2), '0')
-        print(rawdata)
         return rawdata
 
     def fillRawdataToTable(self, rawdata):
@@ -1466,6 +1491,8 @@ class Ui_MainWindow(object):
 
     def logFunc(self):
         if self.showRawdataFlag == 0:
+            string = "Please read first!"
+            self.dialogWin(string)
             return
 
         self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
