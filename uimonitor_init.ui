@@ -16,13 +16,13 @@
   <property name="minimumSize">
    <size>
     <width>680</width>
-    <height>0</height>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>680</width>
-    <height>530</height>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -66,7 +66,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>595</width>
+           <width>670</width>
            <height>50</height>
           </rect>
          </property>
@@ -180,15 +180,15 @@
          <widget class="QLabel" name="wifiStatus">
           <property name="geometry">
            <rect>
-            <x>300</x>
+            <x>320</x>
             <y>15</y>
-            <width>100</width>
+            <width>110</width>
             <height>30</height>
            </rect>
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>110</width>
             <height>30</height>
            </size>
           </property>
@@ -218,7 +218,7 @@
           <rect>
            <x>0</x>
            <y>50</y>
-           <width>595</width>
+           <width>670</width>
            <height>86</height>
           </rect>
          </property>
@@ -244,7 +244,7 @@
            <rect>
             <x>10</x>
             <y>50</y>
-            <width>70</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -275,9 +275,9 @@
          <widget class="QPushButton" name="reboot">
           <property name="geometry">
            <rect>
-            <x>470</x>
-            <y>50</y>
-            <width>70</width>
+            <x>485</x>
+            <y>15</y>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -302,9 +302,9 @@
          <widget class="QPushButton" name="interrupts">
           <property name="geometry">
            <rect>
-            <x>385</x>
+            <x>485</x>
             <y>50</y>
-            <width>80</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -329,9 +329,9 @@
          <widget class="QPushButton" name="volDown">
           <property name="geometry">
            <rect>
-            <x>235</x>
+            <x>295</x>
             <y>50</y>
-            <width>70</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -356,9 +356,9 @@
          <widget class="QPushButton" name="backkey">
           <property name="geometry">
            <rect>
-            <x>85</x>
+            <x>105</x>
             <y>50</y>
-            <width>70</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -385,7 +385,7 @@
            <rect>
             <x>10</x>
             <y>15</y>
-            <width>85</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -410,9 +410,9 @@
          <widget class="QPushButton" name="volUp">
           <property name="geometry">
            <rect>
-            <x>160</x>
+            <x>200</x>
             <y>50</y>
-            <width>70</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -437,9 +437,9 @@
          <widget class="QPushButton" name="powerKey">
           <property name="geometry">
            <rect>
-            <x>195</x>
+            <x>200</x>
             <y>15</y>
-            <width>80</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -464,9 +464,9 @@
          <widget class="QPushButton" name="screenShot">
           <property name="geometry">
            <rect>
-            <x>365</x>
+            <x>390</x>
             <y>15</y>
-            <width>80</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -491,9 +491,9 @@
          <widget class="QPushButton" name="openClosePoint">
           <property name="geometry">
            <rect>
-            <x>280</x>
+            <x>295</x>
             <y>15</y>
-            <width>80</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -518,9 +518,9 @@
          <widget class="QPushButton" name="getprop">
           <property name="geometry">
            <rect>
-            <x>310</x>
+            <x>390</x>
             <y>50</y>
-            <width>70</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -545,9 +545,9 @@
          <widget class="QPushButton" name="hideShowVirtual">
           <property name="geometry">
            <rect>
-            <x>103</x>
+            <x>105</x>
             <y>15</y>
-            <width>85</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -572,9 +572,9 @@
          <widget class="QPushButton" name="shutDown">
           <property name="geometry">
            <rect>
-            <x>450</x>
-            <y>15</y>
-            <width>80</width>
+            <x>580</x>
+            <y>50</y>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -602,7 +602,7 @@
           <rect>
            <x>0</x>
            <y>135</y>
-           <width>595</width>
+           <width>670</width>
            <height>91</height>
           </rect>
          </property>
@@ -625,7 +625,7 @@
            <rect>
             <x>10</x>
             <y>50</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -650,9 +650,9 @@
          <widget class="QPushButton" name="senseon">
           <property name="geometry">
            <rect>
-            <x>178</x>
+            <x>200</x>
             <y>15</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -677,9 +677,9 @@
          <widget class="QPushButton" name="driverVersion">
           <property name="geometry">
            <rect>
-            <x>420</x>
+            <x>485</x>
             <y>15</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -706,7 +706,7 @@
            <rect>
             <x>10</x>
             <y>15</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -731,9 +731,9 @@
          <widget class="QPushButton" name="inten1">
           <property name="geometry">
            <rect>
-            <x>88</x>
+            <x>105</x>
             <y>50</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -758,9 +758,9 @@
          <widget class="QPushButton" name="selftest">
           <property name="geometry">
            <rect>
-            <x>340</x>
+            <x>390</x>
             <y>15</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -785,9 +785,9 @@
          <widget class="QPushButton" name="senseoff">
           <property name="geometry">
            <rect>
-            <x>259</x>
+            <x>295</x>
             <y>15</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -812,9 +812,9 @@
          <widget class="QPushButton" name="diagArr">
           <property name="geometry">
            <rect>
-            <x>250</x>
+            <x>295</x>
             <y>50</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -839,9 +839,9 @@
          <widget class="QPushButton" name="flashDump">
           <property name="geometry">
            <rect>
-            <x>165</x>
+            <x>200</x>
             <y>50</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -866,9 +866,9 @@
          <widget class="QTextEdit" name="updateFWText">
           <property name="geometry">
            <rect>
-            <x>455</x>
+            <x>579</x>
             <y>50</y>
-            <width>50</width>
+            <width>80</width>
             <height>30</height>
            </rect>
           </property>
@@ -885,9 +885,9 @@
          <widget class="QPushButton" name="reset">
           <property name="geometry">
            <rect>
-            <x>95</x>
+            <x>105</x>
             <y>15</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -912,9 +912,9 @@
          <widget class="QPushButton" name="updateFW">
           <property name="geometry">
            <rect>
-            <x>380</x>
+            <x>485</x>
             <y>50</y>
-            <width>75</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -939,9 +939,9 @@
          <widget class="QLineEdit" name="diagArrText">
           <property name="geometry">
            <rect>
-            <x>325</x>
+            <x>390</x>
             <y>50</y>
-            <width>50</width>
+            <width>80</width>
             <height>30</height>
            </rect>
           </property>
@@ -955,7 +955,7 @@
           <rect>
            <x>0</x>
            <y>225</y>
-           <width>595</width>
+           <width>670</width>
            <height>50</height>
           </rect>
          </property>
@@ -978,9 +978,9 @@
          <widget class="QPushButton" name="openBlight">
           <property name="geometry">
            <rect>
-            <x>229</x>
+            <x>200</x>
             <y>15</y>
-            <width>100</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -1007,7 +1007,7 @@
            <rect>
             <x>10</x>
             <y>15</y>
-            <width>100</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -1032,9 +1032,9 @@
          <widget class="QPushButton" name="d2810">
           <property name="geometry">
            <rect>
-            <x>120</x>
+            <x>105</x>
             <y>15</y>
-            <width>100</width>
+            <width>90</width>
             <height>30</height>
            </rect>
           </property>
@@ -1062,13 +1062,13 @@
           <rect>
            <x>10</x>
            <y>275</y>
-           <width>585</width>
+           <width>660</width>
            <height>178</height>
           </rect>
          </property>
          <property name="maximumSize">
           <size>
-           <width>585</width>
+           <width>700</width>
            <height>205</height>
           </size>
          </property>
@@ -1800,20 +1800,20 @@
           <rect>
            <x>0</x>
            <y>150</y>
-           <width>625</width>
-           <height>303</height>
+           <width>670</width>
+           <height>300</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>625</width>
-           <height>0</height>
+           <width>670</width>
+           <height>300</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>625</width>
-           <height>330</height>
+           <width>670</width>
+           <height>300</height>
           </size>
          </property>
         </widget>
@@ -1911,20 +1911,20 @@
           <rect>
            <x>0</x>
            <y>150</y>
-           <width>625</width>
-           <height>303</height>
+           <width>670</width>
+           <height>300</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>625</width>
-           <height>0</height>
+           <width>670</width>
+           <height>300</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>625</width>
-           <height>330</height>
+           <width>670</width>
+           <height>300</height>
           </size>
          </property>
         </widget>
@@ -2404,8 +2404,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>571</width>
-           <height>441</height>
+           <width>671</width>
+           <height>451</height>
           </rect>
          </property>
          <property name="currentIndex">
@@ -2415,14 +2415,44 @@
           <attribute name="title">
            <string>About</string>
           </attribute>
-          <widget class="QTableView" name="tableView">
+          <widget class="QLabel" name="label_2">
            <property name="geometry">
             <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>561</width>
-             <height>411</height>
+             <x>5</x>
+             <y>5</y>
+             <width>650</width>
+             <height>30</height>
             </rect>
+           </property>
+           <property name="text">
+            <string>1.This software's introduction of the location is in .\doc\introduction.ppt</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_3">
+           <property name="geometry">
+            <rect>
+             <x>5</x>
+             <y>40</y>
+             <width>650</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>2.The path of this software is in
+ \SVN\Internal\TW\Tool_Team_Release\Himax_driver\2.Debug_tool\ADBMonitor\</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_4">
+           <property name="geometry">
+            <rect>
+             <x>5</x>
+             <y>80</y>
+             <width>650</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>3.If you found some bugs, you can send email to morgen_cai@himax.com.cn</string>
            </property>
           </widget>
          </widget>
