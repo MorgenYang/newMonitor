@@ -2900,37 +2900,95 @@ class Ui_MainWindow(object):
             ret = self.G1AddrlineEdit_3.text()
         ret = self.readDDRegister(ret)
         ret = self.parseRegData(ret)
+        self.ret = ret
         self.fillDataToRegisterLineText(ret, n)
 
     def ddWriteRegisterFunc(self, n):
         ret = ''
+        addr = ''
+        index = []
+        realIndex = []
+        localAddr = '10007f'
+
         if n == 0:
-            print(n)
+            addr = self.G1AddrlineEdit.text()
+            for i in range(64):
+                m = getattr(self, "G1lineEdit%d" % (i + 1))
+                ret += m.text() + ','
         elif n == 1:
-            print(n)
+            addr = self.G1AddrlineEdit_2.text()
+            for i in range(64):
+                m = getattr(self, "G2lineEdit_%d" % (i + 1))
+                ret += m.text() + ','
         elif n == 2:
-            print(n)
+            addr = self.G1AddrlineEdit_3.text()
+            for i in range(64):
+                m = getattr(self, "G3lineEdit_%d" % (i + 1))
+                ret += m.text() + ','
+
+        # check addr right or wrong
+        if len(addr) != 6:
+            self.dialogWin("addr was not right")
+            return
+
+        # get changed index
+        ret = ret.split(',')
+        for i in range(64):
+            if ret[i] != self.ret[i]:
+                index.append(i)
+        print(index)
+
+        # get which 4 bytes was changed
+        for i in range(len(index)):
+            realIndex.append(int(index[i]/4))
+
+        # check change index
+        if len(realIndex) == 0:
+            self.dialogWin("you changed nothing!")
+            return
+        print(realIndex)
+
+
+
+        # cmd = self.echoWriteRegister % (finalAddr, finalVal)
+        # self.DDreadRegValShowText.append(cmd)
+        # adb.shell(cmd, "SHELL")
+        # cmd = self.echoWriteRegister % ('900000FC', 'CC' + addr)
+        # self.DDreadRegValShowText.append(cmd)
+        # adb.shell(cmd, "SHELL")
+        # cmd = self.echoReadRegister % (localAddr + '80')
+        # self.DDreadRegValShowText.append(cmd)
+        # adb.shell(cmd, "SHELL")
+        # cmd = self.catRegister
+        # self.DDreadRegValShowText.append(cmd)
+        # ret = adb.shell(cmd, "SHELL")
+        # self.DDreadRegValShowText.append(ret)
 
     def ddCopyRegisterFunc(self, n):
         ret = ''
         if n == 0:
+            ret += self.G1AddrlineEdit.text() + ':'
             for i in range(64):
+                if i % 8 == 0:
+                    ret += '\n'
                 m = getattr(self, "G1lineEdit%d" % (i + 1))
                 ret += m.text() + ','
-            pyperclip.copy(ret)
-            pyperclip.paste()
         elif n == 1:
+            ret += self.G1AddrlineEdit.text() + ':'
             for i in range(64):
+                if i % 8 == 0:
+                    ret += '\n'
                 m = getattr(self, "G2lineEdit_%d" % (i + 1))
                 ret += m.text() + ','
-            pyperclip.copy(ret)
-            pyperclip.paste()
         elif n == 2:
+            ret += self.G1AddrlineEdit.text() + ':'
             for i in range(64):
+                if i % 8 == 0:
+                    ret += '\n'
                 m = getattr(self, "G3lineEdit_%d" % (i + 1))
                 ret += m.text() + ','
-            pyperclip.copy(ret)
-            pyperclip.paste()
+        pyperclip.copy(ret)
+        pyperclip.paste()
 
     def ddClearRegisterFunc(self, n):
         if n == 0:
@@ -3123,6 +3181,8 @@ class Ui_MainWindow(object):
         self.sram.setDisabled(True)
         self.kmsg.setDisabled(True)
         self.getevent.setDisabled(True)
+
+        self.ret = ''
 
         self.showRawdataFlag = 0
         self.showKmsgFlag = 0
