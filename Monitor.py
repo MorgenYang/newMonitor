@@ -2428,7 +2428,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.0"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.1"))
         self.groupBox.setTitle(_translate("MainWindow", "WIFI"))
         self.wifiConnect.setText(_translate("MainWindow", "Connect"))
         self.wifiDisconnect.setText(_translate("MainWindow", "Disconnect"))
