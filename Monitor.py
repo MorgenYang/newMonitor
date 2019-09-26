@@ -2559,7 +2559,7 @@ class Ui_MainWindow(object):
         # display
         self.d1129.clicked.connect(self.display1129Func)
         self.d2810.clicked.connect(self.display2810Func)
-        self.openBlight.clicked.connect(self.touchDiagArrFunc)
+        self.openBlight.clicked.connect(self.sramFunc)
 
         # options
         self.diagArr.clicked.connect(self.touchDiagArrFunc)
@@ -2906,8 +2906,8 @@ class Ui_MainWindow(object):
 
     """ touch register read write """
     def initHistoryFunc(self):
-        self.d1129.setDisabled(True)
-        self.d2810.setDisabled(True)
+        # self.d1129.setDisabled(True)
+        # self.d2810.setDisabled(True)
         self.openBlight.setDisabled(True)
         self.flashDump.setDisabled(True)
         self.sram.setDisabled(True)
@@ -3423,21 +3423,21 @@ class Ui_MainWindow(object):
     def display1129Func(self):
         if self.driverVersion == 1:
             adb.shell("echo w:x30011000 > " + self.v1RegisterPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
+            time.sleep(0.2)
             adb.shell("echo w:x30029000 > " + self.v1RegisterPath, "SHELL")
         elif self.driverVersion == 2:
             adb.shell("echo register,w:x30011000 > " + self.debugPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
+            time.sleep(0.2)
             adb.shell("echo register,w:x30029000 > " + self.debugPath, "SHELL")
 
     def display2810Func(self):
         if self.driverVersion == 1:
             adb.shell("echo w:x30028000 > " + self.v1RegisterPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
+            time.sleep(0.2)
             adb.shell("echo w:x30010000 > " + self.v1RegisterPath, "SHELL")
         elif self.driverVersion == 2:
             adb.shell("echo register,w:x30028000 > " + self.debugPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
+            time.sleep(0.2)
             adb.shell("echo register,w:x30010000 > " + self.debugPath, "SHELL")
 
     """ wifi func """
