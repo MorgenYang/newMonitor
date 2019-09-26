@@ -8,6 +8,7 @@ import subprocess
 import re
 from PyQt5.QtGui import QIcon
 import pyperclip
+import math
 
 
 class MainWindow(QMainWindow):
@@ -621,215 +622,6 @@ class Ui_MainWindow(object):
         self.readRegValShowText.setMaximumSize(QtCore.QSize(670, 300))
         self.readRegValShowText.setObjectName("readRegValShowText")
         self.TabMainWindow.addTab(self.TabRWRegister, "")
-        self.TabSwiplines = QtWidgets.QWidget()
-        self.TabSwiplines.setObjectName("TabSwiplines")
-        self.DDpushButtonRegWrite0 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDpushButtonRegWrite0.setGeometry(QtCore.QRect(180, 0, 60, 25))
-        self.DDpushButtonRegWrite0.setMaximumSize(QtCore.QSize(150, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.DDpushButtonRegWrite0.setFont(font)
-        self.DDpushButtonRegWrite0.setStyleSheet("background-color: rgb(170, 170, 255);")
-        self.DDpushButtonRegWrite0.setObjectName("DDpushButtonRegWrite0")
-        self.DDpushButtonRegWrite2 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDpushButtonRegWrite2.setGeometry(QtCore.QRect(180, 60, 60, 25))
-        self.DDpushButtonRegWrite2.setMaximumSize(QtCore.QSize(150, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.DDpushButtonRegWrite2.setFont(font)
-        self.DDpushButtonRegWrite2.setStyleSheet("background-color: rgb(170, 170, 255);")
-        self.DDpushButtonRegWrite2.setObjectName("DDpushButtonRegWrite2")
-        self.DDRead0 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDRead0.setGeometry(QtCore.QRect(0, 0, 60, 25))
-        self.DDRead0.setMaximumSize(QtCore.QSize(150, 150))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.DDRead0.setFont(font)
-        self.DDRead0.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.DDRead0.setObjectName("DDRead0")
-        self.DDreadRegValShowText = QtWidgets.QTextBrowser(self.TabSwiplines)
-        self.DDreadRegValShowText.setGeometry(QtCore.QRect(0, 150, 670, 300))
-        self.DDreadRegValShowText.setMinimumSize(QtCore.QSize(670, 300))
-        self.DDreadRegValShowText.setMaximumSize(QtCore.QSize(670, 300))
-        self.DDreadRegValShowText.setObjectName("DDreadRegValShowText")
-        self.DDpushButtonRegWrite3 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDpushButtonRegWrite3.setGeometry(QtCore.QRect(180, 90, 60, 25))
-        self.DDpushButtonRegWrite3.setMaximumSize(QtCore.QSize(150, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.DDpushButtonRegWrite3.setFont(font)
-        self.DDpushButtonRegWrite3.setStyleSheet("background-color: rgb(170, 170, 255);")
-        self.DDpushButtonRegWrite3.setObjectName("DDpushButtonRegWrite3")
-        self.DDpushButtonRegWrite1 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDpushButtonRegWrite1.setGeometry(QtCore.QRect(180, 30, 60, 25))
-        self.DDpushButtonRegWrite1.setMaximumSize(QtCore.QSize(150, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.DDpushButtonRegWrite1.setFont(font)
-        self.DDpushButtonRegWrite1.setStyleSheet("background-color: rgb(170, 170, 255);")
-        self.DDpushButtonRegWrite1.setObjectName("DDpushButtonRegWrite1")
-        self.DDpushButtonRegWrite4 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDpushButtonRegWrite4.setGeometry(QtCore.QRect(180, 120, 60, 25))
-        self.DDpushButtonRegWrite4.setMaximumSize(QtCore.QSize(150, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.DDpushButtonRegWrite4.setFont(font)
-        self.DDpushButtonRegWrite4.setStyleSheet("background-color: rgb(170, 170, 255);")
-        self.DDpushButtonRegWrite4.setObjectName("DDpushButtonRegWrite4")
-        self.DDWLineEditAddr0 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditAddr0.setGeometry(QtCore.QRect(250, 0, 60, 25))
-        self.DDWLineEditAddr0.setObjectName("DDWLineEditAddr0")
-        self.DDWLineEditBank0 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditBank0.setGeometry(QtCore.QRect(320, 0, 60, 25))
-        self.DDWLineEditBank0.setObjectName("DDWLineEditBank0")
-        self.DDWLineEditLen0 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditLen0.setGeometry(QtCore.QRect(390, 0, 60, 25))
-        self.DDWLineEditLen0.setObjectName("DDWLineEditLen0")
-        self.DDWLineEditAddr1 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditAddr1.setGeometry(QtCore.QRect(250, 30, 60, 25))
-        self.DDWLineEditAddr1.setObjectName("DDWLineEditAddr1")
-        self.DDWLineEditBank1 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditBank1.setGeometry(QtCore.QRect(320, 30, 60, 25))
-        self.DDWLineEditBank1.setObjectName("DDWLineEditBank1")
-        self.DDWLineEditLen1 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditLen1.setGeometry(QtCore.QRect(390, 30, 60, 25))
-        self.DDWLineEditLen1.setObjectName("DDWLineEditLen1")
-        self.DDWLineEditAddr2 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditAddr2.setGeometry(QtCore.QRect(250, 60, 60, 25))
-        self.DDWLineEditAddr2.setObjectName("DDWLineEditAddr2")
-        self.DDWLineEditBank2 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditBank2.setGeometry(QtCore.QRect(320, 60, 60, 25))
-        self.DDWLineEditBank2.setObjectName("DDWLineEditBank2")
-        self.DDWLineEditLen2 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditLen2.setGeometry(QtCore.QRect(390, 60, 60, 25))
-        self.DDWLineEditLen2.setObjectName("DDWLineEditLen2")
-        self.DDWLineEditAddr3 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditAddr3.setGeometry(QtCore.QRect(250, 90, 60, 25))
-        self.DDWLineEditAddr3.setObjectName("DDWLineEditAddr3")
-        self.DDWLineEditBank3 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditBank3.setGeometry(QtCore.QRect(320, 90, 60, 25))
-        self.DDWLineEditBank3.setObjectName("DDWLineEditBank3")
-        self.DDWLineEditLen3 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditLen3.setGeometry(QtCore.QRect(390, 90, 60, 25))
-        self.DDWLineEditLen3.setObjectName("DDWLineEditLen3")
-        self.DDWLineEditAddr4 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditAddr4.setGeometry(QtCore.QRect(250, 120, 60, 25))
-        self.DDWLineEditAddr4.setObjectName("DDWLineEditAddr4")
-        self.DDWLineEditBank4 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditBank4.setGeometry(QtCore.QRect(320, 120, 60, 25))
-        self.DDWLineEditBank4.setObjectName("DDWLineEditBank4")
-        self.DDWLineEditLen4 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditLen4.setGeometry(QtCore.QRect(390, 120, 60, 25))
-        self.DDWLineEditLen4.setObjectName("DDWLineEditLen4")
-        self.DDWLineEditVal4 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditVal4.setGeometry(QtCore.QRect(460, 120, 60, 25))
-        self.DDWLineEditVal4.setObjectName("DDWLineEditVal4")
-        self.DDWLineEditVal1 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditVal1.setGeometry(QtCore.QRect(460, 30, 60, 25))
-        self.DDWLineEditVal1.setObjectName("DDWLineEditVal1")
-        self.DDWLineEditVal0 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditVal0.setGeometry(QtCore.QRect(460, 0, 60, 25))
-        self.DDWLineEditVal0.setObjectName("DDWLineEditVal0")
-        self.DDWLineEditVal2 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditVal2.setGeometry(QtCore.QRect(460, 60, 60, 25))
-        self.DDWLineEditVal2.setObjectName("DDWLineEditVal2")
-        self.DDWLineEditVal3 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDWLineEditVal3.setGeometry(QtCore.QRect(460, 90, 60, 25))
-        self.DDWLineEditVal3.setObjectName("DDWLineEditVal3")
-        self.DDRlineEdit0 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDRlineEdit0.setGeometry(QtCore.QRect(70, 0, 90, 25))
-        self.DDRlineEdit0.setObjectName("DDRlineEdit0")
-        self.DDRlineEdit2 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDRlineEdit2.setGeometry(QtCore.QRect(70, 60, 90, 25))
-        self.DDRlineEdit2.setObjectName("DDRlineEdit2")
-        self.DDRlineEdit3 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDRlineEdit3.setGeometry(QtCore.QRect(70, 90, 90, 25))
-        self.DDRlineEdit3.setObjectName("DDRlineEdit3")
-        self.DDRlineEdit1 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDRlineEdit1.setGeometry(QtCore.QRect(70, 30, 90, 25))
-        self.DDRlineEdit1.setObjectName("DDRlineEdit1")
-        self.DDRlineEdit4 = QtWidgets.QLineEdit(self.TabSwiplines)
-        self.DDRlineEdit4.setGeometry(QtCore.QRect(70, 120, 90, 25))
-        self.DDRlineEdit4.setObjectName("DDRlineEdit4")
-        self.DDRead4 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDRead4.setGeometry(QtCore.QRect(0, 120, 60, 25))
-        self.DDRead4.setMaximumSize(QtCore.QSize(150, 150))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.DDRead4.setFont(font)
-        self.DDRead4.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.DDRead4.setObjectName("DDRead4")
-        self.DDRead1 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDRead1.setGeometry(QtCore.QRect(0, 30, 60, 25))
-        self.DDRead1.setMaximumSize(QtCore.QSize(150, 150))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.DDRead1.setFont(font)
-        self.DDRead1.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.DDRead1.setObjectName("DDRead1")
-        self.DDRead2 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDRead2.setGeometry(QtCore.QRect(0, 60, 60, 25))
-        self.DDRead2.setMaximumSize(QtCore.QSize(150, 150))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.DDRead2.setFont(font)
-        self.DDRead2.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.DDRead2.setObjectName("DDRead2")
-        self.DDRead3 = QtWidgets.QPushButton(self.TabSwiplines)
-        self.DDRead3.setGeometry(QtCore.QRect(0, 90, 60, 25))
-        self.DDRead3.setMaximumSize(QtCore.QSize(150, 150))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.DDRead3.setFont(font)
-        self.DDRead3.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.DDRead3.setObjectName("DDRead3")
-        self.TabMainWindow.addTab(self.TabSwiplines, "")
-        self.TabHelp = QtWidgets.QWidget()
-        self.TabHelp.setObjectName("TabHelp")
-        self.TabHelpSubMain = QtWidgets.QTabWidget(self.TabHelp)
-        self.TabHelpSubMain.setGeometry(QtCore.QRect(0, 0, 671, 451))
-        self.TabHelpSubMain.setObjectName("TabHelpSubMain")
-        self.TabAbout = QtWidgets.QWidget()
-        self.TabAbout.setObjectName("TabAbout")
-        self.label_2 = QtWidgets.QLabel(self.TabAbout)
-        self.label_2.setGeometry(QtCore.QRect(5, 5, 650, 30))
-        self.label_2.setObjectName("label_2")
-        self.label_3 = QtWidgets.QLabel(self.TabAbout)
-        self.label_3.setGeometry(QtCore.QRect(5, 40, 650, 30))
-        self.label_3.setObjectName("label_3")
-        self.label_4 = QtWidgets.QLabel(self.TabAbout)
-        self.label_4.setGeometry(QtCore.QRect(5, 80, 650, 30))
-        self.label_4.setObjectName("label_4")
-
-        # self.model = QStandardItemModel(4, 4)
-        # self.model.setHorizontalHeaderLabels(['序号', '姓名', '年龄', '地址'])
-        #
-        # for row in range(4):
-        #     for column in range(4):
-        #         i = QStandardItem("row %s,column %s" % (row, column))
-        #         self.model.setItem(row, column, i)
-        # self.tableView.setModel(self.model)
-
-        self.TabHelpSubMain.addTab(self.TabAbout, "")
-        self.TabCommands = QtWidgets.QWidget()
-        self.TabCommands.setObjectName("TabCommands")
-        self.TabHelpSubMain.addTab(self.TabCommands, "")
-        self.TabMainWindow.addTab(self.TabHelp, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
         self.groupBox_5 = QtWidgets.QGroupBox(self.tab_3)
@@ -2594,6 +2386,35 @@ class Ui_MainWindow(object):
         self.G3lineEdit_64.setAlignment(QtCore.Qt.AlignCenter)
         self.G3lineEdit_64.setObjectName("G3lineEdit_64")
         self.TabMainWindow.addTab(self.tab_3, "")
+        self.TabSwiplines = QtWidgets.QWidget()
+        self.TabSwiplines.setObjectName("TabSwiplines")
+        self.DDreadRegValShowText = QtWidgets.QTextBrowser(self.TabSwiplines)
+        self.DDreadRegValShowText.setGeometry(QtCore.QRect(0, 0, 670, 453))
+        self.DDreadRegValShowText.setMinimumSize(QtCore.QSize(670, 453))
+        self.DDreadRegValShowText.setMaximumSize(QtCore.QSize(670, 453))
+        self.DDreadRegValShowText.setObjectName("DDreadRegValShowText")
+        self.TabMainWindow.addTab(self.TabSwiplines, "")
+        self.TabHelp = QtWidgets.QWidget()
+        self.TabHelp.setObjectName("TabHelp")
+        self.TabHelpSubMain = QtWidgets.QTabWidget(self.TabHelp)
+        self.TabHelpSubMain.setGeometry(QtCore.QRect(0, 0, 671, 451))
+        self.TabHelpSubMain.setObjectName("TabHelpSubMain")
+        self.TabAbout = QtWidgets.QWidget()
+        self.TabAbout.setObjectName("TabAbout")
+        self.label_2 = QtWidgets.QLabel(self.TabAbout)
+        self.label_2.setGeometry(QtCore.QRect(5, 5, 650, 30))
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.TabAbout)
+        self.label_3.setGeometry(QtCore.QRect(5, 40, 650, 30))
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(self.TabAbout)
+        self.label_4.setGeometry(QtCore.QRect(5, 80, 650, 30))
+        self.label_4.setObjectName("label_4")
+        self.TabHelpSubMain.addTab(self.TabAbout, "")
+        self.TabCommands = QtWidgets.QWidget()
+        self.TabCommands.setObjectName("TabCommands")
+        self.TabHelpSubMain.addTab(self.TabCommands, "")
+        self.TabMainWindow.addTab(self.TabHelp, "")
         self.horizontalLayout.addWidget(self.TabMainWindow)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -2674,34 +2495,7 @@ class Ui_MainWindow(object):
         self.reglength.setItemText(5, _translate("MainWindow", "6"))
         self.reglength.setItemText(6, _translate("MainWindow", "7"))
         self.reglength.setItemText(7, _translate("MainWindow", "8"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabRWRegister),
-                                      _translate("MainWindow", "Register"))
-        self.DDpushButtonRegWrite0.setText(_translate("MainWindow", "Write 0"))
-        self.DDpushButtonRegWrite2.setText(_translate("MainWindow", "Write 2"))
-        self.DDRead0.setText(_translate("MainWindow", "Read"))
-        self.DDpushButtonRegWrite3.setText(_translate("MainWindow", "Write 3"))
-        self.DDpushButtonRegWrite1.setText(_translate("MainWindow", "Write 1"))
-        self.DDpushButtonRegWrite4.setText(_translate("MainWindow", "Write 4"))
-        self.DDWLineEditAddr0.setPlaceholderText(_translate("MainWindow", "reg"))
-        self.DDWLineEditBank0.setPlaceholderText(_translate("MainWindow", "bank"))
-        self.DDWLineEditLen0.setPlaceholderText(_translate("MainWindow", "len"))
-        self.DDWLineEditVal0.setPlaceholderText(_translate("MainWindow", "value"))
-        self.DDRlineEdit0.setPlaceholderText(_translate("MainWindow", "c10008"))
-        self.DDRead4.setText(_translate("MainWindow", "Read"))
-        self.DDRead1.setText(_translate("MainWindow", "Read"))
-        self.DDRead2.setText(_translate("MainWindow", "Read"))
-        self.DDRead3.setText(_translate("MainWindow", "Read"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabSwiplines), _translate("MainWindow", "DD"))
-        self.label_2.setText(
-            _translate("MainWindow", "1.This software\'s introduction of the location is in .\\doc\\introduction.ppt"))
-        self.label_3.setText(_translate("MainWindow", "2.The path of this software is in\n"
-                                                      " \\SVN\\Internal\\TW\\Tool_Team_Release\\Himax_driver\\2.Debug_tool\\ADBMonitor\\"))
-        self.label_4.setText(
-            _translate("MainWindow", "3.If you found some bugs, you can send email to morgen_cai@himax.com.cn"))
-        self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabAbout), _translate("MainWindow", "About"))
-        self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabCommands),
-                                       _translate("MainWindow", "Commands"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabHelp), _translate("MainWindow", "Help"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabRWRegister), _translate("MainWindow", "TP Reg"))
         self.groupBox_5.setTitle(_translate("MainWindow", "Group 1"))
         self.G1DDRead.setText(_translate("MainWindow", "Read"))
         self.G1AddrlineEdit.setPlaceholderText(_translate("MainWindow", "Eg:B9000A"))
@@ -2720,7 +2514,15 @@ class Ui_MainWindow(object):
         self.G3DDWrite.setText(_translate("MainWindow", "Write"))
         self.G3DDClear.setText(_translate("MainWindow", "Clear"))
         self.G3DDCopy.setText(_translate("MainWindow", "Copy"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tab_3), _translate("MainWindow", "DD Register"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tab_3), _translate("MainWindow", "DD Reg"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabSwiplines), _translate("MainWindow", "DD Log"))
+        self.label_2.setText(_translate("MainWindow", "1.This software\'s introduction of the location is in .\\doc\\introduction.ppt"))
+        self.label_3.setText(_translate("MainWindow", "2.The path of this software is in\n"
+" \\SVN\\Internal\\TW\\Tool_Team_Release\\Himax_driver\\2.Debug_tool\\ADBMonitor\\"))
+        self.label_4.setText(_translate("MainWindow", "3.If you found some bugs, you can send email to morgen_cai@himax.com.cn"))
+        self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabAbout), _translate("MainWindow", "About"))
+        self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabCommands), _translate("MainWindow", "Commands"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.TabHelp), _translate("MainWindow", "Help"))
 
     def bindEventFunc(self):
         # wifi
@@ -2779,9 +2581,6 @@ class Ui_MainWindow(object):
         self.pushButtonRegWrite2.clicked.connect(lambda: self.writeRegFunc(2))
         self.pushButtonRegWrite3.clicked.connect(lambda: self.writeRegFunc(3))
         self.pushButtonRegWrite4.clicked.connect(lambda: self.writeRegFunc(4))
-
-        # dd read write register
-        self.DDpushButtonRegWrite0.clicked.connect(lambda: self.writeDDRegisterFunc(0))
 
         # dd new read write
         self.G1DDRead.clicked.connect(lambda: self.ddReadRegisterFunc(0))
@@ -2898,15 +2697,78 @@ class Ui_MainWindow(object):
             ret = self.G1AddrlineEdit_2.text()
         elif n == 2:
             ret = self.G1AddrlineEdit_3.text()
+
+        # enable all line text
+        self.disableLineReg(n, 0, False)
+
+        if ret == '':
+            string = "you need set value first"
+            self.dialogWin(string)
+            return
+        elif len(ret) != 6:
+            string = "value length isn't right"
+            self.dialogWin(string)
+            return
+
+        if not self.parseInputData(ret):
+            string = "Confirm value in 0-9,a-f,A-F"
+            self.dialogWin(string)
+            return
+
+        # translate to 4 byte
+        tmpLen = ret[4:]
+        tmpLen = int(tmpLen, 16)
+        tmpLen = math.ceil(tmpLen/4) * 4
+        self.regLength = tmpLen
+        tmpLen = hex(tmpLen)
+        tmpLen = tmpLen[2:]
+        if len(tmpLen) == 1:
+            tmpLen = '0' + tmpLen
+        ret = ret[:4] + tmpLen
+
+        self.disableLineReg(n, self.regLength, True)
         ret = self.readDDRegister(ret)
         ret = self.parseRegData(ret)
         self.ret = ret
         self.fillDataToRegisterLineText(ret, n)
 
+    def disableLineReg(self, n, m, b):
+        if b:
+            if n == 0:
+                for i in range(64 - m):
+                    a = getattr(self, "G1lineEdit%d" % (i + m + 1))
+                    a.setDisabled(b)
+            elif n == 1:
+                for i in range(64 - m):
+                    a = getattr(self, "G2lineEdit_%d" % (i + m + 1))
+                    a.setDisabled(b)
+            elif n == 2:
+                for i in range(64 - m):
+                    a = getattr(self, "G3lineEdit_%d" % (i + m + 1))
+                    a.setDisabled(b)
+        else:
+            if n == 0:
+                for i in range(64):
+                    a = getattr(self, "G1lineEdit%d" % (i + 1))
+                    a.setDisabled(b)
+            elif n == 1:
+                for i in range(64):
+                    a = getattr(self, "G2lineEdit_%d" % (i + 1))
+                    a.setDisabled(b)
+            elif n == 2:
+                for i in range(64):
+                    a = getattr(self, "G3lineEdit_%d" % (i + 1))
+                    a.setDisabled(b)
+
     def ddWriteRegisterFunc(self, n):
+        if len(self.ret) == 0:
+            self.dialogWin("You need read first!")
+            return
+
         ret = ''
         addr = ''
         index = []
+        tmpIndex = []
         realIndex = []
         localAddr = '10007f'
 
@@ -2914,16 +2776,25 @@ class Ui_MainWindow(object):
             addr = self.G1AddrlineEdit.text()
             for i in range(64):
                 m = getattr(self, "G1lineEdit%d" % (i + 1))
+                if not self.parseInputData(m.text()):
+                    self.dialogWin("Reg value is not in 0-9, a-f, A-F")
+                    return
                 ret += m.text() + ','
         elif n == 1:
             addr = self.G1AddrlineEdit_2.text()
             for i in range(64):
                 m = getattr(self, "G2lineEdit_%d" % (i + 1))
+                if not self.parseInputData(m.text()):
+                    self.dialogWin("Reg value is not in 0-9, a-f, A-F")
+                    return
                 ret += m.text() + ','
         elif n == 2:
             addr = self.G1AddrlineEdit_3.text()
             for i in range(64):
                 m = getattr(self, "G3lineEdit_%d" % (i + 1))
+                if not self.parseInputData(m.text()):
+                    self.dialogWin("Reg value is not in 0-9, a-f, A-F")
+                    return
                 ret += m.text() + ','
 
         # check addr right or wrong
@@ -2936,33 +2807,57 @@ class Ui_MainWindow(object):
         for i in range(64):
             if ret[i] != self.ret[i]:
                 index.append(i)
-        print(index)
 
         # get which 4 bytes was changed
         for i in range(len(index)):
-            realIndex.append(int(index[i]/4))
+            tmpIndex.append(int(index[i]/4))
 
         # check change index
-        if len(realIndex) == 0:
+        if len(tmpIndex) == 0:
             self.dialogWin("you changed nothing!")
             return
-        print(realIndex)
+        else:
+            for i in tmpIndex:
+                if i not in realIndex:
+                    realIndex.append(i)
 
+        # deal final address
+        for i in range(len(realIndex)):
+            a = realIndex[i] * 4 + 0x80
+            a = hex(a)
+            finalAddr = localAddr + a[2:]
+            finalVal = ret[realIndex[i]*4+3] + ret[realIndex[i]*4+2] + ret[realIndex[i]*4+1] + ret[realIndex[i]*4]
 
+            # parse addr
+            tmpAddr = (realIndex[i] + 1) * 4
+            tmpAddr = hex(tmpAddr)
+            if len(tmpAddr) == 3:
+                tmpAddr = '0' + tmpAddr[2:]
+            else:
+                tmpAddr = tmpAddr[2:]
 
-        # cmd = self.echoWriteRegister % (finalAddr, finalVal)
-        # self.DDreadRegValShowText.append(cmd)
-        # adb.shell(cmd, "SHELL")
-        # cmd = self.echoWriteRegister % ('900000FC', 'CC' + addr)
-        # self.DDreadRegValShowText.append(cmd)
-        # adb.shell(cmd, "SHELL")
-        # cmd = self.echoReadRegister % (localAddr + '80')
-        # self.DDreadRegValShowText.append(cmd)
-        # adb.shell(cmd, "SHELL")
-        # cmd = self.catRegister
-        # self.DDreadRegValShowText.append(cmd)
-        # ret = adb.shell(cmd, "SHELL")
-        # self.DDreadRegValShowText.append(ret)
+            addr = addr[:4] + tmpAddr
+
+            cmd = self.echoWriteRegister % (finalAddr, finalVal)
+            print(cmd)
+            self.DDreadRegValShowText.append(cmd)
+            adb.shell(cmd, "SHELL")
+            cmd = self.echoWriteRegister % ('900000FC', 'CC' + addr)
+            print(cmd)
+            self.DDreadRegValShowText.append(cmd)
+            adb.shell(cmd, "SHELL")
+            cmd = self.echoReadRegister % (localAddr + '80')
+            print(cmd)
+            self.DDreadRegValShowText.append(cmd)
+            adb.shell(cmd, "SHELL")
+            cmd = self.catRegister
+            print(cmd)
+            self.DDreadRegValShowText.append(cmd)
+            ret = adb.shell(cmd, "SHELL")
+            self.DDreadRegValShowText.append(ret)
+
+        # clear read register data
+        self.ret = []
 
     def ddCopyRegisterFunc(self, n):
         ret = ''
@@ -2992,17 +2887,14 @@ class Ui_MainWindow(object):
 
     def ddClearRegisterFunc(self, n):
         if n == 0:
-            self.G1AddrlineEdit.clear()
             for i in range(64):
                 m = getattr(self, "G1lineEdit%d" % (i + 1))
                 m.clear()
         elif n == 1:
-            self.G1AddrlineEdit_2.clear()
             for i in range(64):
                 m = getattr(self, "G2lineEdit_%d" % (i + 1))
                 m.clear()
         elif n == 2:
-            self.G1AddrlineEdit_3.clear()
             for i in range(64):
                 m = getattr(self, "G3lineEdit_%d" % (i + 1))
                 m.clear()
@@ -3021,147 +2913,30 @@ class Ui_MainWindow(object):
                 m = getattr(self, "G3lineEdit_%d" % (i + 1))
                 m.setText(data[i])
 
-    """ display register read write """
     def readDDRegister(self, ret):
-        if ret == '':
-            string = "you need set value first"
-            self.dialogWin(string)
-            return
-        elif len(ret) != 6:
-            string = "value length isn't right"
-            self.dialogWin(string)
-            return
-
-        # exc read dd register cmd
         val = "AA" + str(ret)
         cmd = self.echoWriteRegister % ("900000FC", val)
         adb.shell(cmd, "SHELL")
         self.DDreadRegValShowText.append(cmd)
-        # adb.shell(cmd, "SHELL")
+
         cmd = self.echoReadRegister % "10007F80"
         adb.shell(cmd, "SHELL")
         self.DDreadRegValShowText.append(cmd)
+
         cmd = self.catRegister
         ret = adb.shell(cmd, "SHELL")
         self.DDreadRegValShowText.append(cmd)
         self.DDreadRegValShowText.append(ret)
         return ret
 
-    def writeDDRegisterFunc(self, n):
-        addr = ''
-        bank = ''
-        length = ''
-        val = ''
-        if n == 0:
-            addr = self.DDWLineEditAddr0.text()
-            bank = self.DDWLineEditBank0.text()
-            length = self.DDWLineEditLen0.text()
-            val = self.DDWLineEditVal0.text()
-        elif n == 1:
-            addr = self.DDWLineEditAddr1.text()
-            bank = self.DDWLineEditBank1.text()
-            length = self.DDWLineEditLen1.text()
-            val = self.DDWLineEditVal1.text()
-        elif n == 2:
-            addr = self.DDWLineEditAddr2.text()
-            bank = self.DDWLineEditBank2.text()
-            length = self.DDWLineEditLen2.text()
-            val = self.DDWLineEditVal2.text()
-        elif n == 3:
-            addr = self.DDWLineEditAddr3.text()
-            bank = self.DDWLineEditBank3.text()
-            length = self.DDWLineEditLen3.text()
-            val = self.DDWLineEditVal3.text()
-        elif n == 4:
-            addr = self.DDWLineEditAddr4.text()
-            bank = self.DDWLineEditBank4.text()
-            length = self.DDWLineEditLen4.text()
-            val = self.DDWLineEditVal4.text()
-
-        if addr == '' or bank == '' or length == '' or val == '':
-            self.DDreadRegValShowText.append("please set value")
-            return
-
-        tmpAddr = self.parseInputData(addr)
-        tmpBank = self.parseInputData(bank)
-        tmpLength = self.parseInputData(length)
-        tmpVal = self.parseInputData(val)
-
-        if tmpAddr and tmpBank and tmpLength and tmpVal:
-            pass
-        else:
-            self.DDreadRegValShowText.append("value were not right")
-            return
-
-        # first step
-        localAddr = '10007f'
-        tmp = "AA" + addr + bank + length
-        cmd = self.echoWriteRegister % ("900000FC", tmp)
-        self.DDreadRegValShowText.append(cmd)
-        adb.shell(cmd, "SHELL")
-        cmd = self.echoReadRegister % (localAddr + '80')
-        self.DDreadRegValShowText.append(cmd)
-        adb.shell(cmd, "SHELL")
-        cmd = self.catRegister
-        self.DDreadRegValShowText.append(cmd)
-        ret = adb.shell(cmd, "SHELL")
-
-        if ret == '':
-            print("wrong")
-            return
-
-        ret = self.parseRegData(ret)
-        self.DDreadRegValShowText.append(str(ret))
-
-        # second step
-        tmp0 = int(length, 16)
-        tmp = tmp0 / 4     # quzheng
-        tmp1 = tmp0 % 4    # quyu
-        tmp2 = int(tmp) * 4         # qubeishu
-        tmp3 = 0x80 + tmp2
-        tmp4 = hex(tmp3)
-        finalAddr = localAddr + tmp4[2:]
-        print(finalAddr)
-
-        # deal write values
-        finalVal = ''
-        i = 3
-        while i >= 0:
-            print(ret[tmp2 + i])
-            if i == tmp1:
-                finalVal += val
-            else:
-                finalVal += ret[tmp2 + i]
-            i = i-1
-
-        cmd = self.echoWriteRegister % (finalAddr, finalVal)
-        self.DDreadRegValShowText.append(cmd)
-        adb.shell(cmd, "SHELL")
-        cmd = self.echoWriteRegister % ('900000FC', 'CC' + addr + bank + length)
-        self.DDreadRegValShowText.append(cmd)
-        adb.shell(cmd, "SHELL")
-        cmd = self.echoReadRegister % (localAddr + '80')
-        self.DDreadRegValShowText.append(cmd)
-        adb.shell(cmd, "SHELL")
-        cmd = self.catRegister
-        self.DDreadRegValShowText.append(cmd)
-        ret = adb.shell(cmd, "SHELL")
-        self.DDreadRegValShowText.append(ret)
-
     def parseInputData(self, data):
         # 48-57:0-9 / 65-90:A-Z / 97-122:a-z
-        flag = 0
-        if len(data) != 2:
-            return False
-
         for i in range(len(data)):
-            if 48 <= ord(data[i]) <= 57 or 65 <= ord(data[i]) <= 90 or 97 <= ord(data[i]) <= 122:
-                flag += 1
+            if 48 <= ord(data[i]) <= 57 or 65 <= ord(data[i]) <= 70 or 97 <= ord(data[i]) <= 102:
+                pass
             else:
                 return False
-
-        if flag == len(data):
-            return True
+        return True
 
     def parseRegData(self, data):
         data = data[22:]

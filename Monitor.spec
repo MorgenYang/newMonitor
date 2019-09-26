@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Monitor.py'],
-             pathex=['D:\\newmonitor'],
+             pathex=['D:\\ADBMonitor2.0.1'],
              binaries=[],
              datas=[],
              hiddenimports=[],
