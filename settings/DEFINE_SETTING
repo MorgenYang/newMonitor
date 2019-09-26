@@ -28,5 +28,5 @@ FW_PATH = /vendor/firmware/Himax_firmware.bin
 
 # TOUCH INFO
 ------------------------------------------------------
-RX = 36
+RX = 32
 TX = 18

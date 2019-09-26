@@ -2526,7 +2526,6 @@ class Ui_MainWindow(object):
 
     def bindEventFunc(self):
         # wifi
-        print("bind start")
         self.wifiConnect.clicked.connect(self.wifiConnectFunc)
         self.wifiDisconnect.clicked.connect(self.wifiDisconnectFunc)
         self.wifiReconnect.clicked.connect(self.wifiReconnectFunc)
@@ -2596,11 +2595,7 @@ class Ui_MainWindow(object):
         self.G2DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(1))
         self.G3DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(2))
 
-        # help
-        print("bind end")
-
     def rootFunc(self):
-        print("start root")
         ret = adb.shell("adb root")
         if ret == '':
             print("root failed")
@@ -2624,42 +2619,6 @@ class Ui_MainWindow(object):
 
         if int(ret[0]) != self.rxnum or int(ret[1]) != self.txnum:
             self.rawdataShowText.append("DEFINE_SETTING rx and tx num were not match! please reset file and restart app")
-
-    def showDiag(self):
-        width = 25
-        height = 15
-        self.dialog = QDialog()
-        self.dialog.resize(480, 505)
-        self.rawdataShowTableWidget = QtWidgets.QTableWidget(self.dialog)
-        self.rawdataShowTableWidget.setGeometry(QtCore.QRect(0, 0, 480, 505))
-        self.rawdataShowTableWidget.setDisabled(False)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        self.rawdataShowTableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.rawdataShowTableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        sizePolicy.setHeightForWidth(self.rawdataShowTableWidget.sizePolicy().hasHeightForWidth())
-        self.rawdataShowTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.rawdataShowTableWidget.setSizePolicy(sizePolicy)
-        self.rawdataShowTableWidget.setObjectName("rawdataShowTableWidget")
-        self.rawdataShowTableWidget.setRowCount(self.rxnum + 1)
-        self.rawdataShowTableWidget.setColumnCount(self.txnum + 1)
-        self.rawdataShowTableWidget.setObjectName("rawdataShowTableWidget")
-        self.rawdataShowTableWidget.verticalHeader().setVisible(False)
-        self.rawdataShowTableWidget.horizontalHeader().setVisible(False)
-        self.rawdataShowTableWidget.horizontalHeader().setDefaultSectionSize(20)
-        self.rawdataShowTableWidget.horizontalHeader().setMinimumSectionSize(20)
-        self.rawdataShowTableWidget.verticalHeader().setDefaultSectionSize(10)
-        self.rawdataShowTableWidget.verticalHeader().setMinimumSectionSize(10)
-        # need setting per col and row
-        for i in range(self.txnum + 1):
-            self.rawdataShowTableWidget.setColumnWidth(i, width)
-
-        for i in range(self.rxnum + 1):
-            self.rawdataShowTableWidget.setRowHeight(i, height)
-
-        _translate = QtCore.QCoreApplication.translate
-        self.dialog.setWindowTitle(_translate("Dialog", "Show"))
-        # self.dialog.setWindowFlags(Qt.FramelessWindowHint)  # set hide menu bar
-        self.dialog.exec_()
 
     def dialogWin(self, string):
         self.dialog = QDialog()
@@ -2839,19 +2798,15 @@ class Ui_MainWindow(object):
             addr = addr[:4] + tmpAddr
 
             cmd = self.echoWriteRegister % (finalAddr, finalVal)
-            print(cmd)
             self.DDreadRegValShowText.append(cmd)
             adb.shell(cmd, "SHELL")
             cmd = self.echoWriteRegister % ('900000FC', 'CC' + addr)
-            print(cmd)
             self.DDreadRegValShowText.append(cmd)
             adb.shell(cmd, "SHELL")
             cmd = self.echoReadRegister % (localAddr + '80')
-            print(cmd)
             self.DDreadRegValShowText.append(cmd)
             adb.shell(cmd, "SHELL")
             cmd = self.catRegister
-            print(cmd)
             self.DDreadRegValShowText.append(cmd)
             ret = adb.shell(cmd, "SHELL")
             self.DDreadRegValShowText.append(ret)
@@ -2898,6 +2853,8 @@ class Ui_MainWindow(object):
             for i in range(64):
                 m = getattr(self, "G3lineEdit_%d" % (i + 1))
                 m.clear()
+
+        self.ret = []
 
     def fillDataToRegisterLineText(self, data, n):
         if n == 0:
@@ -3013,7 +2970,6 @@ class Ui_MainWindow(object):
         for i in range(len(addr)):
             regAddress = (addr[i])
             regInfo = self.readRegister(regAddress)
-            print(regInfo)
             regInfo = regInfo[:103 + 81 * (lines - 1)] + '\n'
             readRegInfo += regInfo
 
@@ -3060,8 +3016,6 @@ class Ui_MainWindow(object):
             cmd = 'W%s:' % n
             cmd = cmd + addr + ':' + val
 
-            print(cmd)
-
         f = open(self.historyFile, 'a+')
         f.write(cmd + '\n')
         f.close()
@@ -3086,14 +3040,11 @@ class Ui_MainWindow(object):
         if addr == '' or val == '':
             return
         self.writeRegister(addr, val)
-        print(addr)
-        print(val)
         self.writeHistoryFile(addr, val, n)
 
     def writeRegister(self, regAddress, write_value):
         regAddressList = regAddress.split()
 
-        print(regAddressList)
 
         # Deal with reg_address without space
         if len(regAddressList) > 0:
@@ -3107,7 +3058,6 @@ class Ui_MainWindow(object):
         else:
             regAddress = ""
 
-        print("Result:" + regAddress)
 
         # Deal with value for set as 8 digit
         while len(write_value) < 8 and len(write_value) != 0:
@@ -3202,7 +3152,7 @@ class Ui_MainWindow(object):
         adb.shell(self.echoDiag % '0', "SHELL")
 
     def sramFunc(self):
-        self.showDiag()
+        pass
 
     def logFunc(self):
         if self.showRawdataFlag == 0:
@@ -3234,8 +3184,6 @@ class Ui_MainWindow(object):
             if not l:
                 break
             l = l[:len(l) - 1]
-            #self.rawdataShowText.append(l)
-            print(l)
 
     def geteventFunc(self):
         self.geteventThread = Thread(target=self.getEvent)
@@ -3251,8 +3199,6 @@ class Ui_MainWindow(object):
             if not l:
                 break
             l = l[:len(l) - 1]
-            #self.rawdataShowText.append(l)
-            print(l)
 
     """ touch """
     def initPath(self):
@@ -3475,7 +3421,6 @@ class Ui_MainWindow(object):
 
     """ display """
     def display1129Func(self):
-        print("1129")
         if self.driverVersion == 1:
             adb.shell("echo w:x30011000 > " + self.v1RegisterPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
@@ -3486,7 +3431,6 @@ class Ui_MainWindow(object):
             adb.shell("echo register,w:x30029000 > " + self.debugPath, "SHELL")
 
     def display2810Func(self):
-        print("2810")
         if self.driverVersion == 1:
             adb.shell("echo w:x30028000 > " + self.v1RegisterPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
@@ -3518,7 +3462,6 @@ class Ui_MainWindow(object):
             device_list.remove("attached")
             device_list.remove("device")
         except:
-            print("Please connect device")
             self.rawdataShowText.append("Please connect device first!")
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
@@ -3576,8 +3519,6 @@ class Ui_MainWindow(object):
         cmd = "adb connect %s:%s" % (self.device_ip, self.port)
         while response.find("already") < 0 and self.wifiConnectFlag != 0:
             response = (adb.shell(cmd))
-            # response = str(response, encoding='utf-8')
-            print(response)
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
@@ -3691,9 +3632,6 @@ class Ui_MainWindow(object):
 
     def rebootFunc(self):
         adb.shell("adb reboot")
-
-    def pullHXFileFunc(self):
-        print("will be add")
 
 
 if __name__ == '__main__':
