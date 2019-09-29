@@ -3525,16 +3525,6 @@ class Ui_MainWindow(object):
         adb.shell(self.echoIntEn % "1", "SHELL")
         self.rawdataShowText.append("enable irq")
 
-    def touchSwitchDriverVersionFunc(self):
-        if self.driverVersion.text() == "V2":
-            self.driverVersion.setText("V1")
-            self.setDriverNodePath(1)
-            self.rawdataShowText.append("use v1 driver\n")
-        else:
-            self.driverVersion.setText("V2")
-            self.setDriverNodePath(2)
-            self.rawdataShowText.append("use v2 driver\n")
-
     def touchFlashDumpFunc(self):
         self.rawdataShowText.append("will be add flash dump func\n")
 
@@ -3550,21 +3540,21 @@ class Ui_MainWindow(object):
 
     """ display """
     def display1129Func(self):
-        if self.driverVersion == 1:
+        if self.driverVersionMode == 1:
             adb.shell("echo w:x30011000 > " + self.v1RegisterPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo w:x30029000 > " + self.v1RegisterPath, "SHELL")
-        elif self.driverVersion == 2:
+        elif self.driverVersionMode == 2:
             adb.shell("echo register,w:x30011000 > " + self.debugPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo register,w:x30029000 > " + self.debugPath, "SHELL")
 
     def display2810Func(self):
-        if self.driverVersion == 1:
+        if self.driverVersionMode == 1:
             adb.shell("echo w:x30028000 > " + self.v1RegisterPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo w:x30010000 > " + self.v1RegisterPath, "SHELL")
-        elif self.driverVersion == 2:
+        elif self.driverVersionMode == 2:
             adb.shell("echo register,w:x30028000 > " + self.debugPath, "SHELL")
             adb.shell("sleep 1", "SHELL")
             adb.shell("echo register,w:x30010000 > " + self.debugPath, "SHELL")
