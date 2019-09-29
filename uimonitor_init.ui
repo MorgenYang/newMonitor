@@ -57,11 +57,759 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="tab_2">
+       <widget class="QWidget" name="tabSettings">
+        <attribute name="title">
+         <string>Settings</string>
+        </attribute>
+        <widget class="QGroupBox" name="touchInfoGroupBox">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>671</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 255);</string>
+         </property>
+         <property name="title">
+          <string>Touch info</string>
+         </property>
+         <widget class="QLineEdit" name="touchInfoRXLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>20</y>
+            <width>50</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="maxLength">
+           <number>2</number>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="touchInfoTXLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>45</y>
+            <width>50</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="maxLength">
+           <number>2</number>
+          </property>
+         </widget>
+         <widget class="QLabel" name="touchInfoRXLabel">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>20</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>RX:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="touchInfoTXLabel">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>45</y>
+            <width>20</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>TX:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="touchInfoRexYLabel">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>45</y>
+            <width>50</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Res Y:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="touchInfoRexXLabel">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>20</y>
+            <width>50</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Res X:</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="touchInfoResXLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>150</x>
+            <y>20</y>
+            <width>60</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="maxLength">
+           <number>4</number>
+          </property>
+          <property name="placeholderText">
+           <string>No must</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="touchInfoRexYLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>150</x>
+            <y>45</y>
+            <width>60</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="maxLength">
+           <number>4</number>
+          </property>
+          <property name="placeholderText">
+           <string>No must</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="settingsGroupBox">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>80</y>
+           <width>671</width>
+           <height>381</height>
+          </rect>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 255);</string>
+         </property>
+         <property name="title">
+          <string>Path settings</string>
+         </property>
+         <widget class="QRadioButton" name="pathV1RadioButton">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>20</y>
+            <width>41</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="tabletTracking">
+           <bool>false</bool>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>V1</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="pathV2RadioButton">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>20</y>
+            <width>41</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="tabletTracking">
+           <bool>false</bool>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>V2</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathDriVerLabel">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>120</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Driver version:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathDiagLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>50</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Diag:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathRegLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>73</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Reg:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathResetLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>96</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Reset:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathIntenLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>119</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Int_en:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathDiagarrLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>142</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Diag_arr:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathSenseonoffLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>165</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>SenseOnOff:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathStackLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>199</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>stack:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathDebugLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>231</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Debug:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathSelftestLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>254</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>SelfTest:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathFlashdumpLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>277</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Flash_dump:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathHXFolderLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>307</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>HX folder:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathFWLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>330</y>
+            <width>80</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>FW path:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathDiagLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>50</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathRegLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>73</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathResetLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>96</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathIntenLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>119</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathDiagarrLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>142</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathSenseonoffLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>165</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathStackLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>199</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathDebugLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>231</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathSelftestLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>254</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathFlashdumpLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>277</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathHXFolderLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>307</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="pathFWLineEdit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>330</y>
+            <width>400</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pathApplyPushButton">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>20</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Apply</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pathConmmentLabel">
+          <property name="geometry">
+           <rect>
+            <x>210</x>
+            <y>20</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>(First)</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="settingsProComboBox">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>70</y>
+            <width>160</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="conmment_2">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>50</y>
+            <width>151</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Select project:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="conmment">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>110</y>
+            <width>171</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>You can save this
+settings to a project</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pathSavePushButton">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>142</y>
+            <width>160</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Save to project</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tabOptions">
         <attribute name="title">
          <string>Options</string>
         </attribute>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="wifiGroupBox">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -213,7 +961,7 @@
           </property>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="adbGroupBox">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -299,33 +1047,6 @@
            <string>Reboot</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="interrupts">
-          <property name="geometry">
-           <rect>
-            <x>485</x>
-            <y>50</y>
-            <width>90</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>Interrupts</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="volDown">
           <property name="geometry">
            <rect>
@@ -378,33 +1099,6 @@
           </property>
           <property name="text">
            <string>Back</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="checkDevice">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>15</y>
-            <width>90</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>CheckDevice</string>
           </property>
          </widget>
          <widget class="QPushButton" name="volUp">
@@ -515,7 +1209,7 @@
            <string>OpenPoint</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="getprop">
+         <widget class="QPushButton" name="opencmd">
           <property name="geometry">
            <rect>
             <x>390</x>
@@ -539,7 +1233,7 @@
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
-           <string>Getprop</string>
+           <string>Open cmd</string>
           </property>
          </widget>
          <widget class="QPushButton" name="hideShowVirtual">
@@ -573,7 +1267,7 @@
           <property name="geometry">
            <rect>
             <x>580</x>
-            <y>50</y>
+            <y>15</y>
             <width>90</width>
             <height>30</height>
            </rect>
@@ -596,35 +1290,11 @@
            <string>ShutDown</string>
           </property>
          </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>135</y>
-           <width>670</width>
-           <height>91</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 255);</string>
-         </property>
-         <property name="title">
-          <string>Touch</string>
-         </property>
-         <widget class="QPushButton" name="inten0">
+         <widget class="QPushButton" name="root">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>50</y>
+            <y>15</y>
             <width>90</width>
             <height>30</height>
            </rect>
@@ -644,7 +1314,58 @@
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
-           <string>Int_en_0</string>
+           <string>Root</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="touchGroupBox">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>135</y>
+           <width>670</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 255);</string>
+         </property>
+         <property name="title">
+          <string>Touch</string>
+         </property>
+         <widget class="QPushButton" name="inten0">
+          <property name="geometry">
+           <rect>
+            <x>485</x>
+            <y>15</y>
+            <width>90</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Int_en</string>
           </property>
          </widget>
          <widget class="QPushButton" name="senseon">
@@ -674,33 +1395,6 @@
            <string>SenseOn</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="driverVersion">
-          <property name="geometry">
-           <rect>
-            <x>485</x>
-            <y>15</y>
-            <width>90</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(85, 170, 127);</string>
-          </property>
-          <property name="text">
-           <string>V2</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="fwVersion">
           <property name="geometry">
            <rect>
@@ -728,37 +1422,10 @@
            <string>FWVersion</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="inten1">
-          <property name="geometry">
-           <rect>
-            <x>105</x>
-            <y>50</y>
-            <width>90</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>Int_en_1</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="selftest">
           <property name="geometry">
            <rect>
-            <x>390</x>
+            <x>295</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -782,37 +1449,10 @@
            <string>SelfTest</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="senseoff">
-          <property name="geometry">
-           <rect>
-            <x>295</x>
-            <y>15</y>
-            <width>90</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>SenseOff</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="diagArr">
           <property name="geometry">
            <rect>
-            <x>295</x>
+            <x>10</x>
             <y>50</y>
             <width>90</width>
             <height>30</height>
@@ -839,8 +1479,8 @@
          <widget class="QPushButton" name="flashDump">
           <property name="geometry">
            <rect>
-            <x>200</x>
-            <y>50</y>
+            <x>390</x>
+            <y>15</y>
             <width>90</width>
             <height>30</height>
            </rect>
@@ -866,7 +1506,7 @@
          <widget class="QTextEdit" name="updateFWText">
           <property name="geometry">
            <rect>
-            <x>579</x>
+            <x>290</x>
             <y>50</y>
             <width>80</width>
             <height>30</height>
@@ -912,7 +1552,7 @@
          <widget class="QPushButton" name="updateFW">
           <property name="geometry">
            <rect>
-            <x>485</x>
+            <x>200</x>
             <y>50</y>
             <width>90</width>
             <height>30</height>
@@ -939,22 +1579,65 @@
          <widget class="QLineEdit" name="diagArrText">
           <property name="geometry">
            <rect>
-            <x>390</x>
+            <x>100</x>
             <y>50</y>
             <width>80</width>
             <height>30</height>
            </rect>
           </property>
           <property name="placeholderText">
-           <string>eg:6</string>
+           <string>Eg:6</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="debugType">
+          <property name="geometry">
+           <rect>
+            <x>390</x>
+            <y>50</y>
+            <width>90</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Debug</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="debugText">
+          <property name="geometry">
+           <rect>
+            <x>480</x>
+            <y>50</y>
+            <width>80</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="maxLength">
+           <number>10</number>
+          </property>
+          <property name="placeholderText">
+           <string>Eg:v/d/h</string>
           </property>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox_4">
+        <widget class="QGroupBox" name="displayGroupBox">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>225</y>
+           <y>220</y>
            <width>670</width>
            <height>50</height>
           </rect>
@@ -1061,9 +1744,9 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>275</y>
+           <y>268</y>
            <width>660</width>
-           <height>178</height>
+           <height>185</height>
           </rect>
          </property>
          <property name="maximumSize">
@@ -1074,7 +1757,7 @@
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="tabRawdata">
         <attribute name="title">
          <string>Rawdata</string>
         </attribute>
@@ -1113,7 +1796,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>77</width>
+           <width>41</width>
            <height>431</height>
           </rect>
          </property>
@@ -1271,7 +1954,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit">
+           <widget class="QLineEdit" name="timeLineEdit">
             <property name="maximumSize">
              <size>
               <width>100</width>
@@ -1306,96 +1989,12 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="kmsg">
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 170, 0);</string>
-            </property>
-            <property name="text">
-             <string>Kmsg</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="textEditKmsg">
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="placeholderText">
-             <string>HX</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="getevent">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 170, 0);</string>
-            </property>
-            <property name="text">
-             <string>Gevent</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="textEditGetevent">
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="placeholderText">
-             <string>Himax</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </widget>
-       <widget class="QWidget" name="TabRWRegister">
+       <widget class="QWidget" name="tabRWRegister">
         <attribute name="title">
-         <string>Register</string>
+         <string>TP Reg</string>
         </attribute>
         <widget class="QPushButton" name="pushButtonRead">
          <property name="geometry">
@@ -1713,7 +2312,7 @@
           <string>Write 3</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="tpReglengthLabel">
          <property name="geometry">
           <rect>
            <x>5</x>
@@ -1818,656 +2417,11 @@
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="TabSwiplines">
+       <widget class="QWidget" name="tabDDRegister">
         <attribute name="title">
-         <string>DD</string>
+         <string>DD Reg</string>
         </attribute>
-        <widget class="QPushButton" name="DDpushButtonRegWrite0">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>0</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Write 0</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDpushButtonRegWrite2">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>60</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Write 2</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDRead0">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 170, 0);</string>
-         </property>
-         <property name="text">
-          <string>Read</string>
-         </property>
-        </widget>
-        <widget class="QTextBrowser" name="DDreadRegValShowText">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>150</y>
-           <width>670</width>
-           <height>300</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>670</width>
-           <height>300</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>670</width>
-           <height>300</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDpushButtonRegWrite3">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>90</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Write 3</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDpushButtonRegWrite1">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>30</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Write 1</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDpushButtonRegWrite4">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>120</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Write 4</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditAddr0">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>0</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="placeholderText">
-          <string>reg</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditBank0">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>0</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="placeholderText">
-          <string>bank</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditLen0">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>0</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="placeholderText">
-          <string>len</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditAddr1">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>30</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditBank1">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>30</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditLen1">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>30</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditAddr2">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>60</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditBank2">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>60</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditLen2">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>60</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditAddr3">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>90</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditBank3">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>90</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditLen3">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>90</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditAddr4">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>120</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditBank4">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>120</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditLen4">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>120</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditVal4">
-         <property name="geometry">
-          <rect>
-           <x>460</x>
-           <y>120</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditVal1">
-         <property name="geometry">
-          <rect>
-           <x>460</x>
-           <y>30</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditVal0">
-         <property name="geometry">
-          <rect>
-           <x>460</x>
-           <y>0</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="placeholderText">
-          <string>value</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditVal2">
-         <property name="geometry">
-          <rect>
-           <x>460</x>
-           <y>60</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDWLineEditVal3">
-         <property name="geometry">
-          <rect>
-           <x>460</x>
-           <y>90</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDRlineEdit0">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>0</y>
-           <width>90</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="placeholderText">
-          <string>c10008</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDRlineEdit2">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>60</y>
-           <width>90</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDRlineEdit3">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>90</y>
-           <width>90</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDRlineEdit1">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>30</y>
-           <width>90</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="DDRlineEdit4">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>120</y>
-           <width>90</width>
-           <height>25</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDRead4">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>120</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 170, 0);</string>
-         </property>
-         <property name="text">
-          <string>Read</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDRead1">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>30</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 170, 0);</string>
-         </property>
-         <property name="text">
-          <string>Read</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDRead2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>60</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 170, 0);</string>
-         </property>
-         <property name="text">
-          <string>Read</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="DDRead3">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>90</y>
-           <width>60</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 170, 0);</string>
-         </property>
-         <property name="text">
-          <string>Read</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="TabHelp">
-        <attribute name="title">
-         <string>Help</string>
-        </attribute>
-        <widget class="QTabWidget" name="TabHelpSubMain">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>671</width>
-           <height>451</height>
-          </rect>
-         </property>
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="TabAbout">
-          <attribute name="title">
-           <string>About</string>
-          </attribute>
-          <widget class="QLabel" name="label_2">
-           <property name="geometry">
-            <rect>
-             <x>5</x>
-             <y>5</y>
-             <width>650</width>
-             <height>30</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>1.This software's introduction of the location is in .\doc\introduction.ppt</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_3">
-           <property name="geometry">
-            <rect>
-             <x>5</x>
-             <y>40</y>
-             <width>650</width>
-             <height>30</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>2.The path of this software is in
- \SVN\Internal\TW\Tool_Team_Release\Himax_driver\2.Debug_tool\ADBMonitor\</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_4">
-           <property name="geometry">
-            <rect>
-             <x>5</x>
-             <y>80</y>
-             <width>650</width>
-             <height>30</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>3.If you found some bugs, you can send email to morgen_cai@himax.com.cn</string>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="TabCommands">
-          <attribute name="title">
-           <string>Commands</string>
-          </attribute>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="tab_3">
-        <attribute name="title">
-         <string>DD Register</string>
-        </attribute>
-        <widget class="QGroupBox" name="groupBox_5">
+        <widget class="QGroupBox" name="ddRegGroupBox1">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -2530,7 +2484,7 @@
          <widget class="QPushButton" name="G1DDWrite">
           <property name="geometry">
            <rect>
-            <x>250</x>
+            <x>200</x>
             <y>15</y>
             <width>75</width>
             <height>23</height>
@@ -3682,7 +3636,7 @@
          <widget class="QPushButton" name="G1DDCopy">
           <property name="geometry">
            <rect>
-            <x>330</x>
+            <x>500</x>
             <y>15</y>
             <width>75</width>
             <height>23</height>
@@ -4034,7 +3988,7 @@
           </property>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox_6">
+        <widget class="QGroupBox" name="ddRegGroupBox2">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -4097,7 +4051,7 @@
          <widget class="QPushButton" name="G2DDWrite">
           <property name="geometry">
            <rect>
-            <x>250</x>
+            <x>200</x>
             <y>15</y>
             <width>75</width>
             <height>23</height>
@@ -5249,7 +5203,7 @@
          <widget class="QPushButton" name="G2DDCopy">
           <property name="geometry">
            <rect>
-            <x>330</x>
+            <x>500</x>
             <y>15</y>
             <width>75</width>
             <height>23</height>
@@ -5601,7 +5555,7 @@
           </property>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox_7">
+        <widget class="QGroupBox" name="ddRegGroupBox3">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -5664,7 +5618,7 @@
          <widget class="QPushButton" name="G3DDWrite">
           <property name="geometry">
            <rect>
-            <x>250</x>
+            <x>200</x>
             <y>15</y>
             <width>75</width>
             <height>23</height>
@@ -6816,7 +6770,7 @@
          <widget class="QPushButton" name="G3DDCopy">
           <property name="geometry">
            <rect>
-            <x>330</x>
+            <x>500</x>
             <y>15</y>
             <width>75</width>
             <height>23</height>
@@ -7166,6 +7120,101 @@
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tabDDLog">
+        <attribute name="title">
+         <string>DD Log</string>
+        </attribute>
+        <widget class="QTextBrowser" name="DDreadRegValShowText">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>1</y>
+           <width>673</width>
+           <height>451</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>670</width>
+           <height>300</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>675</width>
+           <height>700</height>
+          </size>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tabHelp">
+        <attribute name="title">
+         <string>Help</string>
+        </attribute>
+        <widget class="QTabWidget" name="TabHelpSubMain">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>671</width>
+           <height>451</height>
+          </rect>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="TabAbout">
+          <attribute name="title">
+           <string>About</string>
+          </attribute>
+          <widget class="QLabel" name="helpLabel1">
+           <property name="geometry">
+            <rect>
+             <x>5</x>
+             <y>5</y>
+             <width>650</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>1.This software's introduction of the location is in .\doc\introduction.ppt</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="helpLabel2">
+           <property name="geometry">
+            <rect>
+             <x>5</x>
+             <y>40</y>
+             <width>650</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>2.The path of this software is in
+ \SVN\Internal\TW\Tool_Team_Release\Himax_driver\2.Debug_tool\ADBMonitor\</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="helpLabel3">
+           <property name="geometry">
+            <rect>
+             <x>5</x>
+             <y>80</y>
+             <width>650</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>3.If you found some bugs, you can send email to morgen_cai@himax.com.cn</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="TabCommands">
+          <attribute name="title">
+           <string>Commands</string>
+          </attribute>
          </widget>
         </widget>
        </widget>
