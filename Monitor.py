@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self.ui.loadLatestTouchInfoConfig()
         self.ui.initSelectProjectItems()
         self.ui.bindEventFunc()
+        self.ui.disableSomeFunctions()
 
         self.uiThreadInitHistory = Thread(target=self.ui.initHistoryFunc)
         self.uiThreadInitHistory.start()
@@ -2703,12 +2704,13 @@ class Ui_MainWindow(object):
     def initSelectProjectItems(self):
         _translate = QtCore.QCoreApplication.translate
         projectList = self.findProjectFilesName()
-        print(projectList)
         for i in range(len(projectList)):
             self.settingsProComboBox.addItem("")
 
-        for i in range(len(projectList)):
-            self.settingsProComboBox.setItemText(i, _translate("MainWindow", projectList[i]))
+        i = len(projectList) - 1
+        while i >= 0:
+            self.settingsProComboBox.setItemText(len(projectList) - 1 - i, _translate("MainWindow", projectList[i]))
+            i = i - 1
 
     def loadLatestTouchInfoConfig(self):
         path = self.findProjectDocFilesPath()
@@ -2751,7 +2753,6 @@ class Ui_MainWindow(object):
                     self.fwPath = lineList[1]
 
         self.initEchoMethod(self.driverVersionMode)
-        print(self.driverVersionMode)
 
     def initEchoMethod(self, n):
         if n == 1:
@@ -2787,9 +2788,74 @@ class Ui_MainWindow(object):
 
         self.pullHXFileCmd = "adb pull " + self.hxFolderPath
 
+    def disableSomeFunctions(self):
+        self.tabOptions.setDisabled(True)
+        self.tabRawdata.setDisabled(True)
+        self.tabRWRegister.setDisabled(True)
+        self.tabDDRegister.setDisabled(True)
+        self.tabDDLog.setDisabled(True)
+
     def saveSettingsToProject(self):
-        fileName = time.strftime("%Y%m%d%H%M%S_", time.localtime())
-        print(fileName)
+        # check all input data
+        rx = self.touchInfoRXLineEdit.text()
+        tx = self.touchInfoTXLineEdit.text()
+
+        debug = self.pathDebugLineEdit.text()
+        selftest = self.pathSelftestLineEdit.text()
+        flashdump = self.pathFlashdumpLineEdit.text()
+        hxfolder = self.pathHXFolderLineEdit.text()
+        fw = self.pathFWLineEdit.text()
+
+        if rx == '' or tx == '' or debug == '' or selftest == '' or flashdump == '' or hxfolder == '' or fw == '':
+            self.dialogWin("Some input was empty!")
+            return
+
+        if self.pathV1RadioButton.isChecked():
+            driverVersion = 1
+            diag = self.pathDiagLineEdit.text()
+            register = self.pathRegLineEdit.text()
+            reset = self.pathResetLineEdit.text()
+            inten = self.pathIntenLineEdit.text()
+            diagarr = self.pathDiagarrLineEdit.text()
+            senseonoff = self.pathSenseonoffLineEdit.text()
+
+            if diag == '' or register == '' or inten == '' or diagarr == '' or senseonoff == '':
+                self.dialogWin("Some input was empty!")
+                return
+        else:
+            driverVersion = 2
+            stack = self.pathStackLineEdit.text()
+
+            if stack == '':
+                self.dialogWin("stack was empty!")
+                return
+
+        # TODO:need show sub window to let user enter project name
+        name = "tmp"
+        fileName = './project/' + time.strftime("%Y%m%d%H%M%S_", time.localtime()) + name
+
+        info = 'DRIVER_VERSION=' + str(driverVersion) + '\n'\
+                + 'RX=' + rx + '\n'\
+                + 'TX=' + tx + '\n'\
+                + 'SELFTEST_PATH=' + selftest + '\n'\
+                + 'DEBUG_PATH=' + debug + '\n'\
+                + 'FLASH_DUMP_PATH=' + flashdump + '\n'\
+                + 'HX_FOLDER_PATH=' + hxfolder + '\n'\
+                + 'FW_PATH=' + fw + '\n'
+
+        if driverVersion == 1:
+            info = info + 'V1_DIAG_PATH=' + diag + '\n'\
+                    + 'V1_REG_PATH=' + register + '\n'\
+                    + 'V1_INT_EN_PATH=' + inten + '\n'\
+                    + 'V1_RESET_PATH=' + reset + '\n'\
+                    + 'V1_SENSEONOFF_PATH=' + senseonoff + '\n'\
+                    + 'V1_DIAGARR_PATH=' + diagarr
+        else:
+            info = info + 'V2_STACK_PATH=' + stack
+
+        projectFile = open(fileName, 'w+')
+        projectFile.write(info)
+        projectFile.close()
 
     def findProjectFilesName(self):
         path = "./project/"
