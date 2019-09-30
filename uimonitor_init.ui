@@ -91,6 +91,9 @@
           <property name="maxLength">
            <number>2</number>
           </property>
+          <property name="placeholderText">
+           <string>32</string>
+          </property>
          </widget>
          <widget class="QLineEdit" name="touchInfoTXLineEdit">
           <property name="geometry">
@@ -107,6 +110,9 @@
           <property name="maxLength">
            <number>2</number>
           </property>
+          <property name="placeholderText">
+           <string>16</string>
+          </property>
          </widget>
          <widget class="QLabel" name="touchInfoRXLabel">
           <property name="geometry">
@@ -116,6 +122,11 @@
             <width>20</width>
             <height>20</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -133,6 +144,11 @@
             <height>20</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -149,6 +165,11 @@
             <height>20</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -164,6 +185,11 @@
             <width>50</width>
             <height>20</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -188,10 +214,10 @@
            <number>4</number>
           </property>
           <property name="placeholderText">
-           <string>No must</string>
+           <string>1280</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="touchInfoRexYLineEdit">
+         <widget class="QLineEdit" name="touchInfoResYLineEdit">
           <property name="geometry">
            <rect>
             <x>150</x>
@@ -207,7 +233,7 @@
            <number>4</number>
           </property>
           <property name="placeholderText">
-           <string>No must</string>
+           <string>720</string>
           </property>
          </widget>
         </widget>
@@ -241,6 +267,11 @@
             <height>16</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -268,6 +299,11 @@
             <width>41</width>
             <height>16</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -299,6 +335,7 @@
           </property>
           <property name="font">
            <font>
+            <pointsize>10</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
@@ -319,6 +356,11 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -337,6 +379,11 @@
             <width>80</width>
             <height>21</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -357,6 +404,11 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -375,6 +427,11 @@
             <width>80</width>
             <height>21</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -395,6 +452,11 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -413,6 +475,11 @@
             <width>80</width>
             <height>21</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -433,6 +500,11 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -451,6 +523,11 @@
             <width>80</width>
             <height>21</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -471,6 +548,11 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -489,6 +571,11 @@
             <width>80</width>
             <height>21</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -509,6 +596,11 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
@@ -527,6 +619,11 @@
             <width>80</width>
             <height>21</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);</string>
@@ -694,25 +791,6 @@
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="pathApplyPushButton">
-          <property name="geometry">
-           <rect>
-            <x>415</x>
-            <y>20</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>Apply</string>
-          </property>
-         </widget>
          <widget class="QLabel" name="pathConmmentLabel">
           <property name="geometry">
            <rect>
@@ -724,6 +802,7 @@
           </property>
           <property name="font">
            <font>
+            <pointsize>10</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
@@ -787,8 +866,13 @@ settings to a project</string>
             <x>500</x>
             <y>142</y>
             <width>160</width>
-            <height>23</height>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -800,7 +884,7 @@ settings to a project</string>
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
-           <string>Save to project</string>
+           <string>Save as project</string>
           </property>
          </widget>
         </widget>
@@ -928,7 +1012,7 @@ settings to a project</string>
          <widget class="QLabel" name="wifiStatus">
           <property name="geometry">
            <rect>
-            <x>320</x>
+            <x>290</x>
             <y>15</y>
             <width>110</width>
             <height>30</height>
@@ -952,6 +1036,67 @@ settings to a project</string>
           </property>
           <property name="text">
            <string>WiFi Status</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="root">
+          <property name="geometry">
+           <rect>
+            <x>485</x>
+            <y>15</y>
+            <width>90</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Root</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="adbStatus">
+          <property name="geometry">
+           <rect>
+            <x>575</x>
+            <y>15</y>
+            <width>100</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>110</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>ADB Status</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1023,7 +1168,7 @@ settings to a project</string>
          <widget class="QPushButton" name="reboot">
           <property name="geometry">
            <rect>
-            <x>485</x>
+            <x>390</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -1131,7 +1276,7 @@ settings to a project</string>
          <widget class="QPushButton" name="powerKey">
           <property name="geometry">
            <rect>
-            <x>200</x>
+            <x>105</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -1158,7 +1303,7 @@ settings to a project</string>
          <widget class="QPushButton" name="screenShot">
           <property name="geometry">
            <rect>
-            <x>390</x>
+            <x>295</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -1185,7 +1330,7 @@ settings to a project</string>
          <widget class="QPushButton" name="openClosePoint">
           <property name="geometry">
            <rect>
-            <x>295</x>
+            <x>200</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -1200,6 +1345,8 @@ settings to a project</string>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -1239,7 +1386,7 @@ settings to a project</string>
          <widget class="QPushButton" name="hideShowVirtual">
           <property name="geometry">
            <rect>
-            <x>105</x>
+            <x>10</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -1253,7 +1400,9 @@ settings to a project</string>
           </property>
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -1266,7 +1415,7 @@ settings to a project</string>
          <widget class="QPushButton" name="shutDown">
           <property name="geometry">
            <rect>
-            <x>580</x>
+            <x>485</x>
             <y>15</y>
             <width>90</width>
             <height>30</height>
@@ -1288,33 +1437,6 @@ settings to a project</string>
           </property>
           <property name="text">
            <string>ShutDown</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="root">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>15</y>
-            <width>90</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>Root</string>
           </property>
          </widget>
         </widget>
@@ -1359,6 +1481,8 @@ settings to a project</string>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -1386,6 +1510,8 @@ settings to a project</string>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -1616,20 +1742,17 @@ settings to a project</string>
            <string>Debug</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="debugText">
+         <widget class="QComboBox" name="debugComboBox">
           <property name="geometry">
            <rect>
             <x>480</x>
-            <y>50</y>
-            <width>80</width>
-            <height>30</height>
+            <y>51</y>
+            <width>90</width>
+            <height>28</height>
            </rect>
           </property>
-          <property name="maxLength">
-           <number>10</number>
-          </property>
-          <property name="placeholderText">
-           <string>Eg:v/d/h</string>
+          <property name="currentText">
+           <string/>
           </property>
          </widget>
         </widget>
@@ -1796,7 +1919,7 @@ settings to a project</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>41</width>
+           <width>46</width>
            <height>431</height>
           </rect>
          </property>
@@ -1806,13 +1929,13 @@ settings to a project</string>
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>0</height>
+              <height>40</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>100</width>
-              <height>30</height>
+              <width>40</width>
+              <height>40</height>
              </size>
             </property>
             <property name="font">
@@ -1826,10 +1949,20 @@ settings to a project</string>
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(170, 255, 127);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
-             <string>Read</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>img/start_48px.ico</normaloff>img/start_48px.ico</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>39</width>
+              <height>39</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -1876,7 +2009,7 @@ settings to a project</string>
            <widget class="QLineEdit" name="textEditDiag">
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>40</width>
               <height>30</height>
              </size>
             </property>
@@ -1894,7 +2027,7 @@ settings to a project</string>
            <widget class="QPushButton" name="stop">
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>40</width>
               <height>30</height>
              </size>
             </property>
@@ -1912,7 +2045,7 @@ settings to a project</string>
            <widget class="QPushButton" name="log">
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>40</width>
               <height>30</height>
              </size>
             </property>
@@ -1939,7 +2072,7 @@ settings to a project</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>40</width>
               <height>30</height>
              </size>
             </property>
@@ -1957,7 +2090,7 @@ settings to a project</string>
            <widget class="QLineEdit" name="timeLineEdit">
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>40</width>
               <height>30</height>
              </size>
             </property>
@@ -1972,22 +2105,17 @@ settings to a project</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="sram">
-            <property name="maximumSize">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
              <size>
-              <width>100</width>
-              <height>30</height>
+              <width>20</width>
+              <height>40</height>
              </size>
             </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>SRAM</string>
-            </property>
-           </widget>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -2474,9 +2602,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>6</number>
-          </property>
           <property name="placeholderText">
            <string>Eg:B9000A</string>
           </property>
@@ -2516,9 +2641,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2539,9 +2661,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2564,9 +2683,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2587,9 +2703,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2612,9 +2725,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2636,9 +2746,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2656,9 +2763,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2678,9 +2782,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2698,9 +2799,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2720,9 +2818,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2741,9 +2836,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2761,9 +2853,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2786,9 +2875,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2809,9 +2895,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2834,9 +2917,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2857,9 +2937,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2882,9 +2959,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2905,9 +2979,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2930,9 +3001,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -2953,9 +3021,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2978,9 +3043,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3001,9 +3063,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3026,9 +3085,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3049,9 +3105,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3074,9 +3127,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3094,9 +3144,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3119,9 +3166,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3139,9 +3183,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3161,9 +3202,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3181,9 +3219,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3206,9 +3241,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3229,9 +3261,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3254,9 +3283,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3278,9 +3304,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3299,9 +3322,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3319,9 +3339,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3344,9 +3361,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3367,9 +3381,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3392,9 +3403,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3415,9 +3423,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3440,9 +3445,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3463,9 +3465,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3488,9 +3487,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3511,9 +3507,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3536,9 +3529,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3559,9 +3549,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3584,9 +3571,6 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3607,9 +3591,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3665,9 +3646,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3685,9 +3663,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3707,9 +3682,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3727,9 +3699,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3749,9 +3718,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3769,9 +3735,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3791,9 +3754,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3811,9 +3771,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3833,9 +3790,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3853,9 +3807,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3875,9 +3826,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3895,9 +3843,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3917,9 +3862,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3937,9 +3879,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3959,9 +3898,6 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -3979,9 +3915,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -4027,7 +3960,7 @@ settings to a project</string>
            <string>Read</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G1AddrlineEdit_2">
+         <widget class="QLineEdit" name="G2AddrlineEdit">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -4040,9 +3973,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>6</number>
           </property>
           <property name="placeholderText">
            <string>Eg:B9000A</string>
@@ -4066,7 +3996,7 @@ settings to a project</string>
            <string>Write</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit">
+         <widget class="QLineEdit" name="G2lineEdit1">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -4083,14 +4013,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_2">
+         <widget class="QLineEdit" name="G2lineEdit2">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -4107,14 +4034,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_3">
+         <widget class="QLineEdit" name="G2lineEdit3">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -4131,14 +4055,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_4">
+         <widget class="QLineEdit" name="G2lineEdit4">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -4155,14 +4076,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_5">
+         <widget class="QLineEdit" name="G2lineEdit5">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -4179,14 +4097,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_6">
+         <widget class="QLineEdit" name="G2lineEdit6">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -4203,14 +4118,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_7">
+         <widget class="QLineEdit" name="G2lineEdit7">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -4224,14 +4136,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_8">
+         <widget class="QLineEdit" name="G2lineEdit8">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -4245,14 +4154,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_9">
+         <widget class="QLineEdit" name="G2lineEdit9">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -4266,14 +4172,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_10">
+         <widget class="QLineEdit" name="G2lineEdit10">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -4287,14 +4190,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_11">
+         <widget class="QLineEdit" name="G2lineEdit11">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -4308,14 +4208,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_12">
+         <widget class="QLineEdit" name="G2lineEdit12">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -4329,14 +4226,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_21">
+         <widget class="QLineEdit" name="G2lineEdit21">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -4353,14 +4247,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_19">
+         <widget class="QLineEdit" name="G2lineEdit19">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -4377,14 +4268,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_22">
+         <widget class="QLineEdit" name="G2lineEdit22">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -4401,14 +4289,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_24">
+         <widget class="QLineEdit" name="G2lineEdit24">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -4425,14 +4310,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_15">
+         <widget class="QLineEdit" name="G2lineEdit15">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -4449,14 +4331,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_20">
+         <widget class="QLineEdit" name="G2lineEdit20">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -4473,14 +4352,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_13">
+         <widget class="QLineEdit" name="G2lineEdit13">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -4497,14 +4373,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_14">
+         <widget class="QLineEdit" name="G2lineEdit14">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -4521,14 +4394,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_23">
+         <widget class="QLineEdit" name="G2lineEdit23">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -4545,14 +4415,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_16">
+         <widget class="QLineEdit" name="G2lineEdit16">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -4569,14 +4436,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_18">
+         <widget class="QLineEdit" name="G2lineEdit18">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -4593,14 +4457,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_17">
+         <widget class="QLineEdit" name="G2lineEdit17">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -4617,14 +4478,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_28">
+         <widget class="QLineEdit" name="G2lineEdit28">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -4641,14 +4499,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_35">
+         <widget class="QLineEdit" name="G2lineEdit35">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -4662,14 +4517,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_29">
+         <widget class="QLineEdit" name="G2lineEdit29">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -4686,14 +4538,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_33">
+         <widget class="QLineEdit" name="G2lineEdit33">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -4707,14 +4556,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_34">
+         <widget class="QLineEdit" name="G2lineEdit34">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -4728,14 +4574,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_32">
+         <widget class="QLineEdit" name="G2lineEdit32">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -4749,14 +4592,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_26">
+         <widget class="QLineEdit" name="G2lineEdit26">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -4773,14 +4613,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_30">
+         <widget class="QLineEdit" name="G2lineEdit30">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -4797,14 +4634,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_27">
+         <widget class="QLineEdit" name="G2lineEdit27">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -4821,14 +4655,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_25">
+         <widget class="QLineEdit" name="G2lineEdit25">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -4845,14 +4676,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_31">
+         <widget class="QLineEdit" name="G2lineEdit31">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -4866,14 +4694,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_36">
+         <widget class="QLineEdit" name="G2lineEdit36">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -4887,14 +4712,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_47">
+         <widget class="QLineEdit" name="G2lineEdit47">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -4911,14 +4733,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_38">
+         <widget class="QLineEdit" name="G2lineEdit38">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -4935,14 +4754,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_46">
+         <widget class="QLineEdit" name="G2lineEdit46">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -4959,14 +4775,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_40">
+         <widget class="QLineEdit" name="G2lineEdit40">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -4983,14 +4796,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_48">
+         <widget class="QLineEdit" name="G2lineEdit48">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -5007,14 +4817,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_41">
+         <widget class="QLineEdit" name="G2lineEdit41">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -5031,14 +4838,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_44">
+         <widget class="QLineEdit" name="G2lineEdit44">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -5055,14 +4859,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_43">
+         <widget class="QLineEdit" name="G2lineEdit43">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -5079,14 +4880,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_37">
+         <widget class="QLineEdit" name="G2lineEdit37">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -5103,14 +4901,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_45">
+         <widget class="QLineEdit" name="G2lineEdit45">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -5127,14 +4922,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_39">
+         <widget class="QLineEdit" name="G2lineEdit39">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -5151,14 +4943,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_42">
+         <widget class="QLineEdit" name="G2lineEdit42">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -5174,9 +4963,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -5218,7 +5004,7 @@ settings to a project</string>
            <string>Copy</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_49">
+         <widget class="QLineEdit" name="G2lineEdit49">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -5232,14 +5018,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_50">
+         <widget class="QLineEdit" name="G2lineEdit50">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -5253,14 +5036,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_51">
+         <widget class="QLineEdit" name="G2lineEdit51">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -5274,14 +5054,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_52">
+         <widget class="QLineEdit" name="G2lineEdit52">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -5295,14 +5072,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_53">
+         <widget class="QLineEdit" name="G2lineEdit53">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -5316,14 +5090,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_54">
+         <widget class="QLineEdit" name="G2lineEdit54">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -5337,14 +5108,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_55">
+         <widget class="QLineEdit" name="G2lineEdit55">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -5358,14 +5126,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_56">
+         <widget class="QLineEdit" name="G2lineEdit56">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -5379,14 +5144,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_57">
+         <widget class="QLineEdit" name="G2lineEdit57">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -5400,14 +5162,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_58">
+         <widget class="QLineEdit" name="G2lineEdit58">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -5421,14 +5180,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_59">
+         <widget class="QLineEdit" name="G2lineEdit59">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -5442,14 +5198,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_60">
+         <widget class="QLineEdit" name="G2lineEdit60">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -5463,14 +5216,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_61">
+         <widget class="QLineEdit" name="G2lineEdit61">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -5484,14 +5234,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_62">
+         <widget class="QLineEdit" name="G2lineEdit62">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -5505,14 +5252,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_63">
+         <widget class="QLineEdit" name="G2lineEdit63">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -5526,14 +5270,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G2lineEdit_64">
+         <widget class="QLineEdit" name="G2lineEdit64">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -5546,9 +5287,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -5594,7 +5332,7 @@ settings to a project</string>
            <string>Read</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G1AddrlineEdit_3">
+         <widget class="QLineEdit" name="G3AddrlineEdit">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -5607,9 +5345,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>6</number>
           </property>
           <property name="placeholderText">
            <string>Eg:B9000A</string>
@@ -5633,7 +5368,7 @@ settings to a project</string>
            <string>Write</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit">
+         <widget class="QLineEdit" name="G3lineEdit1">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -5650,14 +5385,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_2">
+         <widget class="QLineEdit" name="G3lineEdit2">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -5674,14 +5406,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_3">
+         <widget class="QLineEdit" name="G3lineEdit3">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -5698,14 +5427,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_4">
+         <widget class="QLineEdit" name="G3lineEdit4">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -5722,14 +5448,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_5">
+         <widget class="QLineEdit" name="G3lineEdit5">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -5746,14 +5469,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_6">
+         <widget class="QLineEdit" name="G3lineEdit6">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -5770,14 +5490,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_7">
+         <widget class="QLineEdit" name="G3lineEdit7">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -5791,14 +5508,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_8">
+         <widget class="QLineEdit" name="G3lineEdit8">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -5812,14 +5526,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_9">
+         <widget class="QLineEdit" name="G3lineEdit9">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -5833,14 +5544,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_10">
+         <widget class="QLineEdit" name="G3lineEdit10">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -5854,14 +5562,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_11">
+         <widget class="QLineEdit" name="G3lineEdit11">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -5875,14 +5580,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_12">
+         <widget class="QLineEdit" name="G3lineEdit12">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -5896,14 +5598,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_21">
+         <widget class="QLineEdit" name="G3lineEdit21">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -5920,14 +5619,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_19">
+         <widget class="QLineEdit" name="G3lineEdit19">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -5944,14 +5640,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_22">
+         <widget class="QLineEdit" name="G3lineEdit22">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -5968,14 +5661,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_24">
+         <widget class="QLineEdit" name="G3lineEdit24">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -5992,14 +5682,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_15">
+         <widget class="QLineEdit" name="G3lineEdit15">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -6016,14 +5703,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_20">
+         <widget class="QLineEdit" name="G3lineEdit20">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -6040,14 +5724,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_13">
+         <widget class="QLineEdit" name="G3lineEdit13">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -6064,14 +5745,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_14">
+         <widget class="QLineEdit" name="G3lineEdit14">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -6088,14 +5766,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_23">
+         <widget class="QLineEdit" name="G3lineEdit23">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -6112,14 +5787,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_16">
+         <widget class="QLineEdit" name="G3lineEdit16">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -6136,14 +5808,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_18">
+         <widget class="QLineEdit" name="G3lineEdit18">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -6160,14 +5829,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_17">
+         <widget class="QLineEdit" name="G3lineEdit17">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -6184,14 +5850,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_28">
+         <widget class="QLineEdit" name="G3lineEdit28">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -6208,14 +5871,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_35">
+         <widget class="QLineEdit" name="G3lineEdit35">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -6229,14 +5889,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_29">
+         <widget class="QLineEdit" name="G3lineEdit29">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -6253,14 +5910,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_33">
+         <widget class="QLineEdit" name="G3lineEdit33">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -6274,14 +5928,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_34">
+         <widget class="QLineEdit" name="G3lineEdit34">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -6295,14 +5946,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_32">
+         <widget class="QLineEdit" name="G3lineEdit32">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -6316,14 +5964,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_26">
+         <widget class="QLineEdit" name="G3lineEdit26">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -6340,14 +5985,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_30">
+         <widget class="QLineEdit" name="G3lineEdit30">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -6364,14 +6006,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_27">
+         <widget class="QLineEdit" name="G3lineEdit27">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -6388,14 +6027,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_25">
+         <widget class="QLineEdit" name="G3lineEdit25">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -6412,14 +6048,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_31">
+         <widget class="QLineEdit" name="G3lineEdit31">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -6433,14 +6066,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_36">
+         <widget class="QLineEdit" name="G3lineEdit36">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -6454,14 +6084,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_47">
+         <widget class="QLineEdit" name="G3lineEdit47">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -6478,14 +6105,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_38">
+         <widget class="QLineEdit" name="G3lineEdit38">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -6502,14 +6126,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_46">
+         <widget class="QLineEdit" name="G3lineEdit46">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -6526,14 +6147,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_40">
+         <widget class="QLineEdit" name="G3lineEdit40">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -6550,14 +6168,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_48">
+         <widget class="QLineEdit" name="G3lineEdit48">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -6574,14 +6189,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_41">
+         <widget class="QLineEdit" name="G3lineEdit41">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -6598,14 +6210,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_44">
+         <widget class="QLineEdit" name="G3lineEdit44">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -6622,14 +6231,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_43">
+         <widget class="QLineEdit" name="G3lineEdit43">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -6646,14 +6252,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_37">
+         <widget class="QLineEdit" name="G3lineEdit37">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -6670,14 +6273,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_45">
+         <widget class="QLineEdit" name="G3lineEdit45">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -6694,14 +6294,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_39">
+         <widget class="QLineEdit" name="G3lineEdit39">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -6718,14 +6315,11 @@ settings to a project</string>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_42">
+         <widget class="QLineEdit" name="G3lineEdit42">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -6741,9 +6335,6 @@ settings to a project</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -6785,7 +6376,7 @@ settings to a project</string>
            <string>Copy</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_49">
+         <widget class="QLineEdit" name="G3lineEdit49">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -6799,14 +6390,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_50">
+         <widget class="QLineEdit" name="G3lineEdit50">
           <property name="geometry">
            <rect>
             <x>40</x>
@@ -6820,14 +6408,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_51">
+         <widget class="QLineEdit" name="G3lineEdit51">
           <property name="geometry">
            <rect>
             <x>80</x>
@@ -6841,14 +6426,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_52">
+         <widget class="QLineEdit" name="G3lineEdit52">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -6862,14 +6444,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_53">
+         <widget class="QLineEdit" name="G3lineEdit53">
           <property name="geometry">
            <rect>
             <x>160</x>
@@ -6883,14 +6462,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_54">
+         <widget class="QLineEdit" name="G3lineEdit54">
           <property name="geometry">
            <rect>
             <x>200</x>
@@ -6904,14 +6480,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_55">
+         <widget class="QLineEdit" name="G3lineEdit55">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -6925,14 +6498,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_56">
+         <widget class="QLineEdit" name="G3lineEdit56">
           <property name="geometry">
            <rect>
             <x>280</x>
@@ -6946,14 +6516,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_57">
+         <widget class="QLineEdit" name="G3lineEdit57">
           <property name="geometry">
            <rect>
             <x>340</x>
@@ -6967,14 +6534,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_58">
+         <widget class="QLineEdit" name="G3lineEdit58">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -6988,14 +6552,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_59">
+         <widget class="QLineEdit" name="G3lineEdit59">
           <property name="geometry">
            <rect>
             <x>420</x>
@@ -7009,14 +6570,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_60">
+         <widget class="QLineEdit" name="G3lineEdit60">
           <property name="geometry">
            <rect>
             <x>460</x>
@@ -7030,14 +6588,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_61">
+         <widget class="QLineEdit" name="G3lineEdit61">
           <property name="geometry">
            <rect>
             <x>500</x>
@@ -7051,14 +6606,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_62">
+         <widget class="QLineEdit" name="G3lineEdit62">
           <property name="geometry">
            <rect>
             <x>540</x>
@@ -7072,14 +6624,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_63">
+         <widget class="QLineEdit" name="G3lineEdit63">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -7093,14 +6642,11 @@ settings to a project</string>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="maxLength">
-           <number>2</number>
-          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLineEdit" name="G3lineEdit_64">
+         <widget class="QLineEdit" name="G3lineEdit64">
           <property name="geometry">
            <rect>
             <x>620</x>
@@ -7113,9 +6659,6 @@ settings to a project</string>
            <font>
             <pointsize>11</pointsize>
            </font>
-          </property>
-          <property name="maxLength">
-           <number>2</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
