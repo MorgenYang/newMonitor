@@ -17,15 +17,21 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.initSettingsUi()
-        self.ui.setRegExp()
-        self.ui.loadLatestTouchInfoConfig()
-        self.ui.initSelectProjectItems()
-        self.ui.bindEventFunc()
-        self.ui.disableSomeFunctions(True)
 
         self.uiThreadInitHistory = Thread(target=self.ui.initHistoryFunc)
         self.uiThreadInitHistory.start()
+        self.uiThreadInitSettingsUi = Thread(target=self.ui.initSettingsUi())
+        self.uiThreadInitSettingsUi.start()
+        self.uiThreadSetRegExp = Thread(target=self.ui.setRegExp())
+        self.uiThreadSetRegExp.start()
+        self.uiThreadLoadLatestTouchInfoConfig = Thread(target=self.ui.loadLatestTouchInfoConfig())
+        self.uiThreadLoadLatestTouchInfoConfig.start()
+        self.uiThreadInitSelectProjectItems = Thread(target=self.ui.initSelectProjectItems())
+        self.uiThreadInitSelectProjectItems.start()
+        self.uiThreadBindEventFunc = Thread(target=self.ui.bindEventFunc())
+        self.uiThreadBindEventFunc.start()
+        self.uiThreadDisableSomeFunctions = Thread(target=self.ui.disableSomeFunctions(True))
+        self.uiThreadDisableSomeFunctions.start()
         self.statusBar().addWidget(QLabel("Ready"))
 
 
@@ -2645,6 +2651,7 @@ class Ui_MainWindow(object):
         self.G2DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(1))
         self.G3DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(2))
 
+    """ settings """
     def selectProjectItemEvent(self):
         name = self.settingsProComboBox.currentText()
         # read project info and init touch info
@@ -3044,7 +3051,6 @@ class Ui_MainWindow(object):
         else:
             return ''
 
-    """ settings """
     def initSettingsUi(self):
         self.touchInfoRXLineEdit.setDisabled(True)
         self.touchInfoTXLineEdit.setDisabled(True)
