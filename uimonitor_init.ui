@@ -92,7 +92,7 @@
            <number>2</number>
           </property>
           <property name="placeholderText">
-           <string>32</string>
+           <string>0</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="touchInfoTXLineEdit">
@@ -111,7 +111,7 @@
            <number>2</number>
           </property>
           <property name="placeholderText">
-           <string>16</string>
+           <string>0</string>
           </property>
          </widget>
          <widget class="QLabel" name="touchInfoRXLabel">
@@ -214,7 +214,7 @@
            <number>4</number>
           </property>
           <property name="placeholderText">
-           <string>1280</string>
+           <string>0</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="touchInfoResYLineEdit">
@@ -233,7 +233,7 @@
            <number>4</number>
           </property>
           <property name="placeholderText">
-           <string>720</string>
+           <string>0</string>
           </property>
          </widget>
         </widget>
@@ -884,7 +884,7 @@ settings to a project</string>
            <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
-           <string>Save as project</string>
+           <string>Save as a project</string>
           </property>
          </widget>
         </widget>
@@ -1712,7 +1712,7 @@ settings to a project</string>
            </rect>
           </property>
           <property name="placeholderText">
-           <string>Eg:6</string>
+           <string>Default:6</string>
           </property>
          </widget>
          <widget class="QPushButton" name="debugType">

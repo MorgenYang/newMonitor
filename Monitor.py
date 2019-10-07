@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         self.ui.loadLatestTouchInfoConfig()
         self.ui.initSelectProjectItems()
         self.ui.bindEventFunc()
-        self.ui.disableSomeFunctions()
+        self.ui.disableSomeFunctions(True)
 
         self.uiThreadInitHistory = Thread(target=self.ui.initHistoryFunc)
         self.uiThreadInitHistory.start()
@@ -2581,6 +2581,7 @@ class Ui_MainWindow(object):
         self.pathV1RadioButton.clicked.connect(self.chooseDriverVersion)
         self.pathV2RadioButton.clicked.connect(self.chooseDriverVersion)
         self.pathSavePushButton.clicked.connect(self.saveSettingsToProject)
+        self.settingsProComboBox.currentIndexChanged.connect(self.selectProjectItemEvent)
 
         # wifi
         self.wifiConnect.clicked.connect(self.wifiConnectFunc)
@@ -2643,6 +2644,99 @@ class Ui_MainWindow(object):
         self.G1DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(0))
         self.G2DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(1))
         self.G3DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(2))
+
+    def selectProjectItemEvent(self):
+        name = self.settingsProComboBox.currentText()
+        # read project info and init touch info
+        if self.readProjectInfo(name):
+            self.fillTouchConfig()
+            self.initEchoMethod(self.driverVersionMode)
+            self.chooseDriverVersion()
+            self.disableSomeFunctions(False)
+        else:
+            self.dialogWin("File was not exists!")
+            self.initSelectProjectItems()
+
+    def fillTouchConfig(self):
+        self.pathDebugLineEdit.setText(self.debugPath)
+        self.pathSelftestLineEdit.setText(self.selfTestPath)
+        self.pathFlashdumpLineEdit.setText(self.flashDumpPath)
+        self.pathHXFolderLineEdit.setText(self.hxFolderPath)
+        self.pathFWLineEdit.setText(self.fwPath)
+
+        self.touchInfoRXLineEdit.setText(str(self.rxnum))
+        self.touchInfoTXLineEdit.setText(str(self.txnum))
+
+        if self.driverVersionMode == 1:
+            self.pathV1RadioButton.setChecked(True)
+            self.pathV2RadioButton.setChecked(False)
+
+            self.pathDiagLineEdit.setText(self.v1DiagPath)
+            self.pathRegLineEdit.setText(self.v1RegisterPath)
+            self.pathIntenLineEdit.setText(self.v1IntEnPath)
+            self.pathResetLineEdit.setText(self.v1ResetPath)
+            self.pathSenseonoffLineEdit.setText(self.v1SenseOnOffPath)
+            self.pathDiagarrLineEdit.setText(self.v1DiagArrPath)
+            self.pathStackLineEdit.clear()
+        else:
+            self.pathV1RadioButton.setChecked(False)
+            self.pathV2RadioButton.setChecked(True)
+
+            self.pathStackLineEdit.setText(self.v2ReadStackPath)
+            self.pathDiagLineEdit.clear()
+            self.pathRegLineEdit.clear()
+            self.pathIntenLineEdit.clear()
+            self.pathResetLineEdit.clear()
+            self.pathSenseonoffLineEdit.clear()
+            self.pathDiagarrLineEdit.clear()
+
+    def readProjectInfo(self, name):
+        path = './project/'
+        fileName = path + name
+
+        if not os.path.exists(fileName):
+            self.dialogWin("File was not exists!")
+            self.initSelectProjectItems()
+            return False
+
+        with open(fileName, 'rb') as r:
+            for line in r.readlines():
+                line = str(line, encoding='UTF-8')
+                lineList = line.split('=')
+                lineList[1] = lineList[1][:len(lineList[1]) - 2]
+
+                if lineList[0] == 'DRIVER_VERSION':
+                    self.driverVersionMode = int(lineList[1])
+                elif lineList[0] == 'RX':
+                    self.rxnum = int(lineList[1])
+                elif lineList[0] == 'TX':
+                    self.txnum = int(lineList[1])
+                elif lineList[0] == 'V1_DIAG_PATH':
+                    self.v1DiagPath = lineList[1]
+                elif lineList[0] == 'V1_REG_PATH':
+                    self.v1RegisterPath = lineList[1]
+                elif lineList[0] == 'V1_INT_EN_PATH':
+                    self.v1IntEnPath = lineList[1]
+                elif lineList[0] == 'V1_RESET_PATH':
+                    self.v1ResetPath = lineList[1]
+                elif lineList[0] == 'V1_SENSEONOFF_PATH':
+                    self.v1SenseOnOffPath = lineList[1]
+                elif lineList[0] == 'V1_DIAGARR_PATH':
+                    self.v1DiagArrPath = lineList[1]
+                elif lineList[0] == 'V2_STACK_PATH':
+                    self.v2ReadStackPath = lineList[1]
+                elif lineList[0] == 'SELFTEST_PATH':
+                    self.selfTestPath = lineList[1]
+                elif lineList[0] == 'DEBUG_PATH':
+                    self.debugPath = lineList[1]
+                elif lineList[0] == 'FLASH_DUMP_PATH':
+                    self.flashDumpPath = lineList[1]
+                elif lineList[0] == 'HX_FOLDER_PATH':
+                    self.hxFolderPath = lineList[1]
+                elif lineList[0] == 'FW_PATH':
+                    self.fwPath = lineList[1]
+
+        return True
 
     def setRegExp(self):
         # settings limit rx tx input style
@@ -2753,6 +2847,7 @@ class Ui_MainWindow(object):
                     self.fwPath = lineList[1]
 
         self.initEchoMethod(self.driverVersionMode)
+        self.fillTouchConfig()
 
     def initEchoMethod(self, n):
         if n == 1:
@@ -2788,12 +2883,12 @@ class Ui_MainWindow(object):
 
         self.pullHXFileCmd = "adb pull " + self.hxFolderPath
 
-    def disableSomeFunctions(self):
-        self.tabOptions.setDisabled(True)
-        self.tabRawdata.setDisabled(True)
-        self.tabRWRegister.setDisabled(True)
-        self.tabDDRegister.setDisabled(True)
-        self.tabDDLog.setDisabled(True)
+    def disableSomeFunctions(self, disable):
+        self.tabOptions.setDisabled(disable)
+        self.tabRawdata.setDisabled(disable)
+        self.tabRWRegister.setDisabled(disable)
+        self.tabDDRegister.setDisabled(disable)
+        self.tabDDLog.setDisabled(disable)
 
     def saveSettingsToProject(self):
         # check all input data
@@ -2831,7 +2926,12 @@ class Ui_MainWindow(object):
                 return
 
         # TODO:need show sub window to let user enter project name
-        name = "tmp"
+        name = self.dialoInputgWin()
+        if name == '':
+            self.dialogWin("Name was empty")
+            return
+
+        print(name)
         fileName = './project/' + time.strftime("%Y%m%d%H%M%S_", time.localtime()) + name
 
         info = 'DRIVER_VERSION=' + str(driverVersion) + '\n'\
@@ -2849,13 +2949,16 @@ class Ui_MainWindow(object):
                     + 'V1_INT_EN_PATH=' + inten + '\n'\
                     + 'V1_RESET_PATH=' + reset + '\n'\
                     + 'V1_SENSEONOFF_PATH=' + senseonoff + '\n'\
-                    + 'V1_DIAGARR_PATH=' + diagarr
+                    + 'V1_DIAGARR_PATH=' + diagarr + '\n'
         else:
-            info = info + 'V2_STACK_PATH=' + stack
+            info = info + 'V2_STACK_PATH=' + stack + '\n'
 
         projectFile = open(fileName, 'w+')
         projectFile.write(info)
         projectFile.close()
+
+        # update select list
+        self.initSelectProjectItems()
 
     def findProjectFilesName(self):
         path = "./project/"
@@ -2902,6 +3005,44 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         self.dialog.setWindowTitle(_translate("Dialog", "Confirm"))
         self.dialog.exec_()
+
+    def dialoInputgWin(self):
+        self.dialog = QDialog()
+        self.dialog.resize(300, 115)
+        self.dialog.setMaximumSize(QtCore.QSize(300, 100))
+        self.buttonBoxTmp = QtWidgets.QDialogButtonBox(self.dialog)
+        self.buttonBoxTmp.setGeometry(QtCore.QRect(0, 70, 291, 32))
+        self.buttonBoxTmp.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBoxTmp.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBoxTmp.setObjectName("buttonBoxTmp")
+        self.inputName = QtWidgets.QLineEdit(self.dialog)
+        self.inputName.setGeometry(QtCore.QRect(5, 11, 290, 40))
+        font = QtGui.QFont()
+        font.setPointSize(21)
+        self.inputName.setFont(font)
+        # self.labelTmp.setObjectName("labelTmp")
+        # self.labelTmp.setText(string)
+        self.inputName.setAlignment(QtCore.Qt.AlignCenter)
+        reg = QRegExp('[a-zA-Z0-9]*')
+        pValidator = QRegExpValidator()
+        pValidator.setRegExp(reg)
+        self.inputName.setValidator(pValidator)
+
+        self.retranslateUi(self.dialog)
+        self.buttonBoxTmp.accepted.connect(self.dialog.accept)
+        self.buttonBoxTmp.rejected.connect(self.dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(self.dialog)
+
+        _translate = QtCore.QCoreApplication.translate
+        self.dialog.setWindowTitle(_translate("Dialog", "Please enter project name"))
+        if self.dialog.exec_() == QDialog.Accepted:
+            # check file name is right or not
+            if self.inputName.text() == '':
+                return ''
+            else:
+                return self.inputName.text()
+        else:
+            return ''
 
     """ settings """
     def initSettingsUi(self):

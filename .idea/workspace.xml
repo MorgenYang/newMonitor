@@ -22,32 +22,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>mor</find>
-      <find>setWindowIcon</find>
-      <find>rxnum</find>
-      <find>touchInfoRexYLineEdit</find>
-      <find>touchInfoResYLineEdit</find>
-      <find>debugComboBox</find>
-      <find>reglength</find>
-      <find>debugC</find>
-      <find>debugType</find>
-      <find>G1AddrlineEdit_3</find>
-      <find>G1AddrlineEdit</find>
-      <find>G2lineEdit_</find>
-      <find>G3lineEdit_</find>
-      <find>parseInputData</find>
-      <find>HISTORY</find>
-      <find>time</find>
-      <find>touchInten0Func</find>
-      <find>V1_DIAG_PATH</find>
-      <find>setDriverNodePath</find>
-      <find>initPath</find>
-      <find>ComboBox</find>
-      <find>_translate</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>

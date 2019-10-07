@@ -1,6 +1,6 @@
 DRIVER_VERSION=2
-RX=44
-TX=44
+RX=88
+TX=88
 SELFTEST_PATH=/proc/android_touch/self_test
 DEBUG_PATH=/proc/android_touch/debug
 FLASH_DUMP_PATH=/proc/android_touch/flash_dump
