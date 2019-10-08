@@ -796,7 +796,7 @@
            <rect>
             <x>210</x>
             <y>20</y>
-            <width>101</width>
+            <width>310</width>
             <height>16</height>
            </rect>
           </property>
@@ -811,7 +811,7 @@
            <string notr="true">color: rgb(255, 0, 0);</string>
           </property>
           <property name="text">
-           <string>(First)</string>
+           <string>(New project you need choose v1 or v2)</string>
           </property>
          </widget>
          <widget class="QComboBox" name="settingsProComboBox">
@@ -2024,24 +2024,6 @@ settings to a project</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="stop">
-            <property name="maximumSize">
-             <size>
-              <width>40</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Stop</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="log">
             <property name="maximumSize">
              <size>
@@ -2565,7 +2547,7 @@ settings to a project</string>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 255);</string>
+          <string notr="true">color: rgb(255, 0, 0);</string>
          </property>
          <property name="title">
           <string>Group 1</string>
@@ -3937,7 +3919,7 @@ settings to a project</string>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(255, 85, 0);</string>
+          <string notr="true"/>
          </property>
          <property name="title">
           <string>Group 2</string>
@@ -5309,7 +5291,7 @@ settings to a project</string>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(0, 170, 0);</string>
+          <string notr="true">color: rgb(0, 0, 255);</string>
          </property>
          <property name="title">
           <string>Group 3</string>
@@ -6738,19 +6720,6 @@ settings to a project</string>
            <property name="text">
             <string>2.The path of this software is in
  \SVN\Internal\TW\Tool_Team_Release\Himax_driver\2.Debug_tool\ADBMonitor\</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="helpLabel3">
-           <property name="geometry">
-            <rect>
-             <x>5</x>
-             <y>80</y>
-             <width>650</width>
-             <height>30</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>3.If you found some bugs, you can send email to morgen_cai@himax.com.cn</string>
            </property>
           </widget>
          </widget>

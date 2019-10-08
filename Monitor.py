@@ -26,12 +26,10 @@ class MainWindow(QMainWindow):
         self.uiThreadSetRegExp.start()
         self.uiThreadLoadLatestTouchInfoConfig = Thread(target=self.ui.loadLatestTouchInfoConfig())
         self.uiThreadLoadLatestTouchInfoConfig.start()
-        self.uiThreadInitSelectProjectItems = Thread(target=self.ui.initSelectProjectItems())
+        self.uiThreadInitSelectProjectItems = Thread(target=self.ui.initSelectProjectItems(True))
         self.uiThreadInitSelectProjectItems.start()
         self.uiThreadBindEventFunc = Thread(target=self.ui.bindEventFunc())
         self.uiThreadBindEventFunc.start()
-        self.uiThreadDisableSomeFunctions = Thread(target=self.ui.disableSomeFunctions(True))
-        self.uiThreadDisableSomeFunctions.start()
         self.statusBar().addWidget(QLabel("Ready"))
 
 
@@ -295,7 +293,7 @@ class Ui_MainWindow(object):
         self.pathFWLineEdit.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathFWLineEdit.setObjectName("pathFWLineEdit")
         self.pathConmmentLabel = QtWidgets.QLabel(self.settingsGroupBox)
-        self.pathConmmentLabel.setGeometry(QtCore.QRect(210, 20, 101, 16))
+        self.pathConmmentLabel.setGeometry(QtCore.QRect(210, 20, 310, 16))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -697,13 +695,6 @@ class Ui_MainWindow(object):
         self.textEditDiag.setFont(font)
         self.textEditDiag.setObjectName("textEditDiag")
         self.verticalLayout.addWidget(self.textEditDiag)
-        self.stop = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.stop.setMaximumSize(QtCore.QSize(40, 30))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.stop.setFont(font)
-        self.stop.setObjectName("stop")
-        self.verticalLayout.addWidget(self.stop)
         self.log = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.log.setMaximumSize(QtCore.QSize(40, 30))
         font = QtGui.QFont()
@@ -852,7 +843,7 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.ddRegGroupBox1.setFont(font)
-        self.ddRegGroupBox1.setStyleSheet("color: rgb(0, 0, 255);")
+        self.ddRegGroupBox1.setStyleSheet("color: rgb(255, 0, 0);")
         self.ddRegGroupBox1.setObjectName("ddRegGroupBox1")
         self.G1DDRead = QtWidgets.QPushButton(self.ddRegGroupBox1)
         self.G1DDRead.setGeometry(QtCore.QRect(0, 15, 75, 23))
@@ -1374,7 +1365,7 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.ddRegGroupBox2.setFont(font)
-        self.ddRegGroupBox2.setStyleSheet("color: rgb(255, 85, 0);")
+        self.ddRegGroupBox2.setStyleSheet("")
         self.ddRegGroupBox2.setObjectName("ddRegGroupBox2")
         self.G2DDRead = QtWidgets.QPushButton(self.ddRegGroupBox2)
         self.G2DDRead.setGeometry(QtCore.QRect(0, 15, 75, 23))
@@ -1896,7 +1887,7 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.ddRegGroupBox3.setFont(font)
-        self.ddRegGroupBox3.setStyleSheet("color: rgb(0, 170, 0);")
+        self.ddRegGroupBox3.setStyleSheet("color: rgb(0, 0, 255);")
         self.ddRegGroupBox3.setObjectName("ddRegGroupBox3")
         self.G3DDRead = QtWidgets.QPushButton(self.ddRegGroupBox3)
         self.G3DDRead.setGeometry(QtCore.QRect(0, 15, 75, 23))
@@ -2434,9 +2425,6 @@ class Ui_MainWindow(object):
         self.helpLabel2 = QtWidgets.QLabel(self.TabAbout)
         self.helpLabel2.setGeometry(QtCore.QRect(5, 40, 650, 30))
         self.helpLabel2.setObjectName("helpLabel2")
-        self.helpLabel3 = QtWidgets.QLabel(self.TabAbout)
-        self.helpLabel3.setGeometry(QtCore.QRect(5, 80, 650, 30))
-        self.helpLabel3.setObjectName("helpLabel3")
         self.TabHelpSubMain.addTab(self.TabAbout, "")
         self.TabCommands = QtWidgets.QWidget()
         self.TabCommands.setObjectName("TabCommands")
@@ -2455,16 +2443,16 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.0"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.2"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
-        self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "32"))
-        self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "16"))
+        self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
+        self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoRXLabel.setText(_translate("MainWindow", "RX:"))
         self.touchInfoTXLabel.setText(_translate("MainWindow", "TX:"))
         self.touchInfoRexYLabel.setText(_translate("MainWindow", "Res Y:"))
         self.touchInfoRexXLabel.setText(_translate("MainWindow", "Res X:"))
-        self.touchInfoResXLineEdit.setPlaceholderText(_translate("MainWindow", "1280"))
-        self.touchInfoResYLineEdit.setPlaceholderText(_translate("MainWindow", "720"))
+        self.touchInfoResXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
+        self.touchInfoResYLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.settingsGroupBox.setTitle(_translate("MainWindow", "Path settings"))
         self.pathV1RadioButton.setText(_translate("MainWindow", "V1"))
         self.pathV2RadioButton.setText(_translate("MainWindow", "V2"))
@@ -2481,11 +2469,11 @@ class Ui_MainWindow(object):
         self.pathFlashdumpLabel.setText(_translate("MainWindow", "Flash_dump:"))
         self.pathHXFolderLabel.setText(_translate("MainWindow", "HX folder:"))
         self.pathFWLabel.setText(_translate("MainWindow", "FW path:"))
-        self.pathConmmentLabel.setText(_translate("MainWindow", "(First)"))
+        self.pathConmmentLabel.setText(_translate("MainWindow", "(New project you need choose v1 or v2)"))
         self.conmment_2.setText(_translate("MainWindow", "Select project:"))
         self.conmment.setText(_translate("MainWindow", "You can save this\n"
 	"settings to a project"))
-        self.pathSavePushButton.setText(_translate("MainWindow", "Save as project"))
+        self.pathSavePushButton.setText(_translate("MainWindow", "Save as a project"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabSettings), _translate("MainWindow", "Settings"))
         self.wifiGroupBox.setTitle(_translate("MainWindow", "WIFI"))
         self.wifiConnect.setText(_translate("MainWindow", "Connect"))
@@ -2515,7 +2503,7 @@ class Ui_MainWindow(object):
         self.flashDump.setText(_translate("MainWindow", "FlashDump"))
         self.reset.setText(_translate("MainWindow", "Reset"))
         self.updateFW.setText(_translate("MainWindow", "UpdateFW"))
-        self.diagArrText.setPlaceholderText(_translate("MainWindow", "Eg:6"))
+        self.diagArrText.setPlaceholderText(_translate("MainWindow", "Default:6"))
         self.debugType.setText(_translate("MainWindow", "Debug"))
         self.debugComboBox.setItemText(0, _translate("MainWindow", "v"))
         self.debugComboBox.setItemText(1, _translate("MainWindow", "d"))
@@ -2533,7 +2521,6 @@ class Ui_MainWindow(object):
         self.radioDC.setText(_translate("MainWindow", "DC"))
         self.radioIIR.setText(_translate("MainWindow", "IIR"))
         self.textEditDiag.setPlaceholderText(_translate("MainWindow", "Type"))
-        self.stop.setText(_translate("MainWindow", "Stop"))
         self.log.setText(_translate("MainWindow", "Log"))
         self.recalled.setText(_translate("MainWindow", "ReL"))
         self.timeLineEdit.setPlaceholderText(_translate("MainWindow", "Time"))
@@ -2577,7 +2564,6 @@ class Ui_MainWindow(object):
         self.helpLabel1.setText(_translate("MainWindow", "1.This software\'s introduction of the location is in .\\doc\\introduction.ppt"))
         self.helpLabel2.setText(_translate("MainWindow", "2.The path of this software is in\n"
 	" \\SVN\\Internal\\TW\\Tool_Team_Release\\Himax_driver\\2.Debug_tool\\ADBMonitor\\"))
-        self.helpLabel3.setText(_translate("MainWindow", "3.If you found some bugs, you can send email to morgen_cai@himax.com.cn"))
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabAbout), _translate("MainWindow", "About"))
         self.TabHelpSubMain.setTabText(self.TabHelpSubMain.indexOf(self.TabCommands), _translate("MainWindow", "Commands"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabHelp), _translate("MainWindow", "Help"))
@@ -2606,19 +2592,21 @@ class Ui_MainWindow(object):
         self.screenShot.clicked.connect(self.screenShotFunc)
         self.shutDown.clicked.connect(self.shutDownFunc)
         self.reboot.clicked.connect(self.rebootFunc)
+        self.opencmd.clicked.connect(self.openCMDFunc)
 
         # touch
         self.fwVersion.clicked.connect(self.touchFWVersionFunc)
         self.reset.clicked.connect(self.touchResetFunc)
         self.senseon.clicked.connect(self.touchSenseOnFunc)
         self.selftest.clicked.connect(self.touchSelfTestFunc)
-        self.inten0.clicked.connect(self.touchInten0Func)
+        self.inten0.clicked.connect(self.touchIntenFunc)
         self.flashDump.clicked.connect(self.touchFlashDumpFunc)
+        self.debugType.clicked.connect(self.touchDebugTypeFunc)
 
         # display
         self.d1129.clicked.connect(self.display1129Func)
         self.d2810.clicked.connect(self.display2810Func)
-        self.openBlight.clicked.connect(self.touchDiagArrFunc)
+        # self.openBlight.clicked.connect()
 
         # options
         self.diagArr.clicked.connect(self.touchDiagArrFunc)
@@ -2626,8 +2614,10 @@ class Ui_MainWindow(object):
 
         # rawdata show
         self.rawdataRead.clicked.connect(self.rawdataReadFunc)
-        self.stop.clicked.connect(self.stopFunc)
         self.log.clicked.connect(self.logFunc)
+        self.radioDC.clicked.connect(self.chooseRawdataType)
+        self.radioIIR.clicked.connect(self.chooseRawdataType)
+        self.radioTmp.clicked.connect(self.chooseRawdataType)
 
         # register read write
         self.pushButtonRead.clicked.connect(self.readRegFunc)
@@ -2659,10 +2649,11 @@ class Ui_MainWindow(object):
             self.fillTouchConfig()
             self.initEchoMethod(self.driverVersionMode)
             self.chooseDriverVersion()
+            self.initRawdataUI()
+            self.initSettingsUi()
             self.disableSomeFunctions(False)
         else:
-            self.dialogWin("File was not exists!")
-            self.initSelectProjectItems()
+            self.disableSomeFunctions(True)
 
     def fillTouchConfig(self):
         self.pathDebugLineEdit.setText(self.debugPath)
@@ -2703,7 +2694,7 @@ class Ui_MainWindow(object):
 
         if not os.path.exists(fileName):
             self.dialogWin("File was not exists!")
-            self.initSelectProjectItems()
+            self.initSelectProjectItems(False)
             return False
 
         with open(fileName, 'rb') as r:
@@ -2802,9 +2793,14 @@ class Ui_MainWindow(object):
             getattr(self, "G2lineEdit%d" % (i + 1)).setValidator(pValidator)
             getattr(self, "G3lineEdit%d" % (i + 1)).setValidator(pValidator)
 
-    def initSelectProjectItems(self):
+    def initSelectProjectItems(self, init):
+        if not init:
+            self.settingsProComboBox.blockSignals(True)
+            self.settingsProComboBox.clear()
+
         _translate = QtCore.QCoreApplication.translate
         projectList = self.findProjectFilesName()
+
         for i in range(len(projectList)):
             self.settingsProComboBox.addItem("")
 
@@ -2812,6 +2808,9 @@ class Ui_MainWindow(object):
         while i >= 0:
             self.settingsProComboBox.setItemText(len(projectList) - 1 - i, _translate("MainWindow", projectList[i]))
             i = i - 1
+
+        if not init:
+            self.settingsProComboBox.blockSignals(False)
 
     def loadLatestTouchInfoConfig(self):
         path = self.findProjectDocFilesPath()
@@ -2855,6 +2854,7 @@ class Ui_MainWindow(object):
 
         self.initEchoMethod(self.driverVersionMode)
         self.fillTouchConfig()
+        self.initRawdataUI()
 
     def initEchoMethod(self, n):
         if n == 1:
@@ -2938,7 +2938,6 @@ class Ui_MainWindow(object):
             self.dialogWin("Name was empty")
             return
 
-        print(name)
         fileName = './project/' + time.strftime("%Y%m%d%H%M%S_", time.localtime()) + name
 
         info = 'DRIVER_VERSION=' + str(driverVersion) + '\n'\
@@ -2965,7 +2964,7 @@ class Ui_MainWindow(object):
         projectFile.close()
 
         # update select list
-        self.initSelectProjectItems()
+        self.initSelectProjectItems(False)
 
     def findProjectFilesName(self):
         path = "./project/"
@@ -3159,6 +3158,24 @@ class Ui_MainWindow(object):
             self.MainRawdataShowtableWidget.setRowHeight(i, height)
 
     """ new dd register read write """
+    def reverseBacgroundColor(self, before, now, n):
+        for i in range(64):
+            m = getattr(self, "G%slineEdit%d" % (str(n+1), (i + 1)))
+            if n == 0:
+                m.setStyleSheet("color: rgb(255, 0, 0)")
+            elif n == 1:
+                m.setStyleSheet("color: rgb(0, 0, 0)")
+            elif n == 2:
+                m.setStyleSheet("color: rgb(0, 0, 255)")
+
+            if before[i] != now[i]:
+                if n == 0:
+                    m.setStyleSheet("color: rgb(0, 255, 0)")
+                elif n == 1:
+                    m.setStyleSheet("color: rgb(255, 0, 0)")
+                elif n == 2:
+                    m.setStyleSheet("color: rgb(0, 255, 0)")
+
     def ddReadRegisterFunc(self, n):
         ret = ''
         if n == 0:
@@ -3180,6 +3197,9 @@ class Ui_MainWindow(object):
             self.dialogWin(string)
             return
 
+        # record before address
+        self.beforeAddress = ret
+
         # translate to 4 byte
         tmpLen = ret[4:]
         tmpLen = int(tmpLen, 16)
@@ -3193,7 +3213,10 @@ class Ui_MainWindow(object):
         self.disableLineReg(n, self.regLength, True)
         ret = self.readDDRegister(ret)
         ret = self.parseRegData(ret)
+        if self.beforeRead != '':
+            self.reverseBacgroundColor(self.beforeRead, ret, n)
         self.ret = ret
+        self.beforeRead = ret
         self.fillDataToRegisterLineText(ret, n)
 
     def disableLineReg(self, n, m, b):
@@ -3275,6 +3298,11 @@ class Ui_MainWindow(object):
             self.dialogWin("addr was not right")
             return
 
+        # compare this address with before
+        if self.beforeAddress != addr:
+            self.dialogWin("addr was changed!")
+            return
+
         # get changed index
         ret = ret.split(',')
         for i in range(64):
@@ -3351,6 +3379,8 @@ class Ui_MainWindow(object):
                     ret += '\n'
                 m = getattr(self, "G3lineEdit%d" % (i + 1))
                 ret += m.text() + ','
+
+        ret += '\n'
         pyperclip.copy(ret)
         pyperclip.paste()
 
@@ -3411,12 +3441,10 @@ class Ui_MainWindow(object):
 
     """ touch register read write """
     def initHistoryFunc(self):
-        self.d1129.setDisabled(True)
-        self.d2810.setDisabled(True)
         self.openBlight.setDisabled(True)
-        self.flashDump.setDisabled(True)
 
         self.ret = ''
+        self.beforeRead = ''
         self.historyFile = './settings/register_history'
         self.showRawdataFlag = 0
         self.showKmsgFlag = 0
@@ -3570,8 +3598,7 @@ class Ui_MainWindow(object):
             adb.shell(cmd, "SHELL")
 
     """ rawdata show """
-    def rawdataReadFunc(self):
-        # choose rawdata type
+    def chooseRawdataType(self):
         if self.radioDC.isChecked():
             adb.shell(self.echoDiag % '2', "SHELL")
         elif self.radioIIR.isChecked():
@@ -3579,24 +3606,49 @@ class Ui_MainWindow(object):
         elif self.radioTmp.isChecked():
             type = self.textEditDiag.text()
             if type == '':
-                print("value null")
-                return
+                return False
             adb.shell(self.echoDiag % type, "SHELL")
         else:
-            string = "Please set diag type!"
-            self.dialogWin(string)
+            return False
+
+        return True
+
+    def rawdataReadFunc(self):
+        # choose rawdata type
+        if not self.chooseRawdataType():
+            self.dialogWin("Please set type")
             return
 
-        self.rawdataRead.setDisabled(True)
+        if self.rawdataRead.objectName() == 'rawdataRead':
+            self.rawdataRead.setObjectName('rawdataReadStop')
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("img/stop_48px.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.rawdataRead.setIcon(icon)
+            self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
 
-        self.radioDC.setDisabled(True)
-        self.radioIIR.setDisabled(True)
-        self.radioTmp.setDisabled(True)
-        self.textEditDiag.setDisabled(True)
+            # cat diag
+            self.readRawdataThread = Thread(target=self.showRawdata)
+            self.readRawdataThread.start()
+        else:
+            self.rawdataRead.setObjectName('rawdataRead')
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("img/start_48px.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.rawdataRead.setIcon(icon)
+            self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
 
-        # cat diag
-        self.readRawdataThread = Thread(target=self.showRawdata)
-        self.readRawdataThread.start()
+            self.showRawdataFlag = 0
+            self.showKmsgFlag = 0
+            self.showGeteventFlag = 0
+
+            if self.logFlag:
+                self.logFile.close()
+
+            self.logFlag = False
+            self.log.setDisabled(False)
+            self.log.setText("Log")
+            self.log.setStyleSheet("color: rgb(0, 0, 0)")
+
+            adb.shell(self.echoDiag % '0', "SHELL")
 
     def showRawdata(self):
         self.showRawdataFlag = 1
@@ -3624,36 +3676,6 @@ class Ui_MainWindow(object):
                     a = QTableWidgetItem(rawdata[i * (self.txnum + 2) + j])
                     self.MainRawdataShowtableWidget.setItem(i, j, a)
 
-    def stopFunc(self):
-        self.showRawdataFlag = 0
-        self.showKmsgFlag = 0
-        self.showGeteventFlag = 0
-
-        if self.logFlag:
-            self.logFile.close()
-
-        self.radioDC.setDisabled(False)
-        self.radioIIR.setDisabled(False)
-        self.radioTmp.setDisabled(False)
-        self.textEditDiag.setDisabled(False)
-
-        self.kmsg.setDisabled(False)
-        self.getevent.setDisabled(False)
-
-        self.logFlag = False
-        self.log.setDisabled(False)
-        self.log.setText("Log")
-        self.log.setStyleSheet("color: rgb(0, 0, 0)")
-
-        self.rawdataRead.setText("Read")
-        self.rawdataRead.setStyleSheet("color: rgb(0, 0, 0);background-color: rgb(170, 255, 127);")
-        self.rawdataRead.setDisabled(False)
-
-        adb.shell(self.echoDiag % '0', "SHELL")
-
-    def sramFunc(self):
-        pass
-
     def logFunc(self):
         if self.showRawdataFlag == 0:
             string = "Please read first!"
@@ -3666,7 +3688,7 @@ class Ui_MainWindow(object):
 
         # toggle
         self.log.setDisabled(True)
-        self.log.setText("Logging")
+        self.log.setText("Ing.")
         self.log.setStyleSheet("color: rgb(255, 0, 0)")
 
     """ touch """
@@ -3685,12 +3707,14 @@ class Ui_MainWindow(object):
         self.rawdataShowText.append(cmd)
 
     def touchSenseOnFunc(self):
-        adb.shell(self.echoSenseOn, "SHELL")
-        self.rawdataShowText.append(self.echoSenseOn)
-
-    def touchSenseOffFunc(self):
-        adb.shell(self.echoSenseOff, "SHELL")
-        self.rawdataShowText.append(self.echoSenseOff)
+        if self.senseon.text() == 'SenseOn':
+            self.senseon.setText('SenseOff')
+            adb.shell(self.echoSenseOff, "SHELL")
+            self.rawdataShowText.append(self.echoSenseOff)
+        else:
+            self.senseon.setText('SenseOn')
+            adb.shell(self.echoSenseOn, "SHELL")
+            self.rawdataShowText.append(self.echoSenseOn)
 
     def touchSelfTestFunc(self):
         self.selftestThread = Thread(target=self.selftestThreadFunc)
@@ -3699,6 +3723,7 @@ class Ui_MainWindow(object):
     def selftestThreadFunc(self):
         ret = adb.shell(self.catSelfTest, "SHELL")
         self.rawdataShowText.append(ret)
+        self.rawdataShowText.update()
 
     def touchFWVersionFunc(self):
         adb.shell(self.echoFWVersion % "v", "SHELL")
@@ -3710,13 +3735,15 @@ class Ui_MainWindow(object):
         adb.shell(self.echoReset % "1", "SHELL")
         self.rawdataShowText.append(self.echoReset % "1")
 
-    def touchInten0Func(self):
-        adb.shell(self.echoIntEn % "0", "SHELL")
-        self.rawdataShowText.append("disable irq")
-
-    def touchInten1Func(self):
-        adb.shell(self.echoIntEn % "1", "SHELL")
-        self.rawdataShowText.append("enable irq")
+    def touchIntenFunc(self):
+        if self.inten0.text() == 'Int_en':
+            self.inten0.setText('Int_dis')
+            adb.shell(self.echoIntEn % "0", "SHELL")
+            self.rawdataShowText.append("disable irq")
+        else:
+            self.inten0.setText('Int_en')
+            adb.shell(self.echoIntEn % "1", "SHELL")
+            self.rawdataShowText.append("enable irq")
 
     def touchFlashDumpFunc(self):
         self.rawdataShowText.append("will be add flash dump func\n")
@@ -3731,26 +3758,39 @@ class Ui_MainWindow(object):
         ret = adb.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
         self.rawdataShowText.append(ret)
 
+    def touchDebugTypeFunc(self):
+        adb.shell("echo %s > " % self.debugComboBox.currentText() + self.debugPath, 'SHELL')
+        ret = adb.shell("cat " + self.debugPath, 'SHELL')
+        self.rawdataShowText.append(ret)
+
     """ display """
     def display1129Func(self):
         if self.driverVersionMode == 1:
-            adb.shell("echo w:x30011000 > " + self.v1RegisterPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
-            adb.shell("echo w:x30029000 > " + self.v1RegisterPath, "SHELL")
-        elif self.driverVersionMode == 2:
-            adb.shell("echo register,w:x30011000 > " + self.debugPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
-            adb.shell("echo register,w:x30029000 > " + self.debugPath, "SHELL")
+            cmd1 = "echo w:x30011000 > " + self.v1RegisterPath
+            cmd2 = "echo w:x30029000 > " + self.v1RegisterPath
+        else:
+            cmd1 = "echo register,w:x30011000 > " + self.debugPath
+            cmd2 = "echo register,w:x30029000 > " + self.debugPath
+
+        adb.shell(cmd1, "SHELL")
+        adb.shell("sleep 1", "SHELL")
+        adb.shell(cmd2, "SHELL")
+        self.rawdataShowText.append(cmd1)
+        self.rawdataShowText.append(cmd2)
 
     def display2810Func(self):
         if self.driverVersionMode == 1:
-            adb.shell("echo w:x30028000 > " + self.v1RegisterPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
-            adb.shell("echo w:x30010000 > " + self.v1RegisterPath, "SHELL")
-        elif self.driverVersionMode == 2:
-            adb.shell("echo register,w:x30028000 > " + self.debugPath, "SHELL")
-            adb.shell("sleep 1", "SHELL")
-            adb.shell("echo register,w:x30010000 > " + self.debugPath, "SHELL")
+            cmd1 = "echo w:x30028000 > " + self.v1RegisterPath
+            cmd2 = "echo w:x30010000 > " + self.v1RegisterPath
+        else:
+            cmd1 = "echo register,w:x30028000 > " + self.debugPath
+            cmd2 = "echo register,w:x30010000 > " + self.debugPath
+
+        adb.shell(cmd1, "SHELL")
+        adb.shell("sleep 1", "SHELL")
+        adb.shell(cmd2, "SHELL")
+        self.rawdataShowText.append(cmd1)
+        self.rawdataShowText.append(cmd2)
 
     """ wifi func """
     def wifiConnectFunc(self):
@@ -3861,15 +3901,19 @@ class Ui_MainWindow(object):
     """ adb """
     def rootFunc(self):
         ret = adb.shell("adb root")
+        self.rawdataShowText.append(ret)
         if ret == '' or 'error' in ret:
-            print("root failed")
+            self.adbStatus.setText('Failed')
+            self.adbStatus.setStyleSheet("color: rgb(255, 0, 0);")
             return
+        else:
+            self.adbStatus.setText('OK')
+            self.adbStatus.setStyleSheet("color: rgb(0, 255, 0);")
 
-        adb.shell("adb remount")
-        adb.shell("adb shell setenforce 0")
-        adb.shell("adb shell chmod 777 /proc/android_touch/*")
-        adb.shell("adb shell chmod 777 /proc/android_touch/diag/*")
-        print("execute root, remount, setenforce 0, chmod")
+        ret = adb.shell("adb remount")
+        self.rawdataShowText.append(ret)
+        ret = adb.shell("adb shell setenforce 0")
+        self.rawdataShowText.append('setenforce 0')
 
     def homeKeyFunc(self):
         cmd = "adb shell input keyevent KEYCODE_HOME"
@@ -3940,6 +3984,10 @@ class Ui_MainWindow(object):
 
     def rebootFunc(self):
         adb.shell("adb reboot")
+
+    def openCMDFunc(self):
+        cmd = "C:\Windows\System32\cmd.exe"
+        os.startfile(cmd)
 
 
 if __name__ == '__main__':
