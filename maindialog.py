@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\ADBMonitor2.0.2\maindialog.ui'
+# Form implementation generated from reading ui file 'd:\ADBMonitor\maindialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -13,11 +13,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(544, 505)
+        MainWindow.resize(548, 494)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 501, 42))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 341, 42))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.verticalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -87,9 +87,9 @@ class Ui_MainWindow(object):
         self.timeLineEdit.setObjectName("timeLineEdit")
         self.horizontalLayout.addWidget(self.timeLineEdit)
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 50, 540, 430))
+        self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, 540, 430))
         self.MainRawdataShowtableWidget.setMinimumSize(QtCore.QSize(0, 0))
-        self.MainRawdataShowtableWidget.setMaximumSize(QtCore.QSize(750, 550))
+        self.MainRawdataShowtableWidget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setPointSize(6)
         self.MainRawdataShowtableWidget.setFont(font)
