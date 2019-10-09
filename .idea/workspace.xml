@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abfa5a11-2cf1-4ec6-a642-eb94502978ca" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Monitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/define" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/register_history" beforeDir="false" afterPath="$PROJECT_DIR$/settings/register_history" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/showrawdata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/showrawdata.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uimonitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uimonitor.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uimonitor_init - 副本.ui" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/uimonitor_init.py" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor_init.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uimonitor_init.ui" beforeDir="false" afterPath="$PROJECT_DIR$/uimonitor_init.ui" afterDir="false" />
     </list>
@@ -20,22 +22,25 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="56" selection-start-line="56" selection-end-line="56" />
+            <state relative-caret-position="517">
+              <caret line="3816" selection-start-line="3816" selection-end-line="3816" />
               <folding>
                 <element signature="e#0#88#0" expanded="true" />
-                <element signature="e#128468#137977#0" />
+                <element signature="e#1399#55462#0" />
+                <element signature="e#55513#64306#0" />
+                <element signature="e#64567#114458#0" />
+                <element signature="e#114509#122859#0" />
                 <element signature="e#137171#140913#0" />
+                <element signature="e#66360#66395#0" />
+                <element signature="e#124947#125003#0" />
                 <element signature="e#140163#140595#0" />
                 <element signature="e#141214#142627#0" />
                 <element signature="e#141665#142180#0" />
                 <element signature="e#142207#142627#0" />
                 <element signature="e#142674#144700#0" />
-                <element signature="e#144735#147048#0" />
-                <element signature="e#146830#147048#0" />
+                <element signature="e#146598#148913#0" />
                 <element signature="e#146533#147230#0" />
-                <element signature="e#147440#149360#0" />
-                <element signature="e#147659#149336#0" />
+                <element signature="e#149603#151523#0" />
                 <element signature="e#149463#150919#0" />
                 <element signature="e#150974#151194#0" />
                 <element signature="e#151241#153868#0" />
@@ -50,8 +55,7 @@
                 <element signature="e#157323#158175#0" />
                 <element signature="e#157719#158720#0" />
                 <element signature="e#159002#160327#0" />
-                <element signature="e#160540#162390#0" />
-                <element signature="e#162104#162282#0" />
+                <element signature="e#164580#165295#0" />
                 <element signature="e#162476#163521#0" />
                 <element signature="e#163570#164581#0" />
                 <element signature="e#163588#164083#0" />
@@ -147,6 +151,8 @@
                 <element signature="e#189969#190060#0" />
                 <element signature="e#190096#190119#0" />
                 <element signature="e#190211#190272#0" />
+                <element signature="e#120868#120898#0" />
+                <element signature="e#182534#182564#0" />
               </folding>
             </state>
           </provider>
@@ -163,15 +169,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>initRawdataUI</find>
-      <find>rawdataReadFunc</find>
-      <find>rawdataRead</find>
-      <find>sramFunc</find>
-      <find>stopFunc</find>
-      <find>update</find>
-      <find>touchInten0Func</find>
-      <find>touchIntenFunc</find>
-      <find>disableSomeFunctions</find>
       <find>selectProjectItemEvent</find>
       <find>File was not exists</find>
       <find>chooseDriverVersion</find>
@@ -188,11 +185,20 @@
       <find>setStyleSheet</find>
       <find>self.ret</find>
       <find>2.0.0</find>
-      <find>morgen</find>
       <find>G1lineEdit1</find>
       <find>G1DDClear</find>
       <find>mor</find>
       <find>define</find>
+      <find>morgen</find>
+      <find>for</find>
+      <find>radioDC</find>
+      <find>tabRawdata</find>
+      <find>TabMainWindow</find>
+      <find>horizontalLayoutWidget</find>
+      <find>rawdataRead</find>
+      <find>initRawdataUI</find>
+      <find>recalledFunc</find>
+      <find>dialogMainWin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -207,9 +213,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="width" value="1654" />
-    <option name="height" value="1042" />
+    <option name="width" value="1298" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectId" id="1QKTVNv8PBImG1JpSWmUvwZ8U6Q" />
   <component name="ProjectLevelVcsManager">
@@ -346,11 +351,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1654" height="1042" extended-state="0" />
+    <frame x="0" y="0" width="1298" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12623763" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16190477" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
@@ -358,7 +363,7 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26872247" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24096386" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -424,22 +429,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Monitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="56" selection-start-line="56" selection-end-line="56" />
+        <state relative-caret-position="517">
+          <caret line="3816" selection-start-line="3816" selection-end-line="3816" />
           <folding>
             <element signature="e#0#88#0" expanded="true" />
-            <element signature="e#128468#137977#0" />
+            <element signature="e#1399#55462#0" />
+            <element signature="e#55513#64306#0" />
+            <element signature="e#64567#114458#0" />
+            <element signature="e#114509#122859#0" />
             <element signature="e#137171#140913#0" />
+            <element signature="e#66360#66395#0" />
+            <element signature="e#124947#125003#0" />
             <element signature="e#140163#140595#0" />
             <element signature="e#141214#142627#0" />
             <element signature="e#141665#142180#0" />
             <element signature="e#142207#142627#0" />
             <element signature="e#142674#144700#0" />
-            <element signature="e#144735#147048#0" />
-            <element signature="e#146830#147048#0" />
+            <element signature="e#146598#148913#0" />
             <element signature="e#146533#147230#0" />
-            <element signature="e#147440#149360#0" />
-            <element signature="e#147659#149336#0" />
+            <element signature="e#149603#151523#0" />
             <element signature="e#149463#150919#0" />
             <element signature="e#150974#151194#0" />
             <element signature="e#151241#153868#0" />
@@ -454,8 +462,7 @@
             <element signature="e#157323#158175#0" />
             <element signature="e#157719#158720#0" />
             <element signature="e#159002#160327#0" />
-            <element signature="e#160540#162390#0" />
-            <element signature="e#162104#162282#0" />
+            <element signature="e#164580#165295#0" />
             <element signature="e#162476#163521#0" />
             <element signature="e#163570#164581#0" />
             <element signature="e#163588#164083#0" />
@@ -551,6 +558,8 @@
             <element signature="e#189969#190060#0" />
             <element signature="e#190096#190119#0" />
             <element signature="e#190211#190272#0" />
+            <element signature="e#120868#120898#0" />
+            <element signature="e#182534#182564#0" />
           </folding>
         </state>
       </provider>
