@@ -1112,6 +1112,7 @@ class Ui_MainWindow(object):
         self.pathV2RadioButton.clicked.connect(self.chooseDriverVersion)
         self.pathSavePushButton.clicked.connect(self.saveSettingsToProject)
         self.settingsProComboBox.currentIndexChanged.connect(self.selectProjectItemEvent)
+        self.settingRemove.clicked.connect(self.dialogRemoveWin)
 
         # wifi
         self.wifiConnect.clicked.connect(self.wifiConnectFunc)
@@ -1512,6 +1513,52 @@ class Ui_MainWindow(object):
             fullfilename = os.path.join(path, name)
 
         return fullfilename
+
+    def dialogRemoveWin(self):
+        # find files
+        files = self.findProjectFilesName()
+        fileNum = len(files)
+
+        self.dialog = QDialog()
+        self.dialog.resize(180, 60 + 20 * fileNum)
+        self.girdLayout = QtWidgets.QGridLayout()
+        self.girdLayout.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+
+        self.checkbox0 = QtWidgets.QCheckBox()
+        self.selectAllFiles = QtWidgets.QLabel()
+        self.selectAllFiles.setText("All")
+        self.girdLayout.addWidget(self.checkbox0, 0, 0)
+        self.girdLayout.addWidget(self.selectAllFiles, 0, 1)
+
+        for i in range(fileNum):
+            setattr(self, "checkbox%d" % (i + 1), QtWidgets.QCheckBox())
+            setattr(self, "filename%d" % (i + 1), QtWidgets.QLabel())
+            m = getattr(self, "checkbox%d" % (i + 1))
+            n = getattr(self, "filename%d" % (i + 1))
+            n.setText(files[i])
+            self.girdLayout.addWidget(m, (i + 1), 0)
+            self.girdLayout.addWidget(n, (i + 1), 1)
+
+        self.dialog.setLayout(self.girdLayout)
+
+        self.buttonBoxTmp1 = QtWidgets.QDialogButtonBox(self.dialog)
+        self.buttonBoxTmp1.setGeometry(QtCore.QRect(0, 30 + 20 * fileNum, 150, 30))
+        self.buttonBoxTmp1.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBoxTmp1.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBoxTmp1.setObjectName("buttonBoxTmp1")
+
+        self.retranslateUi(self.dialog)
+        self.buttonBoxTmp1.accepted.connect(self.dialog.accept)
+        self.buttonBoxTmp1.rejected.connect(self.dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(self.dialog)
+
+        _translate = QtCore.QCoreApplication.translate
+        self.dialog.setWindowTitle(_translate("Dialog", "Remove"))
+
+        if self.dialog.exec_() == QDialog.Accepted:
+            pass
+        else:
+            return ''
 
     def dialogWin(self, string):
         self.dialog = QDialog()
@@ -2089,7 +2136,7 @@ class Ui_MainWindow(object):
         # check rx and tx num is or not match
         adb.shell("echo d > " + self.debugPath, "SHELL")
         ret = adb.shell("cat " + self.debugPath, "SHELL")
-        if ret.find("error") != -1:
+        if ret == '' or ret.find("error") != -1:
             self.dialogWin("Can't read tx or rx info")
             return
 
@@ -2402,7 +2449,9 @@ class Ui_MainWindow(object):
         cmd = "adb pull /sdcard/%s" % name
         adb.shell(cmd)
         self.rawdataShowText.append(cmd)
-        os.startfile(name)
+
+        if os.path.exists(name):
+            os.startfile(name)
 
     def shutDownFunc(self):
         adb.shell("adb shell reboot -p")
