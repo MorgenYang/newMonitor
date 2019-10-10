@@ -10,7 +10,6 @@ from PyQt5.QtGui import QIcon, QIntValidator, QRegExpValidator
 import pyperclip
 import math
 from PyQt5.QtCore import QRegExp
-from PyQt5.Qt import Qt
 
 
 class ChildWindow(QMainWindow):
@@ -18,6 +17,8 @@ class ChildWindow(QMainWindow):
         super(ChildWindow, self).__init__()
         self.ui = Ui_ChildWindow()
         self.ui.setupUi(self)
+        self.ui.bindEventFunc()
+        self.ui.setRegExp()
         self.ui.initRawdataUI()
 
 
@@ -30,9 +31,12 @@ class MainWindow(QMainWindow):
         self.height = self.screenRect.height()
         self.width = self.screenRect.width()
 
+        # set rawdata ui config
+        self.rawdataWidth = 37
+        self.rawdataHeight = 15
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # self.ui.showRawdataUI.setDisabled(True)
 
         self.uiThreadInitHistory = Thread(target=self.ui.initHistoryFunc)
         self.uiThreadInitHistory.start()
@@ -318,29 +322,51 @@ class Ui_MainWindow(object):
         self.pathConmmentLabel.setFont(font)
         self.pathConmmentLabel.setStyleSheet("color: rgb(255, 0, 0);")
         self.pathConmmentLabel.setObjectName("pathConmmentLabel")
-        self.conmment_2 = QtWidgets.QLabel(self.tabSettings)
-        self.conmment_2.setGeometry(QtCore.QRect(220, 10, 110, 15))
-        self.conmment_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.conmment_2.setObjectName("conmment_2")
-        self.settingsProComboBox = QtWidgets.QComboBox(self.tabSettings)
-        self.settingsProComboBox.setGeometry(QtCore.QRect(330, 5, 160, 25))
+        self.groupBox = QtWidgets.QGroupBox(self.tabSettings)
+        self.groupBox.setGeometry(QtCore.QRect(230, 0, 351, 81))
+        self.groupBox.setStyleSheet("color: rgb(0, 0, 255);")
+        self.groupBox.setObjectName("groupBox")
+        self.conmment = QtWidgets.QLabel(self.groupBox)
+        self.conmment.setGeometry(QtCore.QRect(0, 55, 95, 15))
+        self.conmment.setAutoFillBackground(False)
+        self.conmment.setStyleSheet("color: rgb(0, 0, 0);")
+        self.conmment.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.conmment.setObjectName("conmment")
+        self.settingsProComboBox = QtWidgets.QComboBox(self.groupBox)
+        self.settingsProComboBox.setGeometry(QtCore.QRect(100, 20, 160, 25))
         self.settingsProComboBox.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.settingsProComboBox.setStyleSheet("color: rgb(0, 0, 0);")
         self.settingsProComboBox.setObjectName("settingsProComboBox")
-        self.conmment = QtWidgets.QLabel(self.tabSettings)
-        self.conmment.setGeometry(QtCore.QRect(220, 50, 110, 15))
-        self.conmment.setAutoFillBackground(False)
-        self.conmment.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.conmment.setObjectName("conmment")
-        self.pathSavePushButton = QtWidgets.QPushButton(self.tabSettings)
-        self.pathSavePushButton.setGeometry(QtCore.QRect(330, 45, 160, 30))
+        self.pathSavePushButton = QtWidgets.QPushButton(self.groupBox)
+        self.pathSavePushButton.setGeometry(QtCore.QRect(100, 50, 160, 30))
         font = QtGui.QFont()
         font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
         self.pathSavePushButton.setFont(font)
         self.pathSavePushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pathSavePushButton.setWhatsThis("")
-        self.pathSavePushButton.setStyleSheet("color: rgb(0, 0, 0);")
+        self.pathSavePushButton.setStyleSheet("color: rgb(255, 255, 255);\n"
+	"background-color: rgb(0, 170, 0);")
         self.pathSavePushButton.setObjectName("pathSavePushButton")
+        self.conmment_2 = QtWidgets.QLabel(self.groupBox)
+        self.conmment_2.setGeometry(QtCore.QRect(0, 25, 95, 15))
+        self.conmment_2.setStyleSheet("color: rgb(0, 0, 0);")
+        self.conmment_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.conmment_2.setObjectName("conmment_2")
+        self.settingRemove = QtWidgets.QPushButton(self.groupBox)
+        self.settingRemove.setGeometry(QtCore.QRect(270, 50, 75, 30))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.settingRemove.setFont(font)
+        self.settingRemove.setStyleSheet("background-color: rgb(255, 0, 0); color: rgb(255, 255, 255)")
+        self.settingRemove.setObjectName("settingRemove")
+        self.settingRemoveLabel = QtWidgets.QLabel(self.groupBox)
+        self.settingRemoveLabel.setGeometry(QtCore.QRect(270, 20, 75, 20))
+        self.settingRemoveLabel.setStyleSheet("color: rgb(0, 0, 0);")
+        self.settingRemoveLabel.setObjectName("settingRemoveLabel")
         self.TabMainWindow.addTab(self.tabSettings, "")
         self.tabOptions = QtWidgets.QWidget()
         self.tabOptions.setObjectName("tabOptions")
@@ -400,8 +426,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.root.setFont(font)
-        self.root.setStyleSheet("background-color: rgb(85, 0, 255);\n"
-	"color: rgb(255, 255, 255);")
+        self.root.setStyleSheet("background-color: rgb(85, 0, 255); color: rgb(255, 255, 255);")
         self.root.setObjectName("root")
         self.adbStatus = QtWidgets.QLabel(self.wifiGroupBox)
         self.adbStatus.setGeometry(QtCore.QRect(480, 15, 100, 30))
@@ -663,8 +688,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.showRawdataUI.setFont(font)
-        self.showRawdataUI.setStyleSheet("color: rgb(255, 255, 255);\n"
-	"background-color: rgb(0, 85, 127);")
+        self.showRawdataUI.setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(255, 0, 0);")
         self.showRawdataUI.setObjectName("showRawdataUI")
         self.rawdataShowText = QtWidgets.QTextBrowser(self.tabOptions)
         self.rawdataShowText.setGeometry(QtCore.QRect(10, 268, 570, 160))
@@ -992,9 +1016,12 @@ class Ui_MainWindow(object):
         self.pathHXFolderLabel.setText(_translate("MainWindow", "HX folder:"))
         self.pathFWLabel.setText(_translate("MainWindow", "FW path:"))
         self.pathConmmentLabel.setText(_translate("MainWindow", "(New project you need choose v1/v2)"))
-        self.conmment_2.setText(_translate("MainWindow", "Select project:"))
+        self.groupBox.setTitle(_translate("MainWindow", "Project"))
         self.conmment.setText(_translate("MainWindow", "New project:"))
         self.pathSavePushButton.setText(_translate("MainWindow", "Save as a project"))
+        self.conmment_2.setText(_translate("MainWindow", "Select project:"))
+        self.settingRemove.setText(_translate("MainWindow", "Remove"))
+        self.settingRemoveLabel.setText(_translate("MainWindow", "Del project"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabSettings), _translate("MainWindow", "Settings"))
         self.wifiGroupBox.setTitle(_translate("MainWindow", "WIFI"))
         self.wifiConnect.setText(_translate("MainWindow", "Connect"))
@@ -1078,6 +1105,8 @@ class Ui_MainWindow(object):
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabDDLog), _translate("MainWindow", "Log"))
 
     def bindEventFunc(self):
+        self.hintMessages()
+
         # settings
         self.pathV1RadioButton.clicked.connect(self.chooseDriverVersion)
         self.pathV2RadioButton.clicked.connect(self.chooseDriverVersion)
@@ -1123,12 +1152,6 @@ class Ui_MainWindow(object):
 
         # rawdata show
         self.showRawdataUI.clicked.connect(self.showRawdataUIFunc)
-        # self.rawdataRead.clicked.connect(self.rawdataReadFunc)
-        # self.log.clicked.connect(self.logFunc)
-        # self.radioDC.clicked.connect(self.chooseRawdataType)
-        # self.radioIIR.clicked.connect(self.chooseRawdataType)
-        # self.radioTmp.clicked.connect(self.chooseRawdataType)
-        # self.recalled.clicked.connect(self.recalledFunc)
 
         # register read write
         self.pushButtonRead.clicked.connect(self.readRegFunc)
@@ -1152,6 +1175,13 @@ class Ui_MainWindow(object):
         self.G2DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(1))
         self.G3DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(2))
 
+    def hintMessages(self):
+        self.wifiConnect.setToolTip("You should connect <b style='color:red'>USB</b> and <b>WIFI</b>,\nthen click this button")
+        self.showRawdataUI.setToolTip("<h3 style='color:black'>It will check <b style='color:red'>rx and tx num</b>,\nand then show rawdata UI</h3>")
+        self.settingRemove.setToolTip("<b style='color:blue'>Will be added!You can delete project files in ./project/</b>")
+        self.opencmd.setToolTip('<b>Open windows cmd.exe</b>')
+        self.screenShot.setToolTip("The picture will be saved\nin this monitor.exe's path")
+
     """ settings """
     def selectProjectItemEvent(self):
         name = self.settingsProComboBox.currentText()
@@ -1159,11 +1189,9 @@ class Ui_MainWindow(object):
         if self.readProjectInfo(name):
             self.fillTouchConfig()
             self.initEchoMethod(self.driverVersionMode)
-            self.chooseDriverVersion()
+            # self.chooseDriverVersion()
             self.initSettingsUi()
             self.disableSomeFunctions(False)
-            child.ui.mainwindow.resize(window.ui.txnum * 35, window.ui.rxnum * 15)
-            child.ui.initRawdataUI()
         else:
             self.disableSomeFunctions(True)
 
@@ -1279,17 +1307,6 @@ class Ui_MainWindow(object):
         pValidator.setRegExp(reg)
         self.diagArrText.setValidator(pValidator)
 
-        # rawdata type, time
-        # reg = QRegExp('[1-9][0-9]')
-        # pValidator = QRegExpValidator()
-        # pValidator.setRegExp(reg)
-        # self.textEditDiag.setValidator(pValidator)
-        #
-        # reg = QRegExp('[1-9][0-9]{2}')
-        # pValidator = QRegExpValidator()
-        # pValidator.setRegExp(reg)
-        # self.timeLineEdit.setValidator(pValidator)
-
         # DD Reg addr val
         reg = QRegExp('[0-9a-fA-F]{6}')
         pValidator = QRegExpValidator()
@@ -1366,7 +1383,6 @@ class Ui_MainWindow(object):
 
         self.initEchoMethod(self.driverVersionMode)
         self.fillTouchConfig()
-        # self.initRawdataUI()
 
     def initEchoMethod(self, n):
         if n == 1:
@@ -1476,6 +1492,7 @@ class Ui_MainWindow(object):
 
         # update select list
         self.initSelectProjectItems(False)
+        self.selectProjectItemEvent()
 
     def findProjectFilesName(self):
         path = "./project/"
@@ -1496,18 +1513,10 @@ class Ui_MainWindow(object):
 
         return fullfilename
 
-    def showChildWindow(self):
-        child.show()
-
     def dialogWin(self, string):
         self.dialog = QDialog()
         self.dialog.resize(300, 115)
         self.dialog.setMaximumSize(QtCore.QSize(300, 115))
-        self.buttonBoxTmp = QtWidgets.QDialogButtonBox(self.dialog)
-        self.buttonBoxTmp.setGeometry(QtCore.QRect(0, 80, 291, 32))
-        self.buttonBoxTmp.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBoxTmp.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBoxTmp.setObjectName("buttonBoxTmp")
         self.labelTmp = QtWidgets.QLabel(self.dialog)
         self.labelTmp.setGeometry(QtCore.QRect(5, 11, 295, 61))
         font = QtGui.QFont()
@@ -1518,13 +1527,10 @@ class Ui_MainWindow(object):
         self.labelTmp.setAlignment(QtCore.Qt.AlignCenter)
 
         self.retranslateUi(self.dialog)
-        self.buttonBoxTmp.accepted.connect(self.dialog.accept)
-        self.buttonBoxTmp.rejected.connect(self.dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(self.dialog)
 
         _translate = QtCore.QCoreApplication.translate
-        self.dialog.setWindowTitle(_translate("Dialog", "Confirm"))
-        self.dialog.setWindowState(Qt.WindowMaximized)
+        self.dialog.setWindowTitle(_translate("Dialog", "Message"))
         self.dialog.exec_()
 
     def dialoInputgWin(self):
@@ -1541,8 +1547,6 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(21)
         self.inputName.setFont(font)
-        # self.labelTmp.setObjectName("labelTmp")
-        # self.labelTmp.setText(string)
         self.inputName.setAlignment(QtCore.Qt.AlignCenter)
         reg = QRegExp('[a-zA-Z0-9]*')
         pValidator = QRegExpValidator()
@@ -1937,7 +1941,6 @@ class Ui_MainWindow(object):
         self.device_ip = ""
         self.device_ip_port = ""
         self.port = ""
-        self.logFlag = False
 
         with open(self.historyFile, 'rb') as r:
             for line in r.readlines():
@@ -2057,9 +2060,8 @@ class Ui_MainWindow(object):
         self.writeRegister(addr, val)
         self.writeHistoryFile(addr, val, n)
 
-    def writeRegister(self, regAddress, write_value):
+    def writeRegister(self, regAddress, writeValue):
         regAddressList = regAddress.split()
-
 
         # Deal with reg_address without space
         if len(regAddressList) > 0:
@@ -2075,109 +2077,48 @@ class Ui_MainWindow(object):
 
 
         # Deal with value for set as 8 digit
-        while len(write_value) < 8 and len(write_value) != 0:
-            write_value = "0" + write_value
+        while len(writeValue) < 8 and len(writeValue) != 0:
+            writeValue = "0" + writeValue
 
-        if len(regAddress) == 8 and len(write_value) != 0:
-            cmd = self.echoWriteRegister % (regAddress, write_value)
+        if len(regAddress) == 8 and len(writeValue) != 0:
+            cmd = self.echoWriteRegister % (regAddress, writeValue)
             adb.shell(cmd, "SHELL")
 
     """ rawdata show """
-    def chooseRawdataType(self):
-        if self.radioDC.isChecked():
-            adb.shell(self.echoDiag % '2', "SHELL")
-        elif self.radioIIR.isChecked():
-            adb.shell(self.echoDiag % '1', "SHELL")
-        elif self.radioTmp.isChecked():
-            type = self.textEditDiag.text()
-            if type == '':
-                return False
-            adb.shell(self.echoDiag % type, "SHELL")
-        else:
-            return False
-
-        return True
-
-    def rawdataReadFunc(self):
-        # choose rawdata type
-        if not self.chooseRawdataType():
-            self.dialogWin("Please set type")
-            return
-
-        if self.rawdataRead.objectName() == 'rawdataRead':
-            self.rawdataRead.setObjectName('rawdataReadStop')
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap("img/stop_48px.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.rawdataRead.setIcon(icon)
-            self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
-
-            # cat diag
-            self.readRawdataThread = Thread(target=self.showRawdata)
-            self.readRawdataThread.start()
-        else:
-            self.rawdataRead.setObjectName('rawdataRead')
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap("img/start_48px.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.rawdataRead.setIcon(icon)
-            self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
-
-            self.showRawdataFlag = 0
-            self.showKmsgFlag = 0
-            self.showGeteventFlag = 0
-
-            if self.logFlag:
-                self.logFile.close()
-
-            self.logFlag = False
-            self.log.setDisabled(False)
-            self.log.setText("Log")
-            self.log.setStyleSheet("color: rgb(0, 0, 0)")
-
-            adb.shell(self.echoDiag % '0', "SHELL")
-
-    def showRawdata(self):
-        self.showRawdataFlag = 1
-        while self.showRawdataFlag:
-            ret = adb.shell(self.catDiag, "SHELL")
-            data = self.analysisRawdata(ret)
-            self.fillRawdataToTable(data)
-            self.MainRawdataShowtableWidget.reset()
-            self.MainRawdataShowtableWidget.update()
-            if self.logFlag:
-                self.logFile.write(ret)
-
-    def analysisRawdata(self, rawdata):
-        index = rawdata.find('[00]')
-        rawdata = rawdata[index:]
-        rawdata = (' '.join(rawdata.split()))
-        rawdata = rawdata.split(' ')
-        rawdata.insert(19, '0')
-        rawdata.insert((self.rxnum + 1) * (self.txnum + 2), '0')
-        return rawdata
-
-    def fillRawdataToTable(self, rawdata):
-        for i in range(self.rxnum + 2):
-            for j in range(self.txnum + 2):
-                    a = QTableWidgetItem(rawdata[i * (self.txnum + 2) + j])
-                    self.MainRawdataShowtableWidget.setItem(i, j, a)
-
-    def logFunc(self):
-        if self.showRawdataFlag == 0:
-            string = "Please read first!"
-            self.dialogWin(string)
-            return
-
-        self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
-        self.logFlag = True
-        self.logFile = open(self.fileName, 'a+')
-
-        # toggle
-        self.log.setDisabled(True)
-        self.log.setText("Ing.")
-        self.log.setStyleSheet("color: rgb(255, 0, 0)")
-
     def showRawdataUIFunc(self):
-        self.showChildWindow()
+        # check rx and tx num is or not match
+        adb.shell("echo d > " + self.debugPath, "SHELL")
+        ret = adb.shell("cat " + self.debugPath, "SHELL")
+        if ret.find("error") != -1:
+            self.dialogWin("Can't read tx or rx info")
+            return
+
+        index = ret.find("RX")
+        index1 = ret.find("\n", index)
+        rx = int(ret[index:index1].split(':')[1])
+
+        index = ret.find("TX")
+        index1 = ret.find("\n", index)
+        tx = int(ret[index:index1].split(':')[1])
+
+        index = ret.find("X Re")
+        index1 = ret.find("\n", index)
+        resX = int(ret[index:index1].split(':')[1])
+
+        index = ret.find("Y Re")
+        index1 = ret.find("\n", index)
+        resY = int(ret[index:index1].split(':')[1])
+
+        if rx != self.rxnum or tx != self.txnum:
+            self.dialogWin("Project rx/tx was not match read\n info,please reset project info")
+            return
+
+        child.ui.mainwindow.resize((window.ui.txnum + 2) * window.rawdataWidth,
+                                   (window.ui.rxnum + 2) * window.rawdataHeight + 45)
+        child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (window.ui.txnum + 2),
+                                                                     window.rawdataHeight * (window.ui.rxnum + 2)))
+        child.ui.initRawdataUI()
+        child.show()
 
     """ touch """
     def touchDiagArrFunc(self):
@@ -2188,7 +2129,7 @@ class Ui_MainWindow(object):
 
         if self.driverVersionMode == 1:
             cmd = "echo %s > " % name + self.v1DiagArrPath
-        elif self.driverVersionMode == 2:
+        else:
             cmd = "echo diag_arr,%s > " % name + self.debugPath
         adb.shell(cmd, "SHELL")
 
@@ -2216,7 +2157,6 @@ class Ui_MainWindow(object):
     def touchFWVersionFunc(self):
         adb.shell(self.echoFWVersion % "v", "SHELL")
         ret = adb.shell(self.catFWVersion, "SHELL")
-        # ret = str(ret, encoding='utf-8')
         self.rawdataShowText.append(ret)
 
     def touchResetFunc(self):
@@ -2293,7 +2233,6 @@ class Ui_MainWindow(object):
         self.wifiConnectFlag = 1
         deviceInfo = (adb.shell("adb devices"))
         self.rawdataShowText.append(deviceInfo)
-        # deviceInfo = str(deviceInfo, encoding='utf-8')
         try:
             device_list = deviceInfo.split()
             device_list.remove("List")
@@ -2332,7 +2271,6 @@ class Ui_MainWindow(object):
         response = ""
         while response.find("already") < 0 and self.wifiConnectFlag != 0:
             response = (adb.shell(cmd))
-        # response = str(response, encoding='utf-8')
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
@@ -2340,7 +2278,6 @@ class Ui_MainWindow(object):
 
         # Polling wait unplugin
         devices = (adb.shell("adb devices"))
-        # devices = str(devices, encoding='utf-8')
         response = ""
 
         self.rawdataShowText.append("Unplugin")
@@ -2348,7 +2285,6 @@ class Ui_MainWindow(object):
 
         while devices.find(deviceName) < 0 and self.wifiConnectFlag != 0:
             devices = (adb.shell("adb devices"))
-        # devices = str(devices, encoding='utf-8')
 
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
@@ -2459,13 +2395,14 @@ class Ui_MainWindow(object):
 
     def screenShotFunc(self):
         self.rawdataShowText.append("Screen Shot...")
-        name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".png"
-        cmd = "adb wait-for-device shell screencap -p /sdcard/%s" % (name)
+        name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".jpg"
+        cmd = "adb wait-for-device shell screencap -p /sdcard/%s" % name
         adb.shell(cmd)
         self.rawdataShowText.append(cmd)
         cmd = "adb pull /sdcard/%s" % name
         adb.shell(cmd)
         self.rawdataShowText.append(cmd)
+        os.startfile(name)
 
     def shutDownFunc(self):
         adb.shell("adb shell reboot -p")
@@ -2482,11 +2419,11 @@ class Ui_MainWindow(object):
 class Ui_ChildWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(window.ui.txnum * 35, window.ui.rxnum * 15)
+        MainWindow.resize((window.ui.txnum + 2) * window.rawdataWidth, (window.ui.rxnum + 2) * window.rawdataHeight + 45)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 341, 42))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 340, 42))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.verticalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -2556,7 +2493,7 @@ class Ui_ChildWindow(object):
         self.timeLineEdit.setObjectName("timeLineEdit")
         self.horizontalLayout.addWidget(self.timeLineEdit)
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, 32 * (window.ui.txnum + 2), 14 * (window.ui.rxnum + 2)))
+        self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (window.ui.txnum + 2), window.rawdataHeight * (window.ui.rxnum + 2)))
         font = QtGui.QFont()
         font.setPointSize(6)
         self.MainRawdataShowtableWidget.setFont(font)
@@ -2572,13 +2509,22 @@ class Ui_ChildWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Show Rawdata UI"))
         self.radioDC.setText(_translate("MainWindow", "DC"))
         self.radioIIR.setText(_translate("MainWindow", "IIR"))
         self.textEditDiag.setPlaceholderText(_translate("MainWindow", "Type"))
         self.log.setText(_translate("MainWindow", "Log"))
         self.recalled.setText(_translate("MainWindow", "ReL"))
         self.timeLineEdit.setPlaceholderText(_translate("MainWindow", "Time"))
+
+    def bindEventFunc(self):
+        self.logFlag = False
+
+        self.rawdataRead.clicked.connect(self.rawdataReadFunc)
+        self.log.clicked.connect(self.logFunc)
+        self.radioDC.clicked.connect(self.chooseRawdataType)
+        self.radioIIR.clicked.connect(self.chooseRawdataType)
+        self.radioTmp.clicked.connect(self.chooseRawdataType)
 
     """ rawdata show """
     def chooseRawdataType(self):
@@ -2649,7 +2595,7 @@ class Ui_ChildWindow(object):
         rawdata = rawdata[index:]
         rawdata = (' '.join(rawdata.split()))
         rawdata = rawdata.split(' ')
-        rawdata.insert(19, '0')
+        rawdata.insert(window.ui.txnum + 1, 'a')
         rawdata.insert((window.ui.rxnum + 1) * (window.ui.txnum + 2), '0')
         return rawdata
 
@@ -2675,8 +2621,6 @@ class Ui_ChildWindow(object):
         self.log.setStyleSheet("color: rgb(255, 0, 0)")
 
     def initRawdataUI(self):
-        width = 32
-        height = 13
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.MainRawdataShowtableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.MainRawdataShowtableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -2694,15 +2638,27 @@ class Ui_ChildWindow(object):
         self.MainRawdataShowtableWidget.verticalHeader().setDefaultSectionSize(10)
         self.MainRawdataShowtableWidget.verticalHeader().setMinimumSectionSize(10)
         font = QtGui.QFont()
-        font.setPointSize(7)
+        font.setPointSize(8)
         self.MainRawdataShowtableWidget.setFont(font)
         for i in range(window.ui.txnum + 2):
             if i == 0:
-                self.MainRawdataShowtableWidget.setColumnWidth(i, width - 7)
+                self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth - 7)
             else:
-                self.MainRawdataShowtableWidget.setColumnWidth(i, width)
+                self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth)
         for i in range(window.ui.rxnum + 2):
-            self.MainRawdataShowtableWidget.setRowHeight(i, height)
+            self.MainRawdataShowtableWidget.setRowHeight(i, window.rawdataHeight)
+
+    def setRegExp(self):
+        # rawdata type, time
+        reg = QRegExp('[1-9][0-9]')
+        pValidator = QRegExpValidator()
+        pValidator.setRegExp(reg)
+        self.textEditDiag.setValidator(pValidator)
+
+        reg = QRegExp('[1-9][0-9]{2}')
+        pValidator = QRegExpValidator()
+        pValidator.setRegExp(reg)
+        self.timeLineEdit.setValidator(pValidator)
 
 
 if __name__ == '__main__':
