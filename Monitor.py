@@ -19,7 +19,6 @@ class ChildWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.bindEventFunc()
         self.ui.setRegExp()
-        self.ui.initRawdataUI()
 
 
 class MainWindow(QMainWindow):
@@ -1335,7 +1334,9 @@ class Ui_MainWindow(object):
             self.settingsProComboBox.clear()
 
         _translate = QtCore.QCoreApplication.translate
-        projectList = self.findProjectFilesName()
+        projectList = self.findProjectFilesName('./project/')
+        if projectList == None:
+            return
 
         for i in range(len(projectList)):
             self.settingsProComboBox.addItem("")
@@ -1350,6 +1351,8 @@ class Ui_MainWindow(object):
 
     def loadLatestTouchInfoConfig(self):
         path = self.findProjectDocFilesPath()
+        if not path:
+            return
 
         with open(path, 'rb') as r:
             for line in r.readlines():
@@ -1471,6 +1474,9 @@ class Ui_MainWindow(object):
             self.dialogWin("Name was empty")
             return
 
+        if not os.path.exists("./project"):
+            os.mkdir("project")
+
         fileName = './project/' + time.strftime("%Y%m%d%H%M%S_", time.localtime()) + name
 
         info = 'DRIVER_VERSION=' + str(driverVersion) + '\n'\
@@ -1500,19 +1506,23 @@ class Ui_MainWindow(object):
         self.initSelectProjectItems(False)
         self.selectProjectItemEvent()
 
-    def findProjectFilesName(self):
-        path = "./project/"
+    def findProjectFilesName(self, path):
+        if not os.path.exists(path):
+            os.mkdir(path)
+
         fileNames = os.listdir(path)
 
         if len(fileNames) == 0:
             self.dialogWin("No find project files!")
-            return
+            return None
 
         return fileNames
 
     def findProjectDocFilesPath(self):
         path = "./project/"
-        fileNames = self.findProjectFilesName()
+        fileNames = self.findProjectFilesName(path)
+        if not fileNames:
+            return None
 
         for name in fileNames:
             fullfilename = os.path.join(path, name)
@@ -1521,7 +1531,7 @@ class Ui_MainWindow(object):
 
     def dialogRemoveWin(self):
         # find files
-        files = self.findProjectFilesName()
+        files = self.findProjectFilesName('./project')
         fileNum = len(files)
 
         self.dialog = QDialog()
@@ -1573,7 +1583,7 @@ class Ui_MainWindow(object):
             self.initSelectProjectItems(False)
 
     def selectAllProject(self):
-        files = self.findProjectFilesName()
+        files = self.findProjectFilesName('./project')
         fileNum = len(files)
         if self.checkbox0.isChecked():
             for i in range(fileNum):
@@ -2536,7 +2546,6 @@ class Ui_MainWindow(object):
 class Ui_ChildWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize((window.ui.txnum + 2) * window.rawdataWidth, (window.ui.rxnum + 2) * window.rawdataHeight + 45)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -2610,7 +2619,6 @@ class Ui_ChildWindow(object):
         self.timeLineEdit.setObjectName("timeLineEdit")
         self.horizontalLayout.addWidget(self.timeLineEdit)
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (window.ui.txnum + 2), window.rawdataHeight * (window.ui.rxnum + 2)))
         font = QtGui.QFont()
         font.setPointSize(6)
         self.MainRawdataShowtableWidget.setFont(font)
@@ -2727,6 +2735,9 @@ class Ui_ChildWindow(object):
             string = "Please read first!"
             window.ui.dialogWin(string)
             return
+
+        if not os.path.exists("./log"):
+            os.mkdir("log")
 
         self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
         self.logFlag = True

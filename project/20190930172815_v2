@@ -1,9 +1,0 @@
-DRIVER_VERSION=2
-RX=32
-TX=18
-V2_STACK_PATH=/proc/android_touch/diag/stack
-SELFTEST_PATH=/proc/android_touch/self_test
-DEBUG_PATH=/proc/android_touch/debug
-FLASH_DUMP_PATH=/proc/android_touch/flash_dump
-HX_FOLDER_PATH=/sdcard/HimaxAPK/tmp
-FW_PATH=/vendor/firmware/Himax_firmware.bin
