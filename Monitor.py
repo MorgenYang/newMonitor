@@ -1,15 +1,15 @@
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QIcon, QRegExpValidator
 import sys
 import adb
 from threading import Thread
 import time
 import os
 import re
-from PyQt5.QtGui import QIcon, QIntValidator, QRegExpValidator
 import pyperclip
 import math
-from PyQt5.QtCore import QRegExp
 
 
 class ChildWindow(QMainWindow):
@@ -499,7 +499,7 @@ class Ui_MainWindow(object):
         self.powerKey.setStyleSheet("color: rgb(0, 0, 0);")
         self.powerKey.setObjectName("powerKey")
         self.screenShot = QtWidgets.QPushButton(self.adbGroupBox)
-        self.screenShot.setGeometry(QtCore.QRect(295, 15, 90, 30))
+        self.screenShot.setGeometry(QtCore.QRect(390, 50, 90, 30))
         self.screenShot.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -517,7 +517,7 @@ class Ui_MainWindow(object):
         self.openClosePoint.setStyleSheet("color: rgb(0, 0, 0);")
         self.openClosePoint.setObjectName("openClosePoint")
         self.opencmd = QtWidgets.QPushButton(self.adbGroupBox)
-        self.opencmd.setGeometry(QtCore.QRect(390, 50, 90, 30))
+        self.opencmd.setGeometry(QtCore.QRect(295, 15, 90, 30))
         self.opencmd.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -542,6 +542,14 @@ class Ui_MainWindow(object):
         self.shutDown.setFont(font)
         self.shutDown.setStyleSheet("color: rgb(0, 0, 0);")
         self.shutDown.setObjectName("shutDown")
+        self.screenRecord = QtWidgets.QPushButton(self.adbGroupBox)
+        self.screenRecord.setGeometry(QtCore.QRect(485, 50, 90, 30))
+        self.screenRecord.setMaximumSize(QtCore.QSize(100, 30))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.screenRecord.setFont(font)
+        self.screenRecord.setStyleSheet("color: rgb(0, 0, 0);")
+        self.screenRecord.setObjectName("screenRecord")
         self.touchGroupBox = QtWidgets.QGroupBox(self.tabOptions)
         self.touchGroupBox.setGeometry(QtCore.QRect(0, 135, 580, 81))
         font = QtGui.QFont()
@@ -874,8 +882,6 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.G2DDRead.setFont(font)
         self.G2DDRead.setObjectName("G2DDRead")
-
-        # morgen
         self.G2AddrlineEdit = QtWidgets.QLineEdit(self.ddRegGroupBox2)
         self.G2AddrlineEdit.setGeometry(QtCore.QRect(80, 16, 113, 20))
         font = QtGui.QFont()
@@ -1042,6 +1048,7 @@ class Ui_MainWindow(object):
         self.opencmd.setText(_translate("MainWindow", "Open cmd"))
         self.hideShowVirtual.setText(_translate("MainWindow", "ShowVirtual"))
         self.shutDown.setText(_translate("MainWindow", "ShutDown"))
+        self.screenRecord.setText(_translate("MainWindow", "ScreenRecord"))
         self.touchGroupBox.setTitle(_translate("MainWindow", "Touch"))
         self.inten0.setText(_translate("MainWindow", "Int_en"))
         self.senseon.setText(_translate("MainWindow", "SenseOn"))
@@ -1114,6 +1121,7 @@ class Ui_MainWindow(object):
         self.settingsProComboBox.currentIndexChanged.connect(self.selectProjectItemEvent)
         self.settingRemove.clicked.connect(self.dialogRemoveWin)
 
+
         # wifi
         self.wifiConnect.clicked.connect(self.wifiConnectFunc)
         self.wifiDisconnect.clicked.connect(self.wifiDisconnectFunc)
@@ -1129,6 +1137,7 @@ class Ui_MainWindow(object):
         self.powerKey.clicked.connect(self.powerKeyFunc)
         self.openClosePoint.clicked.connect(self.openClosePointFunc)
         self.screenShot.clicked.connect(self.screenShotFunc)
+        self.screenRecord.clicked.connect(self.screenRecordFunc)
         self.shutDown.clicked.connect(self.shutDownFunc)
         self.reboot.clicked.connect(self.rebootFunc)
         self.opencmd.clicked.connect(self.openCMDFunc)
@@ -1552,13 +1561,32 @@ class Ui_MainWindow(object):
         self.buttonBoxTmp1.rejected.connect(self.dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(self.dialog)
 
+        # bind event
+        self.checkbox0.clicked.connect(self.selectAllProject)
+
         _translate = QtCore.QCoreApplication.translate
         self.dialog.setWindowTitle(_translate("Dialog", "Remove"))
 
         if self.dialog.exec_() == QDialog.Accepted:
-            pass
+            for i in range(fileNum):
+                m = getattr(self, "checkbox%d" % (i + 1))
+                n = getattr(self, "filename%d" % (i + 1))
+                if m.isChecked():
+                    os.remove('./project/' + n.text())
+
+            self.initSelectProjectItems(False)
+
+    def selectAllProject(self):
+        files = self.findProjectFilesName()
+        fileNum = len(files)
+        if self.checkbox0.isChecked():
+            for i in range(fileNum):
+                m = getattr(self, "checkbox%d" % (i + 1))
+                m.setChecked(True)
         else:
-            return ''
+            for i in range(fileNum):
+                m = getattr(self, "checkbox%d" % (i + 1))
+                m.setChecked(False)
 
     def dialogWin(self, string):
         self.dialog = QDialog()
@@ -2441,9 +2469,8 @@ class Ui_MainWindow(object):
             self.rawdataShowText.append(cmd)
 
     def screenShotFunc(self):
-        self.rawdataShowText.append("Screen Shot...")
         name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".jpg"
-        cmd = "adb wait-for-device shell screencap -p /sdcard/%s" % name
+        cmd = "adb wait-for-device shell screencap /sdcard/%s" % name
         adb.shell(cmd)
         self.rawdataShowText.append(cmd)
         cmd = "adb pull /sdcard/%s" % name
@@ -2452,6 +2479,31 @@ class Ui_MainWindow(object):
 
         if os.path.exists(name):
             os.startfile(name)
+
+    def screenRecordFunc(self):
+        if self.screenRecord.text() == 'ScreenRecord':
+            self.screenRecordFlag = True
+            self.screenRecordName = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".mp4"
+            aa = Thread(target=self.screenRecordThread, args=(self.screenRecordName,))
+            aa.start()
+            b = Thread(target=self.demo)
+            b.start()
+
+    def demo(self):
+        i = 0
+        while self.screenRecordFlag:
+            self.screenRecord.setText('%d' % i)
+            time.sleep(1)
+            self.screenRecord.update()
+            i += 1
+            if i == 10:
+                self.screenRecord.setText('ScreenRecord')
+                break
+
+    def screenRecordThread(self, name):
+        cmd = "adb wait-for-device shell screenrecord --bit-rate 6000000 /sdcard/%s" % name
+        self.rawdataShowText.append(cmd)
+        adb.shell(cmd)
 
     def shutDownFunc(self):
         adb.shell("adb shell reboot -p")
