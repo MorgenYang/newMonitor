@@ -1186,11 +1186,12 @@ class Ui_MainWindow(object):
         self.G3DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(2))
 
     def hintMessages(self):
-        self.wifiConnect.setToolTip("You should connect <b style='color:red'>USB</b> and <b>WIFI</b>,\nthen click this button")
+        self.wifiConnect.setToolTip("You should connect <b style='color:red'>USB</b> and <b>WIFI</b>,\nthen click this")
         self.showRawdataUI.setToolTip("<h3 style='color:black'>It will check <b style='color:red'>rx and tx num</b>,\nand then show rawdata UI</h3>")
-        self.settingRemove.setToolTip("<b style='color:blue'>Will be added!You can delete project files in ./project/</b>")
+        self.settingRemove.setToolTip("<b style='color:blue'>Delete project what you selected</b>")
         self.opencmd.setToolTip('<b>Open windows cmd.exe</b>')
         self.screenShot.setToolTip("The picture will be saved\nin this monitor.exe's path")
+        self.G1AddrlineEdit.setToolTip("<b style='color:blue'>B90009:</b><br/>B9:ddregister<br/>00:bank<br/>0A:length")
 
     """ settings """
     def selectProjectItemEvent(self):
@@ -1199,11 +1200,7 @@ class Ui_MainWindow(object):
         if self.readProjectInfo(name):
             self.fillTouchConfig()
             self.initEchoMethod(self.driverVersionMode)
-            # self.chooseDriverVersion()
             self.initSettingsUi()
-            self.disableSomeFunctions(False)
-        else:
-            self.disableSomeFunctions(True)
 
     def fillTouchConfig(self):
         self.pathDebugLineEdit.setText(self.debugPath)
@@ -1429,10 +1426,9 @@ class Ui_MainWindow(object):
         self.pullHXFileCmd = "adb pull " + self.hxFolderPath
 
     def disableSomeFunctions(self, disable):
-        self.tabOptions.setDisabled(disable)
-        self.tabRWRegister.setDisabled(disable)
-        self.tabDDRegister.setDisabled(disable)
-        self.tabDDLog.setDisabled(disable)
+        self.adbGroupBox.setDisabled(disable)
+        self.touchGroupBox.setDisabled(disable)
+        self.displayGroupBox.setDisabled(disable)
 
     def saveSettingsToProject(self):
         # check all input data
@@ -1470,7 +1466,7 @@ class Ui_MainWindow(object):
                 return
 
         # TODO:need show sub window to let user enter project name
-        name = self.dialoInputgWin()
+        name = self.dialogInputgWin("Please enter project name", False)
         if name == '':
             self.dialogWin("Name was empty")
             return
@@ -1608,7 +1604,7 @@ class Ui_MainWindow(object):
         self.dialog.setWindowTitle(_translate("Dialog", "Message"))
         self.dialog.exec_()
 
-    def dialoInputgWin(self):
+    def dialogInputgWin(self, string, numFlag):
         self.dialog = QDialog()
         self.dialog.resize(300, 115)
         self.dialog.setMaximumSize(QtCore.QSize(300, 100))
@@ -1620,10 +1616,15 @@ class Ui_MainWindow(object):
         self.inputName = QtWidgets.QLineEdit(self.dialog)
         self.inputName.setGeometry(QtCore.QRect(5, 11, 290, 40))
         font = QtGui.QFont()
-        font.setPointSize(21)
+        font.setPointSize(18)
         self.inputName.setFont(font)
         self.inputName.setAlignment(QtCore.Qt.AlignCenter)
-        reg = QRegExp('[a-zA-Z0-9]*')
+
+        if numFlag:
+            reg = QRegExp('[0-9]{0,3}')
+            self.inputName.setPlaceholderText("Time < 180")
+        else:
+            reg = QRegExp('[a-zA-Z0-9]*')
         pValidator = QRegExpValidator()
         pValidator.setRegExp(reg)
         self.inputName.setValidator(pValidator)
@@ -1634,7 +1635,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(self.dialog)
 
         _translate = QtCore.QCoreApplication.translate
-        self.dialog.setWindowTitle(_translate("Dialog", "Please enter project name"))
+        self.dialog.setWindowTitle(_translate("Dialog", string))
         if self.dialog.exec_() == QDialog.Accepted:
             # check file name is right or not
             if self.inputName.text() == '':
@@ -1722,7 +1723,7 @@ class Ui_MainWindow(object):
         self.pathFWLineEdit.setText("/vendor/firmware/Himax_firmware.bin")
 
     """ new dd register read write """
-    def reverseBacgroundColor(self, before, now, n):
+    def reverseBackgroundColor(self, before, now, n):
         for i in range(64):
             m = getattr(self, "G%slineEdit%d" % (str(n+1), (i + 1)))
             if n == 0:
@@ -1778,7 +1779,7 @@ class Ui_MainWindow(object):
         ret = self.readDDRegister(ret)
         ret = self.parseRegData(ret)
         if self.beforeRead != '':
-            self.reverseBacgroundColor(self.beforeRead, ret, n)
+            self.reverseBackgroundColor(self.beforeRead, ret, n)
         self.ret = ret
         self.beforeRead = ret
         self.fillDataToRegisterLineText(ret, n)
@@ -2399,6 +2400,9 @@ class Ui_MainWindow(object):
 
     """ adb """
     def rootFunc(self):
+        ret = adb.shell("adb devices")
+        self.rawdataShowText.append(ret)
+        # need check adb connect status
         ret = adb.shell("adb root")
         self.rawdataShowText.append(ret)
         if ret == '' or 'error' in ret:
@@ -2412,7 +2416,7 @@ class Ui_MainWindow(object):
 
         ret = adb.shell("adb remount")
         self.rawdataShowText.append(ret)
-        ret = adb.shell("adb shell setenforce 0")
+        adb.shell("adb shell setenforce 0")
         self.rawdataShowText.append('setenforce 0')
 
     def homeKeyFunc(self):
@@ -2482,26 +2486,38 @@ class Ui_MainWindow(object):
 
     def screenRecordFunc(self):
         if self.screenRecord.text() == 'ScreenRecord':
-            self.screenRecordFlag = True
+            recordTime = self.dialogInputgWin("Please enter time", True)
+            if recordTime == '' or int(recordTime) > 180:
+                self.dialogWin("time was not right")
+                return
+
+            self.screenRecord.setDisabled(True)
             self.screenRecordName = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".mp4"
-            aa = Thread(target=self.screenRecordThread, args=(self.screenRecordName,))
+            aa = Thread(target=self.screenRecordThread, args=(self.screenRecordName, recordTime))
             aa.start()
-            b = Thread(target=self.demo)
+            b = Thread(target=self.screenRecordSetTime, args=(self.screenRecordName, recordTime, ))
             b.start()
 
-    def demo(self):
+    def screenRecordSetTime(self, name, recordTime):
         i = 0
-        while self.screenRecordFlag:
-            self.screenRecord.setText('%d' % i)
+        while i < int(recordTime):
+            self.screenRecord.setText(recordTime + ':%d' % i)
             time.sleep(1)
             self.screenRecord.update()
             i += 1
-            if i == 10:
+            if i == int(recordTime):
+                time.sleep(1)
                 self.screenRecord.setText('ScreenRecord')
+                self.screenRecord.setDisabled(False)
+                adb.shell("adb pull /sdcard/%s" % name)
+
+                if os.path.exists(name):
+                    os.startfile(name)
+
                 break
 
-    def screenRecordThread(self, name):
-        cmd = "adb wait-for-device shell screenrecord --bit-rate 6000000 /sdcard/%s" % name
+    def screenRecordThread(self, name, recordTime):
+        cmd = "adb wait-for-device shell screenrecord –time-limit " + recordTime + " /sdcard/%s" % name
         self.rawdataShowText.append(cmd)
         adb.shell(cmd)
 
