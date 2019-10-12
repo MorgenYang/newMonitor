@@ -1118,8 +1118,7 @@ class Ui_MainWindow(object):
         self.pathV2RadioButton.clicked.connect(self.chooseDriverVersion)
         self.pathSavePushButton.clicked.connect(self.saveSettingsToProject)
         self.settingsProComboBox.currentIndexChanged.connect(self.selectProjectItemEvent)
-        self.settingRemove.clicked.connect(self.dialogRemoveWin)
-
+        self.settingRemove.clicked.connect(lambda :self.dialogSelectFilesWin('./project', 'Remove', True))
 
         # wifi
         self.wifiConnect.clicked.connect(self.wifiConnectFunc)
@@ -1529,9 +1528,10 @@ class Ui_MainWindow(object):
 
         return fullfilename
 
-    def dialogRemoveWin(self):
+    def dialogSelectFilesWin(self, string, title, remove):
         # find files
-        files = self.findProjectFilesName('./project')
+        # files = self.findProjectFilesName('./project')
+        files = self.findProjectFilesName(string)
         fileNum = len(files)
 
         self.dialog = QDialog()
@@ -1539,11 +1539,12 @@ class Ui_MainWindow(object):
         self.girdLayout = QtWidgets.QGridLayout()
         self.girdLayout.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
 
-        self.checkbox0 = QtWidgets.QCheckBox()
-        self.selectAllFiles = QtWidgets.QLabel()
-        self.selectAllFiles.setText("All")
-        self.girdLayout.addWidget(self.checkbox0, 0, 0)
-        self.girdLayout.addWidget(self.selectAllFiles, 0, 1)
+        if remove:
+            self.checkbox0 = QtWidgets.QCheckBox()
+            self.selectAllFiles = QtWidgets.QLabel()
+            self.selectAllFiles.setText("All")
+            self.girdLayout.addWidget(self.checkbox0, 0, 0)
+            self.girdLayout.addWidget(self.selectAllFiles, 0, 1)
 
         for i in range(fileNum):
             setattr(self, "checkbox%d" % (i + 1), QtWidgets.QCheckBox())
@@ -1568,22 +1569,93 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(self.dialog)
 
         # bind event
-        self.checkbox0.clicked.connect(self.selectAllProject)
+        if remove:
+            self.checkbox0.clicked.connect(lambda :self.selectAllProject(string))
 
         _translate = QtCore.QCoreApplication.translate
-        self.dialog.setWindowTitle(_translate("Dialog", "Remove"))
+        self.dialog.setWindowTitle(_translate("Dialog", title))
 
         if self.dialog.exec_() == QDialog.Accepted:
-            for i in range(fileNum):
-                m = getattr(self, "checkbox%d" % (i + 1))
-                n = getattr(self, "filename%d" % (i + 1))
-                if m.isChecked():
-                    os.remove('./project/' + n.text())
+            if remove:
+                for i in range(fileNum):
+                    m = getattr(self, "checkbox%d" % (i + 1))
+                    n = getattr(self, "filename%d" % (i + 1))
+                    if m.isChecked():
+                        os.remove('./project/' + n.text())
 
-            self.initSelectProjectItems(False)
+                self.initSelectProjectItems(False)
+            else:
+                # TODO: read selected files to calculate vr table
+                selectedFiles = []
+                for i in range(fileNum):
+                    m = getattr(self, "checkbox%d" % (i + 1))
+                    n = getattr(self, "filename%d" % (i + 1))
+                    if m.isChecked():
+                        selectedFiles.append('./log/' + n.text())
 
-    def selectAllProject(self):
-        files = self.findProjectFilesName('./project')
+                if len(selectedFiles) != 2:
+                    self.dialogWin("You can only selected two files")
+                    return
+                else:
+                    print(selectedFiles)
+                    print(selectedFiles[0].find('avg_min'))
+                    print(selectedFiles[0].find('avg_max'))
+                    print(selectedFiles[1].find('avg_min'))
+                    print(selectedFiles[1].find('avg_max'))
+                    if selectedFiles[0].find('avg_min'):
+                        one = selectedFiles[0]
+                        print(one)
+                    elif selectedFiles[0].find('avg_max'):
+                        two = selectedFiles[0]
+                        print(two)
+
+                    if selectedFiles[1].find('avg_min'):
+                        one = selectedFiles[1]
+                        print(one)
+                    elif selectedFiles[1].find('avg_max'):
+                        two = selectedFiles[1]
+                        print(two)
+
+                    print(one)
+                    print(two)
+                    self.buildVRTablefile(one, two)
+
+    def buildVRTablefile(self, one, two):
+        tmp1 = self.readAVGRawdata(one)
+        tmp2 = self.readAVGRawdata(two)
+
+        if len(tmp1) != len(tmp2):
+            self.dialogWin("data was not match,\nplease choose two same project file")
+            return
+
+        avg = 0
+
+        for i in range(len(tmp2)):
+            tmp2[i] = tmp2[i] - tmp1[i]
+            avg += tmp2[i]
+
+        avg = avg/len(tmp2)
+        print(tmp1)
+        print(avg)
+
+    def readAVGRawdata(self, name):
+        if not os.path.exists(name):
+            return
+
+        file = open(name, 'r')
+        ret = file.read()
+
+        index = ret.find('VALUE')
+        ret = ret[index + 7:-1]
+        ret = ret.split()
+
+        for i in range(len(ret)):
+            ret[i] = int(ret[i])
+
+        return ret
+
+    def selectAllProject(self, path):
+        files = self.findProjectFilesName(path)
         fileNum = len(files)
         if self.checkbox0.isChecked():
             for i in range(fileNum):
@@ -2199,11 +2271,29 @@ class Ui_MainWindow(object):
             self.dialogWin("Project rx/tx was not match read\n info,please reset project info")
             return
 
-        child.ui.mainwindow.resize((window.ui.txnum + 2) * window.rawdataWidth,
-                                   (window.ui.rxnum + 2) * window.rawdataHeight + 45)
-        child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (window.ui.txnum + 2),
-                                                                     window.rawdataHeight * (window.ui.rxnum + 2)))
-        child.ui.initRawdataUI()
+        # check diag arrange type
+        self.transTX = 0
+        self.transRX = 0
+        adb.shell(self.echoDiag % '1', "SHELL")
+        ret = adb.shell(self.catDiag, "SHELL")
+        index = ret.find('[00]')
+        index1 = ret.find('ChannelEnd')
+        ret = ret[index: index1 - 1]
+        ret = ret.split('\n')
+
+        ret = ret[0].split()
+        ret = ret[len(ret) - 1]
+        self.transTX = int(ret[1:3])
+        if self.transTX == window.ui.txnum:
+            self.transRX = window.ui.rxnum
+        else:
+            self.transRX = window.ui.txnum
+
+        child.ui.mainwindow.resize((self.transTX + 2) * window.rawdataWidth,
+                                   (self.transRX + 2) * window.rawdataHeight + 45)
+        child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (self.transTX + 2),
+                                                                     window.rawdataHeight * (self.transRX + 2)))
+        child.ui.initRawdataUI(self.transRX, self.transTX)
         child.show()
 
     """ touch """
@@ -2483,16 +2573,20 @@ class Ui_MainWindow(object):
             self.rawdataShowText.append(cmd)
 
     def screenShotFunc(self):
-        name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".jpg"
+        path = 'screen\\'
+        if not os.path.exists(path):
+            os.mkdir(path)
+
+        name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".png"
         cmd = "adb wait-for-device shell screencap /sdcard/%s" % name
         adb.shell(cmd)
         self.rawdataShowText.append(cmd)
-        cmd = "adb pull /sdcard/%s" % name
+        cmd = "adb pull /sdcard/%s " % name + path[:-1]
         adb.shell(cmd)
         self.rawdataShowText.append(cmd)
 
-        if os.path.exists(name):
-            os.startfile(name)
+        if os.path.exists(path + name):
+            os.startfile(path + name)
 
     def screenRecordFunc(self):
         if self.screenRecord.text() == 'ScreenRecord':
@@ -2501,14 +2595,21 @@ class Ui_MainWindow(object):
                 self.dialogWin("time was not right")
                 return
 
+            path = 'screen\\'
+            if not os.path.exists(path):
+                os.mkdir(path)
+
             self.screenRecord.setDisabled(True)
             self.screenRecordName = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".mp4"
             aa = Thread(target=self.screenRecordThread, args=(self.screenRecordName, recordTime))
             aa.start()
-            b = Thread(target=self.screenRecordSetTime, args=(self.screenRecordName, recordTime, ))
+            b = Thread(target=self.screenRecordSetTime, args=(self.screenRecordName, recordTime, path))
             b.start()
 
-    def screenRecordSetTime(self, name, recordTime):
+    def screenRecordSetTime(self, name, recordTime, path):
+        if not os.path.exists(path):
+            os.mkdir(path)
+
         i = 0
         while i < int(recordTime):
             self.screenRecord.setText(recordTime + ':%d' % i)
@@ -2519,15 +2620,16 @@ class Ui_MainWindow(object):
                 time.sleep(1)
                 self.screenRecord.setText('ScreenRecord')
                 self.screenRecord.setDisabled(False)
-                adb.shell("adb pull /sdcard/%s" % name)
+                adb.shell("adb pull /sdcard/%s " % name + path[:-1])
+                print("adb pull /sdcard/%s " % name + path[:-1])
 
-                if os.path.exists(name):
-                    os.startfile(name)
+                if os.path.exists(path + name):
+                    os.startfile(path + name)
 
                 break
 
     def screenRecordThread(self, name, recordTime):
-        cmd = "adb wait-for-device shell screenrecord –time-limit " + recordTime + " /sdcard/%s" % name
+        cmd = "adb wait-for-device shell screenrecord --time-limit " + recordTime + " /sdcard/%s" % name
         self.rawdataShowText.append(cmd)
         adb.shell(cmd)
 
@@ -2542,7 +2644,7 @@ class Ui_MainWindow(object):
         cmd = "C:\Windows\System32\cmd.exe"
         os.startfile(cmd)
 
-
+"""
 class Ui_ChildWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -2598,26 +2700,40 @@ class Ui_ChildWindow(object):
         self.log.setFont(font)
         self.log.setObjectName("log")
         self.horizontalLayout.addWidget(self.log)
-        self.recalled = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.recalled.setEnabled(True)
+        self.calcAverage = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.calcAverage.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.recalled.sizePolicy().hasHeightForWidth())
-        self.recalled.setSizePolicy(sizePolicy)
-        self.recalled.setMaximumSize(QtCore.QSize(40, 30))
+        sizePolicy.setHeightForWidth(self.calcAverage.sizePolicy().hasHeightForWidth())
+        self.calcAverage.setSizePolicy(sizePolicy)
+        self.calcAverage.setMaximumSize(QtCore.QSize(40, 30))
         font = QtGui.QFont()
         font.setPointSize(11)
-        self.recalled.setFont(font)
-        self.recalled.setObjectName("recalled")
-        self.horizontalLayout.addWidget(self.recalled)
-        self.timeLineEdit = QtWidgets.QLineEdit(self.verticalLayoutWidget)
-        self.timeLineEdit.setMaximumSize(QtCore.QSize(50, 30))
+        self.calcAverage.setFont(font)
+        self.calcAverage.setObjectName("calcAverage")
+        self.horizontalLayout.addWidget(self.calcAverage)
+        self.frameTimes = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.frameTimes.setMaximumSize(QtCore.QSize(55, 30))
+        self.frameTimes.setMinimumSize(QtCore.QSize(55, 30))
         font = QtGui.QFont()
         font.setPointSize(9)
-        self.timeLineEdit.setFont(font)
-        self.timeLineEdit.setObjectName("timeLineEdit")
-        self.horizontalLayout.addWidget(self.timeLineEdit)
+        self.frameTimes.setFont(font)
+        self.frameTimes.setObjectName("frameTimes")
+        self.horizontalLayout.addWidget(self.frameTimes)
+        self.vrTable = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.vrTable.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.vrTable.sizePolicy().hasHeightForWidth())
+        self.vrTable.setSizePolicy(sizePolicy)
+        self.vrTable.setMaximumSize(QtCore.QSize(70, 30))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.vrTable.setFont(font)
+        self.vrTable.setObjectName("vrTable")
+        self.horizontalLayout.addWidget(self.vrTable)
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(6)
@@ -2639,17 +2755,211 @@ class Ui_ChildWindow(object):
         self.radioIIR.setText(_translate("MainWindow", "IIR"))
         self.textEditDiag.setPlaceholderText(_translate("MainWindow", "Type"))
         self.log.setText(_translate("MainWindow", "Log"))
-        self.recalled.setText(_translate("MainWindow", "ReL"))
-        self.timeLineEdit.setPlaceholderText(_translate("MainWindow", "Time"))
+        self.calcAverage.setText(_translate("MainWindow", "Avg"))
+        self.frameTimes.setPlaceholderText(_translate("MainWindow", "Frames"))
+        self.vrTable.setText(_translate("MainWindow", "VRTable"))
+"""
+class Ui_ChildWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(6)
+        self.MainRawdataShowtableWidget.setFont(font)
+        self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
+        self.MainRawdataShowtableWidget.setColumnCount(0)
+        self.MainRawdataShowtableWidget.setRowCount(0)
+        self.MainRawdataShowtableWidget.verticalHeader().setVisible(False)
+        self.rawdataRead = QtWidgets.QPushButton(self.centralwidget)
+        self.rawdataRead.setGeometry(QtCore.QRect(0, 0, 40, 40))
+        self.rawdataRead.setMinimumSize(QtCore.QSize(0, 40))
+        self.rawdataRead.setMaximumSize(QtCore.QSize(40, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.rawdataRead.setFont(font)
+        self.rawdataRead.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.rawdataRead.setStyleSheet("")
+        self.rawdataRead.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("img/start_48px.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.rawdataRead.setIcon(icon)
+        self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
+        self.rawdataRead.setObjectName("rawdataRead")
+        self.radioDC = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioDC.setGeometry(QtCore.QRect(50, 5, 50, 30))
+        self.radioDC.setMaximumSize(QtCore.QSize(50, 30))
+        self.radioDC.setObjectName("radioDC")
+        self.radioIIR = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioIIR.setGeometry(QtCore.QRect(100, 5, 50, 30))
+        self.radioIIR.setMaximumSize(QtCore.QSize(50, 30))
+        self.radioIIR.setObjectName("radioIIR")
+        self.radioTmp = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioTmp.setGeometry(QtCore.QRect(150, 5, 15, 30))
+        self.radioTmp.setMaximumSize(QtCore.QSize(15, 30))
+        self.radioTmp.setText("")
+        self.radioTmp.setObjectName("radioTmp")
+        self.textEditDiag = QtWidgets.QLineEdit(self.centralwidget)
+        self.textEditDiag.setGeometry(QtCore.QRect(170, 5, 40, 30))
+        self.textEditDiag.setMaximumSize(QtCore.QSize(40, 30))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.textEditDiag.setFont(font)
+        self.textEditDiag.setObjectName("textEditDiag")
+        self.log = QtWidgets.QPushButton(self.centralwidget)
+        self.log.setGeometry(QtCore.QRect(220, 5, 40, 30))
+        self.log.setMaximumSize(QtCore.QSize(40, 30))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.log.setFont(font)
+        self.log.setObjectName("log")
+        self.calcAverage = QtWidgets.QPushButton(self.centralwidget)
+        self.calcAverage.setEnabled(True)
+        self.calcAverage.setGeometry(QtCore.QRect(280, 5, 40, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.calcAverage.sizePolicy().hasHeightForWidth())
+        self.calcAverage.setSizePolicy(sizePolicy)
+        self.calcAverage.setMaximumSize(QtCore.QSize(40, 30))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.calcAverage.setFont(font)
+        self.calcAverage.setObjectName("calcAverage")
+        self.frameTimes = QtWidgets.QLineEdit(self.centralwidget)
+        self.frameTimes.setGeometry(QtCore.QRect(320, 5, 50, 30))
+        self.frameTimes.setMaximumSize(QtCore.QSize(50, 30))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.frameTimes.setFont(font)
+        self.frameTimes.setObjectName("frameTimes")
+        self.vrTable = QtWidgets.QPushButton(self.centralwidget)
+        self.vrTable.setEnabled(True)
+        self.vrTable.setGeometry(QtCore.QRect(390, 5, 70, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.vrTable.sizePolicy().hasHeightForWidth())
+        self.vrTable.setSizePolicy(sizePolicy)
+        self.vrTable.setMaximumSize(QtCore.QSize(70, 30))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.vrTable.setFont(font)
+        self.vrTable.setObjectName("vrTable")
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.mainwindow = MainWindow
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Show Rawdata UI"))
+        self.radioDC.setText(_translate("MainWindow", "DC"))
+        self.radioIIR.setText(_translate("MainWindow", "IIR"))
+        self.textEditDiag.setPlaceholderText(_translate("MainWindow", "Type"))
+        self.log.setText(_translate("MainWindow", "Log"))
+        self.calcAverage.setText(_translate("MainWindow", "Avg"))
+        self.frameTimes.setPlaceholderText(_translate("MainWindow", "Frames"))
+        self.vrTable.setText(_translate("MainWindow", "VRTable"))
 
     def bindEventFunc(self):
         self.logFlag = False
+        self.hintMsg()
 
         self.rawdataRead.clicked.connect(self.rawdataReadFunc)
         self.log.clicked.connect(self.logFunc)
         self.radioDC.clicked.connect(self.chooseRawdataType)
         self.radioIIR.clicked.connect(self.chooseRawdataType)
         self.radioTmp.clicked.connect(self.chooseRawdataType)
+        self.calcAverage.clicked.connect(self.calcAverageFunc)
+        self.vrTable.clicked.connect(self.calcVRTable)
+
+    def calcVRTable(self):
+        window.ui.dialogSelectFilesWin('./log', 'Get VR Table', False)
+        pass
+
+    def hintMsg(self):
+        self.calcAverage.setToolTip("calculate N frames avg")
+        self.frameTimes.setToolTip("num <b style='color:red'>less 100</b> frames")
+
+    def calcAverageFunc(self):
+        times = self.frameTimes.text()
+        if times == '' or int(times) > 200:
+            window.ui.dialogWin("Frame num was not right")
+            return
+
+        path = 'log\\'
+        if not os.path.exists(path):
+            os.mkdir(path)
+
+        value = window.ui.dialogInputgWin("Enter Resistance as: 10kΩ", False)
+        if value == '':
+            return
+
+        self.calcAverage.setDisabled(True)
+        self.calcAverage.setText("Ing.")
+        self.calcAverage.setStyleSheet("color:rgb(255, 0, 0)")
+        self.calcAverageThread = Thread(target=self.calcAverageFuncThread, args=(times, value, path))
+        self.calcAverageThread.start()
+
+    def calcAverageFuncThread(self, times, value, path):
+        beforeRawdata = []
+        rawdata = []
+        adb.shell(window.ui.echoDiag % '2', "SHELL")
+        adb.shell(window.ui.catDiag, "SHELL")
+
+        name = time.strftime("avg_" + value + "_%Y%m%d_%H-%M-%S", time.localtime()) + ".txt"
+        file = open(path + name, 'a+')
+
+        for k in range(int(times)):
+            ret = adb.shell(window.ui.catDiag, "SHELL")
+            tmpRawdata = self.analysisRawdata(ret)
+            for i in range(window.ui.transRX + 2):
+                for j in range(window.ui.transTX + 2):
+                    if i == 0 or i == window.ui.transRX + 1 or j == 0 or j == window.ui.transTX + 1:
+                        continue
+                    else:
+                        rawdata.append(int(tmpRawdata[i*(window.ui.transTX + 2) + j]))
+
+            if k == 0:
+                beforeRawdata = rawdata
+            else:
+                for m in range(len(rawdata)):
+                    beforeRawdata[m] += rawdata[m]
+
+            # write every rawdata to file
+            strRawdata = ''
+            for l in range(len(rawdata)):
+                if (l + 1) % window.ui.transRX == 0:
+                    strRawdata += str(rawdata[l]) + '\n'
+                else:
+                    strRawdata += str(rawdata[l]) + ' '
+
+            file.write("Frame %d:\n" % (k + 1) + strRawdata + '\n')
+
+            # clear rawdata
+            rawdata = []
+
+        strRawdata = ''
+        for n in range(len(beforeRawdata)):
+            beforeRawdata[n] = beforeRawdata[n]//int(times)
+            if (n + 1) % window.ui.transRX == 0:
+                strRawdata += str(beforeRawdata[n]) + '\n'
+            else:
+                strRawdata += str(beforeRawdata[n]) + ' '
+
+        file.write("%s AVERAGE VALUE:\n" % value + strRawdata)
+        file.close()
+        self.calcAverage.setDisabled(False)
+        self.calcAverage.setText("AVG")
+        self.calcAverage.setStyleSheet("color:rgb(0, 0, 0)")
+
+        if os.path.exists(path + name):
+            os.startfile(path + name)
 
     """ rawdata show """
     def chooseRawdataType(self):
@@ -2717,18 +3027,19 @@ class Ui_ChildWindow(object):
 
     def analysisRawdata(self, rawdata):
         index = rawdata.find('[00]')
-        rawdata = rawdata[index:]
-        rawdata = (' '.join(rawdata.split()))
-        rawdata = rawdata.split(' ')
-        rawdata.insert(window.ui.txnum + 1, 'a')
-        rawdata.insert((window.ui.rxnum + 1) * (window.ui.txnum + 2), '0')
+        index1 = rawdata.find('ChannelEnd')
+        rawdata = rawdata[index:index1]
+        rawdata = rawdata.split()
+        rawdata.insert(window.ui.transTX + 1, '')
+        rawdata.insert((window.ui.transTX + 2) * (window.ui.transRX + 1), '')
+        rawdata.insert((window.ui.transTX + 2) * (window.ui.transRX + 2), '')
         return rawdata
 
     def fillRawdataToTable(self, rawdata):
-        for i in range(window.ui.rxnum + 2):
-            for j in range(window.ui.txnum + 2):
-                    a = QTableWidgetItem(rawdata[i * (window.ui.txnum + 2) + j])
-                    self.MainRawdataShowtableWidget.setItem(i, j, a)
+        for i in range(window.ui.transRX + 2):
+            for j in range(window.ui.transTX + 2):
+                a = QTableWidgetItem(rawdata[i * (window.ui.transTX + 2) + j])
+                self.MainRawdataShowtableWidget.setItem(i, j, a)
 
     def logFunc(self):
         if self.showRawdataFlag == 0:
@@ -2748,7 +3059,7 @@ class Ui_ChildWindow(object):
         self.log.setText("Ing.")
         self.log.setStyleSheet("color: rgb(255, 0, 0)")
 
-    def initRawdataUI(self):
+    def initRawdataUI(self, rx, tx):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.MainRawdataShowtableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.MainRawdataShowtableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -2756,8 +3067,8 @@ class Ui_ChildWindow(object):
         self.MainRawdataShowtableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.MainRawdataShowtableWidget.setSizePolicy(sizePolicy)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
-        self.MainRawdataShowtableWidget.setRowCount(window.ui.rxnum + 2)
-        self.MainRawdataShowtableWidget.setColumnCount(window.ui.txnum + 2)
+        self.MainRawdataShowtableWidget.setRowCount(rx + 2)
+        self.MainRawdataShowtableWidget.setColumnCount(tx + 2)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
         self.MainRawdataShowtableWidget.verticalHeader().setVisible(False)
         self.MainRawdataShowtableWidget.horizontalHeader().setVisible(False)
@@ -2768,12 +3079,12 @@ class Ui_ChildWindow(object):
         font = QtGui.QFont()
         font.setPointSize(8)
         self.MainRawdataShowtableWidget.setFont(font)
-        for i in range(window.ui.txnum + 2):
+        for i in range(tx + 2):
             if i == 0:
                 self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth - 7)
             else:
                 self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth)
-        for i in range(window.ui.rxnum + 2):
+        for i in range(rx + 2):
             self.MainRawdataShowtableWidget.setRowHeight(i, window.rawdataHeight)
 
     def setRegExp(self):
@@ -2786,7 +3097,7 @@ class Ui_ChildWindow(object):
         reg = QRegExp('[1-9][0-9]{2}')
         pValidator = QRegExpValidator()
         pValidator.setRegExp(reg)
-        self.timeLineEdit.setValidator(pValidator)
+        self.frameTimes.setValidator(pValidator)
 
 
 if __name__ == '__main__':

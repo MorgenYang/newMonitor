@@ -6,188 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>494</height>
+    <width>553</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>341</width>
-      <height>42</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="rawdataRead">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>img/start_48px.ico</normaloff>img/start_48px.ico</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>39</width>
-         <height>39</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioDC">
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>DC</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioIIR">
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>IIR</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioTmp">
-       <property name="maximumSize">
-        <size>
-         <width>15</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="textEditDiag">
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="placeholderText">
-        <string>Type</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="log">
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Log</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="recalled">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>ReL</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="timeLineEdit">
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="placeholderText">
-        <string>Time</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QTableWidget" name="MainRawdataShowtableWidget">
     <property name="geometry">
      <rect>
@@ -217,6 +43,249 @@
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
     </attribute>
+   </widget>
+   <widget class="QPushButton" name="rawdataRead">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/start_48px.ico</normaloff>img/start_48px.ico</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>39</width>
+      <height>39</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioDC">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>5</y>
+      <width>50</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>50</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>DC</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioIIR">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>5</y>
+      <width>50</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>50</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>IIR</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioTmp">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>5</y>
+      <width>15</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>15</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="textEditDiag">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>5</y>
+      <width>40</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="placeholderText">
+     <string>Type</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="log">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>5</y>
+      <width>40</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Log</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="calcAverage">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>5</y>
+      <width>40</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>AVG</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="frameTimes">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>5</y>
+      <width>50</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>50</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="placeholderText">
+     <string>Time</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="vrTable">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>5</y>
+      <width>70</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>70</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>VRTable</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
