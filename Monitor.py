@@ -3,7 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QIcon, QRegExpValidator
 import sys
-import adb
+import adbtool
 from threading import Thread
 import time
 import os
@@ -1581,12 +1581,14 @@ class Ui_MainWindow(object):
                     m = getattr(self, "checkbox%d" % (i + 1))
                     n = getattr(self, "filename%d" % (i + 1))
                     if m.isChecked():
-                        os.remove('./project/' + n.text())
+                        os.remove(string + n.text())
 
                 self.initSelectProjectItems(False)
             else:
                 # TODO: read selected files to calculate vr table
                 selectedFiles = []
+                one = ''
+                two = ''
                 for i in range(fileNum):
                     m = getattr(self, "checkbox%d" % (i + 1))
                     n = getattr(self, "filename%d" % (i + 1))
@@ -1597,30 +1599,26 @@ class Ui_MainWindow(object):
                     self.dialogWin("You can only selected two files")
                     return
                 else:
-                    print(selectedFiles)
-                    print(selectedFiles[0].find('avg_min'))
-                    print(selectedFiles[0].find('avg_max'))
-                    print(selectedFiles[1].find('avg_min'))
-                    print(selectedFiles[1].find('avg_max'))
-                    if selectedFiles[0].find('avg_min'):
+                    if selectedFiles[0].find('avg_min') != -1:
                         one = selectedFiles[0]
-                        print(one)
-                    elif selectedFiles[0].find('avg_max'):
+                    elif selectedFiles[0].find('avg_max') != -1:
                         two = selectedFiles[0]
-                        print(two)
 
-                    if selectedFiles[1].find('avg_min'):
+                    if selectedFiles[1].find('avg_min') != -1:
                         one = selectedFiles[1]
-                        print(one)
-                    elif selectedFiles[1].find('avg_max'):
+                    elif selectedFiles[1].find('avg_max') != -1:
                         two = selectedFiles[1]
-                        print(two)
 
-                    print(one)
-                    print(two)
+                    if one == '' or two == '':
+                        self.dialogWin("files were not match")
+                        return
+
                     self.buildVRTablefile(one, two)
 
     def buildVRTablefile(self, one, two):
+        avg = 0
+        ret = ''
+
         tmp1 = self.readAVGRawdata(one)
         tmp2 = self.readAVGRawdata(two)
 
@@ -1628,15 +1626,23 @@ class Ui_MainWindow(object):
             self.dialogWin("data was not match,\nplease choose two same project file")
             return
 
-        avg = 0
-
         for i in range(len(tmp2)):
             tmp2[i] = tmp2[i] - tmp1[i]
-            avg += tmp2[i]
 
-        avg = avg/len(tmp2)
-        print(tmp1)
-        print(avg)
+        for i in range(len(tmp2)):
+            tmp1[i] = tmp2[i]/tmp1[i]
+            avg += tmp1[i]
+
+        avg =avg/len(tmp1)
+
+        for i in range(len(tmp1)):
+            tmp1[i] = 128 * tmp1[i] / avg
+            tmp1[i] = round(tmp1[i])
+            if (i + 1) % window.ui.transTX == 0:
+                ret += str(tmp1[i]) + ',' + '\n'
+            else:
+                ret += str(tmp1[i]) + ','
+        print(ret)
 
     def readAVGRawdata(self, name):
         if not os.path.exists(name):
@@ -1698,7 +1704,7 @@ class Ui_MainWindow(object):
         self.inputName = QtWidgets.QLineEdit(self.dialog)
         self.inputName.setGeometry(QtCore.QRect(5, 11, 290, 40))
         font = QtGui.QFont()
-        font.setPointSize(18)
+        font.setPointSize(16)
         self.inputName.setFont(font)
         self.inputName.setAlignment(QtCore.Qt.AlignCenter)
 
@@ -1988,16 +1994,16 @@ class Ui_MainWindow(object):
 
             cmd = self.echoWriteRegister % (finalAddr, finalVal)
             self.DDreadRegValShowText.append(cmd)
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             cmd = self.echoWriteRegister % ('900000FC', 'CC' + addr)
             self.DDreadRegValShowText.append(cmd)
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             cmd = self.echoReadRegister % (localAddr + '80')
             self.DDreadRegValShowText.append(cmd)
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             cmd = self.catRegister
             self.DDreadRegValShowText.append(cmd)
-            ret = adb.shell(cmd, "SHELL")
+            ret = adbtool.shell(cmd, "SHELL")
             self.DDreadRegValShowText.append(ret)
 
         # clear read register data
@@ -2064,15 +2070,15 @@ class Ui_MainWindow(object):
     def readDDRegister(self, ret):
         val = "AA" + str(ret)
         cmd = self.echoWriteRegister % ("900000FC", val)
-        adb.shell(cmd, "SHELL")
+        adbtool.shell(cmd, "SHELL")
         self.DDreadRegValShowText.append(cmd)
 
         cmd = self.echoReadRegister % "10007F80"
-        adb.shell(cmd, "SHELL")
+        adbtool.shell(cmd, "SHELL")
         self.DDreadRegValShowText.append(cmd)
 
         cmd = self.catRegister
-        ret = adb.shell(cmd, "SHELL")
+        ret = adbtool.shell(cmd, "SHELL")
         self.DDreadRegValShowText.append(cmd)
         self.DDreadRegValShowText.append(ret)
         return ret
@@ -2169,8 +2175,8 @@ class Ui_MainWindow(object):
 
         if len(regAddress) == 8:
             cmd = self.echoReadRegister % regAddress
-            adb.shell(cmd, "SHELL")
-            readRegInfo = adb.shell(self.catRegister, "SHELL")
+            adbtool.shell(cmd, "SHELL")
+            readRegInfo = adbtool.shell(self.catRegister, "SHELL")
 
         return readRegInfo
 
@@ -2240,13 +2246,13 @@ class Ui_MainWindow(object):
 
         if len(regAddress) == 8 and len(writeValue) != 0:
             cmd = self.echoWriteRegister % (regAddress, writeValue)
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
 
     """ rawdata show """
     def showRawdataUIFunc(self):
         # check rx and tx num is or not match
-        adb.shell("echo d > " + self.debugPath, "SHELL")
-        ret = adb.shell("cat " + self.debugPath, "SHELL")
+        adbtool.shell("echo d > " + self.debugPath, "SHELL")
+        ret = adbtool.shell("cat " + self.debugPath, "SHELL")
         if ret == '' or ret.find("error") != -1:
             self.dialogWin("Can't read tx or rx info")
             return
@@ -2274,8 +2280,8 @@ class Ui_MainWindow(object):
         # check diag arrange type
         self.transTX = 0
         self.transRX = 0
-        adb.shell(self.echoDiag % '1', "SHELL")
-        ret = adb.shell(self.catDiag, "SHELL")
+        adbtool.shell(self.echoDiag % '1', "SHELL")
+        ret = adbtool.shell(self.catDiag, "SHELL")
         index = ret.find('[00]')
         index1 = ret.find('ChannelEnd')
         ret = ret[index: index1 - 1]
@@ -2288,7 +2294,6 @@ class Ui_MainWindow(object):
             self.transRX = window.ui.rxnum
         else:
             self.transRX = window.ui.txnum
-
         child.ui.mainwindow.resize((self.transTX + 2) * window.rawdataWidth,
                                    (self.transRX + 2) * window.rawdataHeight + 45)
         child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (self.transTX + 2),
@@ -2307,18 +2312,18 @@ class Ui_MainWindow(object):
             cmd = "echo %s > " % name + self.v1DiagArrPath
         else:
             cmd = "echo diag_arr,%s > " % name + self.debugPath
-        adb.shell(cmd, "SHELL")
+        adbtool.shell(cmd, "SHELL")
 
         self.rawdataShowText.append(cmd)
 
     def touchSenseOnFunc(self):
         if self.senseon.text() == 'SenseOn':
             self.senseon.setText('SenseOff')
-            adb.shell(self.echoSenseOff, "SHELL")
+            adbtool.shell(self.echoSenseOff, "SHELL")
             self.rawdataShowText.append(self.echoSenseOff)
         else:
             self.senseon.setText('SenseOn')
-            adb.shell(self.echoSenseOn, "SHELL")
+            adbtool.shell(self.echoSenseOn, "SHELL")
             self.rawdataShowText.append(self.echoSenseOn)
 
     def touchSelfTestFunc(self):
@@ -2326,27 +2331,27 @@ class Ui_MainWindow(object):
         self.selftestThread.start()
 
     def selftestThreadFunc(self):
-        ret = adb.shell(self.catSelfTest, "SHELL")
+        ret = adbtool.shell(self.catSelfTest, "SHELL")
         self.rawdataShowText.append(ret)
         self.rawdataShowText.update()
 
     def touchFWVersionFunc(self):
-        adb.shell(self.echoFWVersion % "v", "SHELL")
-        ret = adb.shell(self.catFWVersion, "SHELL")
+        adbtool.shell(self.echoFWVersion % "v", "SHELL")
+        ret = adbtool.shell(self.catFWVersion, "SHELL")
         self.rawdataShowText.append(ret)
 
     def touchResetFunc(self):
-        adb.shell(self.echoReset % "1", "SHELL")
+        adbtool.shell(self.echoReset % "1", "SHELL")
         self.rawdataShowText.append(self.echoReset % "1")
 
     def touchIntenFunc(self):
         if self.inten0.text() == 'Int_en':
             self.inten0.setText('Int_dis')
-            adb.shell(self.echoIntEn % "0", "SHELL")
+            adbtool.shell(self.echoIntEn % "0", "SHELL")
             self.rawdataShowText.append("disable irq")
         else:
             self.inten0.setText('Int_en')
-            adb.shell(self.echoIntEn % "1", "SHELL")
+            adbtool.shell(self.echoIntEn % "1", "SHELL")
             self.rawdataShowText.append("enable irq")
 
     def touchFlashDumpFunc(self):
@@ -2357,14 +2362,14 @@ class Ui_MainWindow(object):
         if fw_path == "":
             self.rawdataShowText.append("please choose fw file!")
             return
-        ret = adb.shell("adb push %s " % fw_path + self.fwPath)
+        ret = adbtool.shell("adb push %s " % fw_path + self.fwPath)
         self.rawdataShowText.append(ret)
-        ret = adb.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
+        ret = adbtool.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
         self.rawdataShowText.append(ret)
 
     def touchDebugTypeFunc(self):
-        adb.shell("echo %s > " % self.debugComboBox.currentText() + self.debugPath, 'SHELL')
-        ret = adb.shell("cat " + self.debugPath, 'SHELL')
+        adbtool.shell("echo %s > " % self.debugComboBox.currentText() + self.debugPath, 'SHELL')
+        ret = adbtool.shell("cat " + self.debugPath, 'SHELL')
         self.rawdataShowText.append(ret)
 
     """ display """
@@ -2376,9 +2381,9 @@ class Ui_MainWindow(object):
             cmd1 = "echo register,w:x30011000 > " + self.debugPath
             cmd2 = "echo register,w:x30029000 > " + self.debugPath
 
-        adb.shell(cmd1, "SHELL")
-        adb.shell("sleep 1", "SHELL")
-        adb.shell(cmd2, "SHELL")
+        adbtool.shell(cmd1, "SHELL")
+        adbtool.shell("sleep 1", "SHELL")
+        adbtool.shell(cmd2, "SHELL")
         self.rawdataShowText.append(cmd1)
         self.rawdataShowText.append(cmd2)
 
@@ -2390,9 +2395,9 @@ class Ui_MainWindow(object):
             cmd1 = "echo register,w:x30028000 > " + self.debugPath
             cmd2 = "echo register,w:x30010000 > " + self.debugPath
 
-        adb.shell(cmd1, "SHELL")
-        adb.shell("sleep 1", "SHELL")
-        adb.shell(cmd2, "SHELL")
+        adbtool.shell(cmd1, "SHELL")
+        adbtool.shell("sleep 1", "SHELL")
+        adbtool.shell(cmd2, "SHELL")
         self.rawdataShowText.append(cmd1)
         self.rawdataShowText.append(cmd2)
 
@@ -2407,7 +2412,7 @@ class Ui_MainWindow(object):
         self.wifiConnect.setDisabled(True)
         self.wifiConnect.setStyleSheet("color: rgb(105, 105, 105)")
         self.wifiConnectFlag = 1
-        deviceInfo = (adb.shell("adb devices"))
+        deviceInfo = (adbtool.shell("adb devices"))
         self.rawdataShowText.append(deviceInfo)
         try:
             device_list = deviceInfo.split()
@@ -2428,11 +2433,11 @@ class Ui_MainWindow(object):
 
         # Get device ip & set port
         cmd = "adb -s %s shell ip -f inet addr show wlan0" % deviceName
-        ip = adb.shell(cmd)
+        ip = adbtool.shell(cmd)
         # ip = str(ip, encoding='utf-8')
         ip = ip[ip.find("inet 1") + 5:ip.find("/")]
         cmd = "adb -s %s tcpip %s" % (deviceName, self.port)
-        ret = adb.shell(cmd)
+        ret = adbtool.shell(cmd)
         self.rawdataShowText.append(ret)
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
@@ -2446,21 +2451,21 @@ class Ui_MainWindow(object):
 
         response = ""
         while response.find("already") < 0 and self.wifiConnectFlag != 0:
-            response = (adb.shell(cmd))
+            response = (adbtool.shell(cmd))
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
             return
 
         # Polling wait unplugin
-        devices = (adb.shell("adb devices"))
+        devices = (adbtool.shell("adb devices"))
         response = ""
 
         self.rawdataShowText.append("Unplugin")
         self.wifiStatus.setText("Unplugin...")
 
         while devices.find(deviceName) < 0 and self.wifiConnectFlag != 0:
-            devices = (adb.shell("adb devices"))
+            devices = (adbtool.shell("adb devices"))
 
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
@@ -2470,7 +2475,7 @@ class Ui_MainWindow(object):
         # Connect
         cmd = "adb connect %s:%s" % (self.device_ip, self.port)
         while response.find("already") < 0 and self.wifiConnectFlag != 0:
-            response = (adb.shell(cmd))
+            response = (adbtool.shell(cmd))
         if self.wifiConnectFlag == 0:
             self.wifiConnect.setDisabled(False)
             self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
@@ -2484,11 +2489,11 @@ class Ui_MainWindow(object):
 
     def wifiReconnectFunc(self):
         cmd = "adb connect %s:%s" % (self.device_ip, self.port)
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
 
     def wifiDisconnectFunc(self):
-        adb.shell("adb disconnect")
+        adbtool.shell("adb disconnect")
         self.wifiStatus.setText("Disconnect")
         self.wifiStatus.setStyleSheet("color: rgb(255, 0, 0)")
         self.wifiConnect.setDisabled(False)
@@ -2500,10 +2505,10 @@ class Ui_MainWindow(object):
 
     """ adb """
     def rootFunc(self):
-        ret = adb.shell("adb devices")
+        ret = adbtool.shell("adb devices")
         self.rawdataShowText.append(ret)
         # need check adb connect status
-        ret = adb.shell("adb root")
+        ret = adbtool.shell("adb root")
         self.rawdataShowText.append(ret)
         if ret == '' or 'error' in ret:
             self.adbStatus.setText('Failed')
@@ -2514,62 +2519,62 @@ class Ui_MainWindow(object):
             self.adbStatus.setStyleSheet("color: rgb(0, 255, 0);")
             self.showRawdataUI.setDisabled(False)
 
-        ret = adb.shell("adb remount")
+        ret = adbtool.shell("adb remount")
         self.rawdataShowText.append(ret)
-        adb.shell("adb shell setenforce 0")
+        adbtool.shell("adb shell setenforce 0")
         self.rawdataShowText.append('setenforce 0')
 
     def homeKeyFunc(self):
         cmd = "adb shell input keyevent KEYCODE_HOME"
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
 
     def backKeyFunc(self):
         cmd = "adb shell input keyevent KEYCODE_BACK"
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
 
     def volUpFunc(self):
         cmd = "adb shell input keyevent KEYCODE_VOLUME_UP"
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
 
     def volDownFunc(self):
         cmd = "adb shell input keyevent KEYCODE_VOLUME_DOWN"
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
 
     def hideShowVirtualFunc(self):
         if self.hideShowVirtual.text() == 'ShowVirtual':
             self.hideShowVirtual.setText("HideVirtual")
             cmd = "adb shell settings put global policy_control immersive.full=*"
-            adb.shell(cmd)
+            adbtool.shell(cmd)
             self.rawdataShowText.append(cmd)
         else:
             self.hideShowVirtual.setText("ShowVirtual")
             cmd = "adb shell settings put global policy_control null"
-            adb.shell(cmd)
+            adbtool.shell(cmd)
             self.rawdataShowText.append(cmd)
 
     def powerKeyFunc(self):
-        adb.shell(None, "KEYEVENT", 26)
+        adbtool.shell(None, "KEYEVENT", 26)
 
     def openClosePointFunc(self):
         if self.openClosePoint.text() == 'OpenPoint':
             self.openClosePoint.setText("ClosePoint")
             cmd = "settings put system pointer_location 1"
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             self.rawdataShowText.append(cmd)
             cmd = "settings put system show_touches 1"
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             self.rawdataShowText.append(cmd)
         else:
             self.openClosePoint.setText("OpenPoint")
             cmd = "settings put system pointer_location 0"
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             self.rawdataShowText.append(cmd)
             cmd = "settings put system show_touches 0"
-            adb.shell(cmd, "SHELL")
+            adbtool.shell(cmd, "SHELL")
             self.rawdataShowText.append(cmd)
 
     def screenShotFunc(self):
@@ -2579,10 +2584,10 @@ class Ui_MainWindow(object):
 
         name = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".png"
         cmd = "adb wait-for-device shell screencap /sdcard/%s" % name
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
         cmd = "adb pull /sdcard/%s " % name + path[:-1]
-        adb.shell(cmd)
+        adbtool.shell(cmd)
         self.rawdataShowText.append(cmd)
 
         if os.path.exists(path + name):
@@ -2620,8 +2625,7 @@ class Ui_MainWindow(object):
                 time.sleep(1)
                 self.screenRecord.setText('ScreenRecord')
                 self.screenRecord.setDisabled(False)
-                adb.shell("adb pull /sdcard/%s " % name + path[:-1])
-                print("adb pull /sdcard/%s " % name + path[:-1])
+                adbtool.shell("adb pull /sdcard/%s " % name + path[:-1])
 
                 if os.path.exists(path + name):
                     os.startfile(path + name)
@@ -2631,14 +2635,14 @@ class Ui_MainWindow(object):
     def screenRecordThread(self, name, recordTime):
         cmd = "adb wait-for-device shell screenrecord --time-limit " + recordTime + " /sdcard/%s" % name
         self.rawdataShowText.append(cmd)
-        adb.shell(cmd)
+        adbtool.shell(cmd)
 
     def shutDownFunc(self):
-        adb.shell("adb shell reboot -p")
+        adbtool.shell("adb shell reboot -p")
         self.rawdataShowText.append("adb shell reboot -p")
 
     def rebootFunc(self):
-        adb.shell("adb reboot")
+        adbtool.shell("adb reboot")
 
     def openCMDFunc(self):
         cmd = "C:\Windows\System32\cmd.exe"
@@ -2759,6 +2763,7 @@ class Ui_ChildWindow(object):
         self.frameTimes.setPlaceholderText(_translate("MainWindow", "Frames"))
         self.vrTable.setText(_translate("MainWindow", "VRTable"))
 """
+
 class Ui_ChildWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -2851,6 +2856,21 @@ class Ui_ChildWindow(object):
         self.vrTable.setObjectName("vrTable")
         MainWindow.setCentralWidget(self.centralwidget)
 
+        self.removeVRTable = QtWidgets.QPushButton(self.centralwidget)
+        self.removeVRTable.setEnabled(True)
+        self.removeVRTable.setGeometry(QtCore.QRect(470, 5, 70, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.removeVRTable.sizePolicy().hasHeightForWidth())
+        self.removeVRTable.setSizePolicy(sizePolicy)
+        self.removeVRTable.setMaximumSize(QtCore.QSize(70, 30))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.removeVRTable.setFont(font)
+        self.removeVRTable.setObjectName("removeVRTable")
+        MainWindow.setCentralWidget(self.centralwidget)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.mainwindow = MainWindow
@@ -2865,6 +2885,7 @@ class Ui_ChildWindow(object):
         self.calcAverage.setText(_translate("MainWindow", "Avg"))
         self.frameTimes.setPlaceholderText(_translate("MainWindow", "Frames"))
         self.vrTable.setText(_translate("MainWindow", "VRTable"))
+        self.removeVRTable.setText(_translate("MainWindow", "Remove"))
 
     def bindEventFunc(self):
         self.logFlag = False
@@ -2877,14 +2898,18 @@ class Ui_ChildWindow(object):
         self.radioTmp.clicked.connect(self.chooseRawdataType)
         self.calcAverage.clicked.connect(self.calcAverageFunc)
         self.vrTable.clicked.connect(self.calcVRTable)
+        self.removeVRTable.clicked.connect(self.removeVRTableFunc)
+
+    def removeVRTableFunc(self):
+        window.ui.dialogSelectFilesWin('./log/', 'Remove', True)
+        pass
 
     def calcVRTable(self):
         window.ui.dialogSelectFilesWin('./log', 'Get VR Table', False)
-        pass
 
     def hintMsg(self):
         self.calcAverage.setToolTip("calculate N frames avg")
-        self.frameTimes.setToolTip("num <b style='color:red'>less 100</b> frames")
+        self.frameTimes.setToolTip("num <b style='color:red'>less 200</b> frames")
 
     def calcAverageFunc(self):
         times = self.frameTimes.text()
@@ -2896,8 +2921,9 @@ class Ui_ChildWindow(object):
         if not os.path.exists(path):
             os.mkdir(path)
 
-        value = window.ui.dialogInputgWin("Enter Resistance as: 10kΩ", False)
-        if value == '':
+        value = window.ui.dialogInputgWin("Enter name include 'max/min'", False)
+        if value == '' or (value.find('max') == -1 and value.find('min') == -1):
+            window.ui.dialogWin("You need set name\ninclude 'max' or 'min'")
             return
 
         self.calcAverage.setDisabled(True)
@@ -2909,14 +2935,14 @@ class Ui_ChildWindow(object):
     def calcAverageFuncThread(self, times, value, path):
         beforeRawdata = []
         rawdata = []
-        adb.shell(window.ui.echoDiag % '2', "SHELL")
-        adb.shell(window.ui.catDiag, "SHELL")
+        adbtool.shell(window.ui.echoDiag % '2', "SHELL")
+        adbtool.shell(window.ui.catDiag, "SHELL")
 
         name = time.strftime("avg_" + value + "_%Y%m%d_%H-%M-%S", time.localtime()) + ".txt"
         file = open(path + name, 'a+')
 
         for k in range(int(times)):
-            ret = adb.shell(window.ui.catDiag, "SHELL")
+            ret = adbtool.shell(window.ui.catDiag, "SHELL")
             tmpRawdata = self.analysisRawdata(ret)
             for i in range(window.ui.transRX + 2):
                 for j in range(window.ui.transTX + 2):
@@ -2934,7 +2960,7 @@ class Ui_ChildWindow(object):
             # write every rawdata to file
             strRawdata = ''
             for l in range(len(rawdata)):
-                if (l + 1) % window.ui.transRX == 0:
+                if (l + 1) % window.ui.transTX == 0:
                     strRawdata += str(rawdata[l]) + '\n'
                 else:
                     strRawdata += str(rawdata[l]) + ' '
@@ -2947,7 +2973,7 @@ class Ui_ChildWindow(object):
         strRawdata = ''
         for n in range(len(beforeRawdata)):
             beforeRawdata[n] = beforeRawdata[n]//int(times)
-            if (n + 1) % window.ui.transRX == 0:
+            if (n + 1) % window.ui.transTX == 0:
                 strRawdata += str(beforeRawdata[n]) + '\n'
             else:
                 strRawdata += str(beforeRawdata[n]) + ' '
@@ -2964,14 +2990,14 @@ class Ui_ChildWindow(object):
     """ rawdata show """
     def chooseRawdataType(self):
         if self.radioDC.isChecked():
-            adb.shell(window.ui.echoDiag % '2', "SHELL")
+            adbtool.shell(window.ui.echoDiag % '2', "SHELL")
         elif self.radioIIR.isChecked():
-            adb.shell(window.ui.echoDiag % '1', "SHELL")
+            adbtool.shell(window.ui.echoDiag % '1', "SHELL")
         elif self.radioTmp.isChecked():
             type = self.textEditDiag.text()
             if type == '':
                 return False
-            adb.shell(window.ui.echoDiag % type, "SHELL")
+            adbtool.shell(window.ui.echoDiag % type, "SHELL")
         else:
             return False
 
@@ -3012,12 +3038,12 @@ class Ui_ChildWindow(object):
             self.log.setText("Log")
             self.log.setStyleSheet("color: rgb(0, 0, 0)")
 
-            adb.shell(window.ui.echoDiag % '0', "SHELL")
+            adbtool.shell(window.ui.echoDiag % '0', "SHELL")
 
     def showRawdata(self):
         self.showRawdataFlag = 1
         while self.showRawdataFlag:
-            ret = adb.shell(window.ui.catDiag, "SHELL")
+            ret = adbtool.shell(window.ui.catDiag, "SHELL")
             data = self.analysisRawdata(ret)
             self.fillRawdataToTable(data)
             self.MainRawdataShowtableWidget.reset()
