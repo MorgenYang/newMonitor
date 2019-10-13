@@ -992,7 +992,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.2"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.3"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
         self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
@@ -1470,7 +1470,6 @@ class Ui_MainWindow(object):
         # TODO:need show sub window to let user enter project name
         name = self.dialogInputgWin("Please enter project name", False)
         if name == '':
-            self.dialogWin("Name was empty")
             return
 
         if not os.path.exists("./project"):
@@ -2867,7 +2866,6 @@ class Ui_ChildWindow(object):
             adbtool.shell(window.ui.echoDiag % type, "SHELL")
         else:
             return False
-
         return True
 
     def rawdataReadFunc(self):
@@ -2909,10 +2907,12 @@ class Ui_ChildWindow(object):
 
     def showRawdata(self):
         self.showRawdataFlag = 1
+        length = (window.ui.transTX + 2) * (window.ui.transRX + 2)
         while self.showRawdataFlag:
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
             data = self.analysisRawdata(ret)
-            if data == '':
+            if data == '' or len(data) != length:
+                print("error")
                 return
             self.fillRawdataToTable(data)
             self.MainRawdataShowtableWidget.reset()
@@ -3001,11 +3001,13 @@ class LoginWindow(QMainWindow):
         super(LoginWindow, self).__init__()
         self.login = Ui_LoginWindow()
         self.login.initUI(self)
+        self.enterTimes = 1
 
     def keyPressEvent(self, event):
         key = event.key()
-        if key == QtCore.Qt.Key_Enter:
+        if key == QtCore.Qt.Key_Enter or key == 16777220:
             self.login.loginFunc()
+            self.enterTimes += 1
 
         if key == QtCore.Qt.Key_Escape:
             self.close()
@@ -3022,18 +3024,23 @@ class Ui_LoginWindow(object):
         self.girdLayout = QtWidgets.QGridLayout()
         self.girdLayout.setAlignment(QtCore.Qt.AlignVCenter)
 
+        self.titleLabel = QtWidgets.QLabel()
+        self.empty = QtWidgets.QLabel()
         self.loginPwd = QtWidgets.QLabel()
         self.status = QtWidgets.QLabel()
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.loginPwd.setText("PassWord:")
-        self.status.setText("Please enter pwd!")
-        self.ps.setText("Welcome to use! support v1 or v2")
-        self.girdLayout.addWidget(self.loginPwd, 0, 0)
-        self.girdLayout.addWidget(self.loginPwdLineEdit, 0, 1)
-        self.girdLayout.addWidget(self.status, 2, 1)
-        self.girdLayout.addWidget(self.ps, 3, 1)
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor</font></b> 2.0.3")
+        self.loginPwd.setText("PWD:")
+        self.status.setText("<a style='color:rgb(0, 0, 255)'>Please enter pwd!</a>")
+        self.ps.setText("Welcome to use! support v1 or v2 but old")
+        self.girdLayout.addWidget(self.titleLabel, 0, 1)
+        self.girdLayout.addWidget(self.empty, 1, 1)
+        self.girdLayout.addWidget(self.loginPwd, 2, 0)
+        self.girdLayout.addWidget(self.loginPwdLineEdit, 2, 1)
+        self.girdLayout.addWidget(self.status, 3, 1)
+        self.girdLayout.addWidget(self.ps, 4, 1)
 
         self.loginPwdLineEdit.installEventFilter(MainWindow)
 
@@ -3049,20 +3056,31 @@ class Ui_LoginWindow(object):
 
     def loginFunc(self):
         pwd = self.loginPwdLineEdit.text()
-        if pwd == 'himax':
+        if pwd == 'himaxtouch':
+            login.close()
+            window.ui.TabMainWindow.removeTab(2)
+            window.ui.TabMainWindow.removeTab(2)
+            window.ui.TabMainWindow.removeTab(2)
+            window.ui.showRawdataUI.hide()
+            window.show()
+        elif pwd == 'hxtpteam':
             login.close()
             window.show()
         else:
-            self.status.setText("Pwd was wrong!")
+            if 5 > login.enterTimes > 2:
+                self.status.setText("Congratulations! You have a bad memory!")
+            elif login.enterTimes >= 5:
+                self.status.setText("Badly!")
+            else:
+                self.status.setText("Pwd was wrong!")
             self.loginPwdLineEdit.clear()
             self.status.setStyleSheet("color:rgb(255, 0, 0)")
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = MainWindow()
-    child = ChildWindow()
     login = LoginWindow()
     login.show()
-    # window.show()
+    window = MainWindow()
+    child = ChildWindow()
     sys.exit(app.exec_())
