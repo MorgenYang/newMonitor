@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QIcon, QRegExpValidator
+from PyQt5.QtGui import QIcon, QRegExpValidator, QCursor
 import sys
 import adbtool
 from threading import Thread
@@ -2935,7 +2935,7 @@ class Ui_ChildWindow(object):
         for i in range(window.ui.transRX + 2):
             for j in range(window.ui.transTX + 2):
                 a = QTableWidgetItem(rawdata[i * (window.ui.transTX + 2) + j])
-                self.MainRawdataShowtableWidget.setItem(i, j, a)
+                self.MainRawdataShowtableWidget.setItem(i, j, a)    # morgen need modify for dump app
 
     def logFunc(self):
         if self.showRawdataFlag == 0:
@@ -2963,6 +2963,7 @@ class Ui_ChildWindow(object):
         self.MainRawdataShowtableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.MainRawdataShowtableWidget.setSizePolicy(sizePolicy)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
+        print("aa")
         self.MainRawdataShowtableWidget.setRowCount(rx + 2)
         self.MainRawdataShowtableWidget.setColumnCount(tx + 2)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
@@ -3001,6 +3002,7 @@ class LoginWindow(QMainWindow):
         super(LoginWindow, self).__init__()
         self.login = Ui_LoginWindow()
         self.login.initUI(self)
+        self.login.centralwidget.setMouseTracking(True)
         self.enterTimes = 1
 
     def keyPressEvent(self, event):
@@ -3011,6 +3013,26 @@ class LoginWindow(QMainWindow):
 
         if key == QtCore.Qt.Key_Escape:
             self.close()
+
+        if key == QtCore.Qt.Key_M:
+            login.close()
+            window.show()
+
+    def mousePressEvent(self, QMouseEvent):
+        if QMouseEvent.button() == QtCore.Qt.LeftButton:
+            self.m_flag = True
+            self.m_Position = QMouseEvent.globalPos() - self.pos()
+            QMouseEvent.accept()
+            self.setCursor(QCursor(QtCore.Qt.OpenHandCursor))
+
+    def mouseMoveEvent(self, QMouseEvent):
+        if QtCore.Qt.LeftButton and self.m_flag:
+            QMouseEvent.accept()
+            self.move(QMouseEvent.globalPos() - self.m_Position)
+
+    def mouseReleaseEvent(self, QMouseEvent):
+        self.m_flag = False
+        self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
 
 
 class Ui_LoginWindow(object):
@@ -3032,9 +3054,9 @@ class Ui_LoginWindow(object):
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.titleLabel.setText("<b><font size='5'>ADB Monitor</font></b> 2.0.3")
-        self.loginPwd.setText("PWD:")
-        self.status.setText("<a style='color:rgb(0, 0, 255)'>Please enter pwd!</a>")
-        self.ps.setText("Welcome to use! support v1 or v2 but old")
+        self.loginPwd.setText("Password:")
+        self.status.setText("<a style='color:rgb(0, 0, 255)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
+        self.ps.setText("Welcome! support v1 or v2 but old")
         self.girdLayout.addWidget(self.titleLabel, 0, 1)
         self.girdLayout.addWidget(self.empty, 1, 1)
         self.girdLayout.addWidget(self.loginPwd, 2, 0)
