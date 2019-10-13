@@ -12,15 +12,6 @@ import pyperclip
 import math
 
 
-class ChildWindow(QMainWindow):
-    def __init__(self):
-        super(ChildWindow, self).__init__()
-        self.ui = Ui_ChildWindow()
-        self.ui.setupUi(self)
-        self.ui.bindEventFunc()
-        self.ui.setRegExp()
-
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -1018,7 +1009,6 @@ class Ui_MainWindow(object):
         self.pathFlashdumpLabel.setText(_translate("MainWindow", "Flash_dump:"))
         self.pathHXFolderLabel.setText(_translate("MainWindow", "HX folder:"))
         self.pathFWLabel.setText(_translate("MainWindow", "FW path:"))
-        self.pathConmmentLabel.setText(_translate("MainWindow", "(New project you need choose v1/v2)"))
         self.groupBox.setTitle(_translate("MainWindow", "Project"))
         self.conmment.setText(_translate("MainWindow", "New project:"))
         self.pathSavePushButton.setText(_translate("MainWindow", "Save as a project"))
@@ -1684,7 +1674,7 @@ class Ui_MainWindow(object):
             reg = QRegExp('[0-9]{0,3}')
             self.inputName.setPlaceholderText("Time < 180")
         else:
-            reg = QRegExp('[a-zA-Z0-9]*')
+            reg = QRegExp('[a-zA-Z0-9_]*')
         pValidator = QRegExpValidator()
         pValidator.setRegExp(reg)
         self.inputName.setValidator(pValidator)
@@ -2588,8 +2578,8 @@ class Ui_MainWindow(object):
 
             self.screenRecord.setDisabled(True)
             self.screenRecordName = time.strftime("%Y%m%d_%H-%M-%S", time.localtime()) + ".mp4"
-            aa = Thread(target=self.screenRecordThread, args=(self.screenRecordName, recordTime))
-            aa.start()
+            a = Thread(target=self.screenRecordThread, args=(self.screenRecordName, recordTime))
+            a.start()
             b = Thread(target=self.screenRecordSetTime, args=(self.screenRecordName, recordTime, path))
             b.start()
 
@@ -2629,6 +2619,15 @@ class Ui_MainWindow(object):
     def openCMDFunc(self):
         cmd = "C:\Windows\System32\cmd.exe"
         os.startfile(cmd)
+
+
+class ChildWindow(QMainWindow):
+    def __init__(self):
+        super(ChildWindow, self).__init__()
+        self.ui = Ui_ChildWindow()
+        self.ui.setupUi(self)
+        self.ui.bindEventFunc()
+        self.ui.setRegExp()
 
 
 class Ui_ChildWindow(object):
@@ -2963,7 +2962,6 @@ class Ui_ChildWindow(object):
         self.MainRawdataShowtableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.MainRawdataShowtableWidget.setSizePolicy(sizePolicy)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
-        print("aa")
         self.MainRawdataShowtableWidget.setRowCount(rx + 2)
         self.MainRawdataShowtableWidget.setColumnCount(tx + 2)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
@@ -3045,15 +3043,16 @@ class Ui_LoginWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.girdLayout = QtWidgets.QGridLayout()
         self.girdLayout.setAlignment(QtCore.Qt.AlignVCenter)
-
         self.titleLabel = QtWidgets.QLabel()
+        self.copyrightLabel = QtWidgets.QLabel()
         self.empty = QtWidgets.QLabel()
         self.loginPwd = QtWidgets.QLabel()
         self.status = QtWidgets.QLabel()
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.titleLabel.setText("<b><font size='5'>ADB Monitor</font></b> 2.0.3")
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.3</b>")
+        self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc.")
         self.loginPwd.setText("Password:")
         self.status.setText("<a style='color:rgb(0, 0, 255)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
         self.ps.setText("Welcome! support v1 or v2 but old")
@@ -3063,6 +3062,7 @@ class Ui_LoginWindow(object):
         self.girdLayout.addWidget(self.loginPwdLineEdit, 2, 1)
         self.girdLayout.addWidget(self.status, 3, 1)
         self.girdLayout.addWidget(self.ps, 4, 1)
+        self.girdLayout.addWidget(self.copyrightLabel, 5, 1)
 
         self.loginPwdLineEdit.installEventFilter(MainWindow)
 
