@@ -2721,7 +2721,6 @@ class Ui_ChildWindow(object):
         font.setPointSize(11)
         self.vrTable.setFont(font)
         self.vrTable.setObjectName("vrTable")
-        MainWindow.setCentralWidget(self.centralwidget)
 
         self.removeVRTable = QtWidgets.QPushButton(self.centralwidget)
         self.removeVRTable.setEnabled(True)
@@ -2769,7 +2768,6 @@ class Ui_ChildWindow(object):
 
     def removeVRTableFunc(self):
         window.ui.dialogSelectFilesWin('./log/', 'Remove', True)
-        pass
 
     def calcVRTable(self):
         window.ui.dialogSelectFilesWin('./log', 'Get VR Table', False)
@@ -2998,9 +2996,73 @@ class Ui_ChildWindow(object):
         self.frameTimes.setValidator(pValidator)
 
 
+class LoginWindow(QMainWindow):
+    def __init__(self):
+        super(LoginWindow, self).__init__()
+        self.login = Ui_LoginWindow()
+        self.login.initUI(self)
+
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == QtCore.Qt.Key_Enter:
+            self.login.loginFunc()
+
+        if key == QtCore.Qt.Key_Escape:
+            self.close()
+
+
+class Ui_LoginWindow(object):
+    def initUI(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        MainWindow.resize(300, 150)
+        MainWindow.setStyleSheet("background-color:rgb(193, 255, 193)")
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.girdLayout = QtWidgets.QGridLayout()
+        self.girdLayout.setAlignment(QtCore.Qt.AlignVCenter)
+
+        self.loginPwd = QtWidgets.QLabel()
+        self.status = QtWidgets.QLabel()
+        self.ps = QtWidgets.QLabel()
+        self.loginPwdLineEdit = QtWidgets.QLineEdit()
+        self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.loginPwd.setText("PassWord:")
+        self.status.setText("Please enter pwd!")
+        self.ps.setText("Welcome to use! support v1 or v2")
+        self.girdLayout.addWidget(self.loginPwd, 0, 0)
+        self.girdLayout.addWidget(self.loginPwdLineEdit, 0, 1)
+        self.girdLayout.addWidget(self.status, 2, 1)
+        self.girdLayout.addWidget(self.ps, 3, 1)
+
+        self.loginPwdLineEdit.installEventFilter(MainWindow)
+
+        self.centralwidget.setLayout(self.girdLayout)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Login"))
+
+    def loginFunc(self):
+        pwd = self.loginPwdLineEdit.text()
+        if pwd == 'himax':
+            login.close()
+            window.show()
+        else:
+            self.status.setText("Pwd was wrong!")
+            self.loginPwdLineEdit.clear()
+            self.status.setStyleSheet("color:rgb(255, 0, 0)")
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     child = ChildWindow()
-    window.show()
+    login = LoginWindow()
+    login.show()
+    # window.show()
     sys.exit(app.exec_())
