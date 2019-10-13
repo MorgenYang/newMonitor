@@ -841,7 +841,6 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.G1DDCopy.setFont(font)
         self.G1DDCopy.setObjectName("G1DDCopy")
-        # morgen
         for i in range(64):
             setattr(self, "G1lineEdit%d" % (i + 1), QtWidgets.QLineEdit(self.ddRegGroupBox1))
             m = getattr(self, "G1lineEdit%d" % (i + 1))
@@ -3023,7 +3022,7 @@ class LoginWindow(QMainWindow):
             QMouseEvent.accept()
             self.setCursor(QCursor(QtCore.Qt.OpenHandCursor))
 
-    def mouseMoveEvent(self, QMouseEvent):
+    def mouseMoveEvent(self, QMouseEvent):  # morgen
         if QtCore.Qt.LeftButton and self.m_flag:
             QMouseEvent.accept()
             self.move(QMouseEvent.globalPos() - self.m_Position)
@@ -3085,7 +3084,7 @@ class Ui_LoginWindow(object):
             window.ui.TabMainWindow.removeTab(2)
             window.ui.showRawdataUI.hide()
             window.show()
-        elif pwd == 'hxtpteam':
+        elif pwd == 'himaxtouchroot':
             login.close()
             window.show()
         else:
