@@ -3052,8 +3052,8 @@ class Ui_LoginWindow(object):
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.3</b>")
         self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc.")
-        self.loginPwd.setText("Password:")
-        self.status.setText("<a style='color:rgb(0, 0, 255)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
+        self.loginPwd.setText("PWD:")
+        self.status.setText("<a style='color:rgb(0, 0, 130)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
         self.ps.setText("Welcome! support v1 or v2 but old")
         self.girdLayout.addWidget(self.titleLabel, 0, 1)
         self.girdLayout.addWidget(self.empty, 1, 1)
@@ -3061,7 +3061,8 @@ class Ui_LoginWindow(object):
         self.girdLayout.addWidget(self.loginPwdLineEdit, 2, 1)
         self.girdLayout.addWidget(self.status, 3, 1)
         self.girdLayout.addWidget(self.ps, 4, 1)
-        self.girdLayout.addWidget(self.copyrightLabel, 5, 1)
+        self.girdLayout.addWidget(self.empty, 5, 1)
+        self.girdLayout.addWidget(self.copyrightLabel, 6, 1)
 
         self.loginPwdLineEdit.installEventFilter(MainWindow)
 
