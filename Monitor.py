@@ -6,6 +6,7 @@ import sys
 import adbtool
 from threading import Thread
 import time
+import datetime
 import os
 import re
 import pyperclip
@@ -39,6 +40,12 @@ class MainWindow(QMainWindow):
         self.uiThreadBindEventFunc = Thread(target=self.ui.bindEventFunc())
         self.uiThreadBindEventFunc.start()
         self.statusBar().addWidget(QLabel("Ready"))
+
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == QtCore.Qt.Key_Escape:
+            self.close()
+            login.show()
 
 
 class Ui_MainWindow(object):
@@ -414,7 +421,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.root.setFont(font)
-        self.root.setStyleSheet("background-color: rgb(85, 0, 255); color: rgb(255, 255, 255);")
+        self.root.setStyleSheet("background-color: rgb(187, 255, 255);")
         self.root.setObjectName("root")
         self.adbStatus = QtWidgets.QLabel(self.wifiGroupBox)
         self.adbStatus.setGeometry(QtCore.QRect(480, 15, 100, 30))
@@ -684,7 +691,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.showRawdataUI.setFont(font)
-        self.showRawdataUI.setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(255, 0, 0);")
+        self.showRawdataUI.setStyleSheet("background-color: rgb(187, 255, 255);")
         self.showRawdataUI.setObjectName("showRawdataUI")
         self.rawdataShowText = QtWidgets.QTextBrowser(self.tabOptions)
         self.rawdataShowText.setGeometry(QtCore.QRect(10, 268, 570, 160))
@@ -1545,6 +1552,7 @@ class Ui_MainWindow(object):
             else:
                 ret += str(tmp1[i]) + ','
 
+        ret = time.strftime("Time:%Y-%m-%d %H:%M:%S\n", time.localtime()) + ret
         pyperclip.copy(ret)
         pyperclip.paste()
         self.dialogWin("output data was already copied,\nnow you can paste")
@@ -1765,14 +1773,14 @@ class Ui_MainWindow(object):
                     self.dialogWin("You can only selected two files")
                     return
                 else:
-                    if selectedFiles[0].find('avg_min') != -1:
+                    if selectedFiles[0].find('min') != -1:
                         one = selectedFiles[0]
-                    elif selectedFiles[0].find('avg_max') != -1:
+                    elif selectedFiles[0].find('max') != -1:
                         two = selectedFiles[0]
 
-                    if selectedFiles[1].find('avg_min') != -1:
+                    if selectedFiles[1].find('min') != -1:
                         one = selectedFiles[1]
-                    elif selectedFiles[1].find('avg_max') != -1:
+                    elif selectedFiles[1].find('max') != -1:
                         two = selectedFiles[1]
 
                     if one == '' or two == '':
@@ -2211,12 +2219,13 @@ class Ui_MainWindow(object):
             regAddress = ""
 
 
-        # Deal with value for set as 8 digit
+        # Deal with value for set as 8
         while len(writeValue) < 8 and len(writeValue) != 0:
             writeValue = "0" + writeValue
 
         if len(regAddress) == 8 and len(writeValue) != 0:
             cmd = self.echoWriteRegister % (regAddress, writeValue)
+            self.readRegValShowText.append(cmd)
             adbtool.shell(cmd, "SHELL")
 
     # TODO: show rawdata UI function
@@ -2271,6 +2280,12 @@ class Ui_MainWindow(object):
                                                                      window.rawdataHeight * (self.transRX + 2)))
         child.ui.initRawdataUI(self.transRX, self.transTX)
         child.show()
+        self.disableFunctions(True)
+
+    # TODO: disable some functions when show rawdata UI
+    def disableFunctions(self, disable):
+        self.touchGroupBox.setDisabled(disable)
+        self.displayGroupBox.setDisabled(disable)
 
     # TODO: options page, touch functions
     def touchDiagArrFunc(self):
@@ -2628,10 +2643,56 @@ class ChildWindow(QMainWindow):
         self.ui.bindEventFunc()
         self.ui.setRegExp()
 
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == QtCore.Qt.Key_Escape:
+            self.close()
+
+        if key == QtCore.Qt.Key_C:
+            ret = ''
+            for i in range(window.ui.transRX + 2):
+                for j in range(window.ui.transTX + 2):
+                    ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
+                ret += '\n'
+            pyperclip.copy(ret)
+            pyperclip.paste()
+            window.ui.dialogWin("copy ok")
+
+        if key == QtCore.Qt.Key_S:
+            ret = self.ui.origRawdata
+            pyperclip.copy(ret)
+            pyperclip.paste()
+            window.ui.dialogWin("copy orig ok")
+
+        if key == QtCore.Qt.Key_M:
+            ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            data = self.ui.analysisRawdata(ret)
+            self.ui.keepRawdata = self.ui.getFirstFrameRawdata(data)
+
+            self.ui.keepMax = True
+            self.ui.keepMin = False
+
+        if key == QtCore.Qt.Key_N:
+            ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            data = self.ui.analysisRawdata(ret)
+            self.ui.keepRawdata = self.ui.getFirstFrameRawdata(data)
+
+            self.ui.keepMax = False
+            self.ui.keepMin = True
+
+        if key == QtCore.Qt.Key_B:
+            self.ui.keepMax = False
+            self.ui.keepMin = False
+
+    def closeEvent(self, *args, **kwargs):
+        window.ui.disableFunctions(False)
+        child.ui.rawdataReadFunc(True)
+
 
 class Ui_ChildWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
+        # MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
@@ -2686,9 +2747,17 @@ class Ui_ChildWindow(object):
         font.setPointSize(11)
         self.log.setFont(font)
         self.log.setObjectName("log")
+        self.logTimesBtn = QtWidgets.QLineEdit(self.centralwidget)
+        self.logTimesBtn.setGeometry(QtCore.QRect(260, 5, 50, 30))
+        self.logTimesBtn.setMaximumSize(QtCore.QSize(50, 30))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.logTimesBtn.setFont(font)
+        self.logTimesBtn.setObjectName("logTimesBtn")
+        self.logTimesBtn.setPlaceholderText("Counts")
         self.calcAverage = QtWidgets.QPushButton(self.centralwidget)
         self.calcAverage.setEnabled(True)
-        self.calcAverage.setGeometry(QtCore.QRect(280, 5, 70, 30))
+        self.calcAverage.setGeometry(QtCore.QRect(320, 5, 80, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -2699,7 +2768,7 @@ class Ui_ChildWindow(object):
         self.calcAverage.setFont(font)
         self.calcAverage.setObjectName("calcAverage")
         self.frameTimes = QtWidgets.QLineEdit(self.centralwidget)
-        self.frameTimes.setGeometry(QtCore.QRect(350, 5, 60, 30))
+        self.frameTimes.setGeometry(QtCore.QRect(400, 5, 50, 30))
         self.frameTimes.setMaximumSize(QtCore.QSize(60, 30))
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -2707,7 +2776,7 @@ class Ui_ChildWindow(object):
         self.frameTimes.setObjectName("frameTimes")
         self.vrTable = QtWidgets.QPushButton(self.centralwidget)
         self.vrTable.setEnabled(True)
-        self.vrTable.setGeometry(QtCore.QRect(420, 5, 70, 30))
+        self.vrTable.setGeometry(QtCore.QRect(470, 5, 70, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -2718,10 +2787,9 @@ class Ui_ChildWindow(object):
         font.setPointSize(11)
         self.vrTable.setFont(font)
         self.vrTable.setObjectName("vrTable")
-
         self.removeVRTable = QtWidgets.QPushButton(self.centralwidget)
         self.removeVRTable.setEnabled(True)
-        self.removeVRTable.setGeometry(QtCore.QRect(500, 5, 70, 30))
+        self.removeVRTable.setGeometry(QtCore.QRect(560, 5, 70, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -2733,7 +2801,6 @@ class Ui_ChildWindow(object):
         self.removeVRTable.setFont(font)
         self.removeVRTable.setObjectName("removeVRTable")
         MainWindow.setCentralWidget(self.centralwidget)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.mainwindow = MainWindow
@@ -2745,13 +2812,20 @@ class Ui_ChildWindow(object):
         self.radioIIR.setText(_translate("MainWindow", "IIR"))
         self.textEditDiag.setPlaceholderText(_translate("MainWindow", "Type"))
         self.log.setText(_translate("MainWindow", "Log"))
-        self.calcAverage.setText(_translate("MainWindow", "Collect"))
+        self.calcAverage.setText(_translate("MainWindow", "VRCollect"))
         self.frameTimes.setPlaceholderText(_translate("MainWindow", "Frames"))
         self.vrTable.setText(_translate("MainWindow", "VRTable"))
         self.removeVRTable.setText(_translate("MainWindow", "Remove"))
 
     def bindEventFunc(self):
         self.logFlag = False
+        self.logFlag_s = False
+        self.logTimes = 0
+        self.origRawdata = ''
+
+        self.keepMax = False
+        self.keepMin = False
+
         self.hintMsg()
 
         self.rawdataRead.clicked.connect(self.rawdataReadFunc)
@@ -2802,12 +2876,16 @@ class Ui_ChildWindow(object):
         adbtool.shell(window.ui.echoDiag % '2', "SHELL")
         adbtool.shell(window.ui.catDiag, "SHELL")
 
-        name = time.strftime("avg_" + value + "_%Y%m%d_%H-%M-%S", time.localtime()) + ".txt"
+        name = time.strftime("avg_%Y%m%d_%H-%M-%S_", time.localtime()) + value + ".txt"
         file = open(path + name, 'a+')
 
         for k in range(int(times)):
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
             tmpRawdata = self.analysisRawdata(ret)
+            if tmpRawdata == '':
+                window.ui.dialogWin("data wrong")
+                return
+
             for i in range(window.ui.transRX + 2):
                 for j in range(window.ui.transTX + 2):
                     if i == 0 or i == window.ui.transRX + 1 or j == 0 or j == window.ui.transTX + 1:
@@ -2866,11 +2944,14 @@ class Ui_ChildWindow(object):
             return False
         return True
 
-    def rawdataReadFunc(self):
+    def rawdataReadFunc(self, reset):
         # choose rawdata type
         if not self.chooseRawdataType():
             window.ui.dialogWin("Please set type")
             return
+
+        if reset:
+            self.rawdataRead.setObjectName('rawdataReadStop')
 
         if self.rawdataRead.objectName() == 'rawdataRead':
             self.rawdataRead.setObjectName('rawdataReadStop')
@@ -2882,7 +2963,7 @@ class Ui_ChildWindow(object):
             # cat diag
             self.readRawdataThread = Thread(target=self.showRawdata)
             self.readRawdataThread.start()
-        else:
+        elif self.rawdataRead.objectName() == 'rawdataReadStop':
             self.rawdataRead.setObjectName('rawdataRead')
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap("img/start_48px.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -2903,19 +2984,50 @@ class Ui_ChildWindow(object):
 
             adbtool.shell(window.ui.echoDiag % '0', "SHELL")
 
+    def resetLogBtnStatus(self):
+        self.log.setDisabled(False)
+        self.log.setText("Log")
+        self.log.setStyleSheet("color: rgb(0, 0, 0)")
+        self.logFile.close()
+
     def showRawdata(self):
         self.showRawdataFlag = 1
         length = (window.ui.transTX + 2) * (window.ui.transRX + 2)
+        times = 1
+
+        ret = adbtool.shell(window.ui.catDiag, "SHELL")
+        data = self.analysisRawdata(ret)
+        self.keepRawdata = self.getFirstFrameRawdata(data)
+
         while self.showRawdataFlag:
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            self.origRawdata = ret
             data = self.analysisRawdata(ret)
+
             if data == '' or len(data) != length:
                 print("error")
                 return
+
+            if self.keepMax or self.keepMin:
+                data = self.keepMaxOrMinRawdata(data)
+                data = self.transMaxOrMinRawdata(data)
+
             self.fillRawdataToTable(data)
             self.MainRawdataShowtableWidget.reset()
+
+            if self.logFlag_s:
+                if self.logTimes != 0 and times > self.logTimes:
+                    self.logFlag = False
+                    self.logFlag_s = False
+                    times = 1
+                    self.logTimes = 0
+                    self.resetLogBtnStatus()
+
             if self.logFlag:
-                self.logFile.write(ret)
+                timeTmp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+                title = '\nTime:' + timeTmp + '\n' + 'Counts:%d\n' % times
+                self.logFile.write(title + ret)
+                times += 1
 
     def analysisRawdata(self, rawdata):
         index = rawdata.find('[00]')
@@ -2929,6 +3041,41 @@ class Ui_ChildWindow(object):
         rawdata.insert((window.ui.transTX + 2) * (window.ui.transRX + 2), '')
         return rawdata
 
+    def getFirstFrameRawdata(self, rawdata):
+        for i in range(window.ui.transRX + 2):
+            for j in range(window.ui.transTX + 2):
+                if i == 0 or j == 0 or (j == window.ui.transTX + 1 and i == window.ui.transRX + 1):
+                    pass
+                else:
+                    rawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+
+        return rawdata
+
+    def keepMaxOrMinRawdata(self, rawdata):
+        # char to int
+        for i in range(window.ui.transRX + 2):
+            for j in range(window.ui.transTX + 2):
+                if i == 0 or j == 0 or (j == window.ui.transTX + 1 and i == window.ui.transRX + 1):
+                    pass
+                else:
+                    rawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+                    if self.keepMax:
+                        if int(rawdata[i * (window.ui.transTX + 2) + j]) > int(self.keepRawdata[i * (window.ui.transTX + 2) + j]):
+                            self.keepRawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+                    else:
+                        if int(rawdata[i * (window.ui.transTX + 2) + j]) < int(self.keepRawdata[i * (window.ui.transTX + 2) + j]):
+                            self.keepRawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+        return self.keepRawdata
+
+    def transMaxOrMinRawdata(self, rawdata):
+        for i in range(window.ui.transRX + 2):
+            for j in range(window.ui.transTX + 2):
+                if i == 0 or j == 0 or (j == window.ui.transTX + 1 and i == window.ui.transRX + 1):
+                    pass
+                else:
+                    rawdata[i * (window.ui.transTX + 2) + j] = str(rawdata[i * (window.ui.transTX + 2) + j])
+        return rawdata
+
     def fillRawdataToTable(self, rawdata):
         for i in range(window.ui.transRX + 2):
             for j in range(window.ui.transTX + 2):
@@ -2936,7 +3083,9 @@ class Ui_ChildWindow(object):
                 self.MainRawdataShowtableWidget.setItem(i, j, a)    # morgen need modify for dump app
 
     def logFunc(self):
+        self.showRawdataFlag = window.ui.showRawdataFlag
         if self.showRawdataFlag == 0:
+            print("bbb")
             string = "Please read first!"
             window.ui.dialogWin(string)
             return
@@ -2946,12 +3095,19 @@ class Ui_ChildWindow(object):
 
         self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
         self.logFlag = True
+        self.logFlag_s = True
         self.logFile = open(self.fileName, 'a+')
 
         # toggle
         self.log.setDisabled(True)
         self.log.setText("Ing.")
         self.log.setStyleSheet("color: rgb(255, 0, 0)")
+
+        # get counts
+        if self.logTimesBtn.text() != '':
+            self.logTimes = int(self.logTimesBtn.text())
+
+
 
     def initRawdataUI(self, rx, tx):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -2983,7 +3139,7 @@ class Ui_ChildWindow(object):
 
     def setRegExp(self):
         # rawdata type, time
-        reg = QRegExp('[1-9][0-9]')
+        reg = QRegExp('[0-9]{2}')
         pValidator = QRegExpValidator()
         pValidator.setRegExp(reg)
         self.textEditDiag.setValidator(pValidator)
@@ -2992,6 +3148,11 @@ class Ui_ChildWindow(object):
         pValidator = QRegExpValidator()
         pValidator.setRegExp(reg)
         self.frameTimes.setValidator(pValidator)
+
+        reg = QRegExp('[0-9]{5}')
+        pValidator = QRegExpValidator()
+        pValidator.setRegExp(reg)
+        self.logTimesBtn.setValidator(pValidator)
 
 
 class LoginWindow(QMainWindow):
@@ -3078,12 +3239,16 @@ class Ui_LoginWindow(object):
 
     def loginFunc(self):
         pwd = self.loginPwdLineEdit.text()
-        if pwd == 'himaxtouch':
+        if pwd == 'himax':
             login.close()
             window.ui.TabMainWindow.removeTab(2)
             window.ui.TabMainWindow.removeTab(2)
             window.ui.TabMainWindow.removeTab(2)
-            window.ui.showRawdataUI.hide()
+            child.ui.log.hide()
+            child.ui.calcAverage.hide()
+            child.ui.frameTimes.hide()
+            child.ui.vrTable.hide()
+            child.ui.removeVRTable.hide()
             window.show()
         elif pwd == 'himaxtouchroot':
             login.close()
