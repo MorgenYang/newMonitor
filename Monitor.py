@@ -2284,6 +2284,8 @@ class Ui_MainWindow(object):
 
     # TODO: disable some functions when show rawdata UI
     def disableFunctions(self, disable):
+        self.wifiGroupBox.setDisabled(disable)
+        self.adbGroupBox.setDisabled(disable)
         self.touchGroupBox.setDisabled(disable)
         self.displayGroupBox.setDisabled(disable)
 
@@ -2652,7 +2654,11 @@ class ChildWindow(QMainWindow):
             ret = ''
             for i in range(window.ui.transRX + 2):
                 for j in range(window.ui.transTX + 2):
-                    ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
+                    try:
+                        ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
+                    except:
+                        window.ui.dialogWin("unexcept wrong")
+                        return
                 ret += '\n'
             pyperclip.copy(ret)
             pyperclip.paste()
@@ -2665,18 +2671,10 @@ class ChildWindow(QMainWindow):
             window.ui.dialogWin("copy orig ok")
 
         if key == QtCore.Qt.Key_M:
-            ret = adbtool.shell(window.ui.catDiag, "SHELL")
-            data = self.ui.analysisRawdata(ret)
-            self.ui.keepRawdata = self.ui.getFirstFrameRawdata(data)
-
             self.ui.keepMax = True
             self.ui.keepMin = False
 
         if key == QtCore.Qt.Key_N:
-            ret = adbtool.shell(window.ui.catDiag, "SHELL")
-            data = self.ui.analysisRawdata(ret)
-            self.ui.keepRawdata = self.ui.getFirstFrameRawdata(data)
-
             self.ui.keepMax = False
             self.ui.keepMin = True
 
@@ -2960,6 +2958,11 @@ class Ui_ChildWindow(object):
             self.rawdataRead.setIcon(icon)
             self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
 
+            # init first data
+            ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            data = self.analysisRawdata(ret)
+            self.keepRawdata = self.getFirstFrameRawdata(data)
+
             # cat diag
             self.readRawdataThread = Thread(target=self.showRawdata)
             self.readRawdataThread.start()
@@ -2995,11 +2998,7 @@ class Ui_ChildWindow(object):
         length = (window.ui.transTX + 2) * (window.ui.transRX + 2)
         times = 1
 
-        ret = adbtool.shell(window.ui.catDiag, "SHELL")
-        data = self.analysisRawdata(ret)
-        self.keepRawdata = self.getFirstFrameRawdata(data)
-
-        while self.showRawdataFlag:
+        while self.showRawdataFlag: # this while case was not arrow other adb exce proccess
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
             self.origRawdata = ret
             data = self.analysisRawdata(ret)
@@ -3080,7 +3079,7 @@ class Ui_ChildWindow(object):
         for i in range(window.ui.transRX + 2):
             for j in range(window.ui.transTX + 2):
                 a = QTableWidgetItem(rawdata[i * (window.ui.transTX + 2) + j])
-                self.MainRawdataShowtableWidget.setItem(i, j, a)    # morgen need modify for dump app
+                self.MainRawdataShowtableWidget.setItem(i, j, a)
 
     def logFunc(self):
         self.showRawdataFlag = window.ui.showRawdataFlag
@@ -3106,8 +3105,6 @@ class Ui_ChildWindow(object):
         # get counts
         if self.logTimesBtn.text() != '':
             self.logTimes = int(self.logTimesBtn.text())
-
-
 
     def initRawdataUI(self, rx, tx):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
