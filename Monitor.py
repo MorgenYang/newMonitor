@@ -3033,7 +3033,7 @@ class Ui_ChildWindow(object):
         length = (window.ui.transTX + 2) * (window.ui.transRX + 2)
         times = 1
 
-        while self.showRawdataFlag: # this while case was not arrow other adb exce proccess
+        while self.showRawdataFlag:
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
             self.origRawdata = ret
             data = self.analysisRawdata(ret)
@@ -3117,27 +3117,35 @@ class Ui_ChildWindow(object):
                 self.MainRawdataShowtableWidget.setItem(i, j, a)
 
     def logFunc(self):
-        if self.showRawdataFlag == 0:
-            string = "Please read first!"
-            window.ui.dialogWin(string)
-            return
+        times = self.logTimesBtn.text()
+        ret = adbtool.shell('i=0; aa='+times+'; while [ $i -lt $aa ];do echo Times: $i; cat /proc/android_touch/diag/stack; i=$(($i+1));done;', 'SHELL')
+        print(ret)
+        fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
+        File = open(fileName, 'w+')
+        File.write(ret)
+        File.close()
 
-        if not os.path.exists("./log"):
-            os.mkdir("log")
-
-        self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
-        self.logFlag = True
-        self.logFlag_s = True
-        self.logFile = open(self.fileName, 'a+')
-
-        # toggle
-        self.log.setDisabled(True)
-        self.log.setText("Ing.")
-        self.log.setStyleSheet("color: rgb(255, 0, 0)")
-
-        # get counts
-        if self.logTimesBtn.text() != '':
-            self.logTimes = int(self.logTimesBtn.text())
+        # if self.showRawdataFlag == 0:
+        #     string = "Please read first!"
+        #     window.ui.dialogWin(string)
+        #     return
+        #
+        # if not os.path.exists("./log"):
+        #     os.mkdir("log")
+        #
+        # self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
+        # self.logFlag = True
+        # self.logFlag_s = True
+        # self.logFile = open(self.fileName, 'a+')
+        #
+        # # toggle
+        # self.log.setDisabled(True)
+        # self.log.setText("Ing.")
+        # self.log.setStyleSheet("color: rgb(255, 0, 0)")
+        #
+        # # get counts
+        # if self.logTimesBtn.text() != '':
+        #     self.logTimes = int(self.logTimesBtn.text())
 
     def initRawdataUI(self, rx, tx):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
