@@ -47,6 +47,9 @@ class MainWindow(QMainWindow):
             self.close()
             login.show()
 
+        if key == QtCore.Qt.Key_R:
+            self.ui.readRegValShowText.clear()
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1039,7 +1042,7 @@ class Ui_MainWindow(object):
         self.screenShot.setText(_translate("MainWindow", "ScreenShot"))
         self.openClosePoint.setText(_translate("MainWindow", "OpenPoint"))
         self.opencmd.setText(_translate("MainWindow", "Open cmd"))
-        self.hideShowVirtual.setText(_translate("MainWindow", "ShowVirtual"))
+        self.hideShowVirtual.setText(_translate("MainWindow", "ShowVKey"))
         self.shutDown.setText(_translate("MainWindow", "ShutDown"))
         self.screenRecord.setText(_translate("MainWindow", "ScreenRecord"))
         self.touchGroupBox.setTitle(_translate("MainWindow", "Touch"))
@@ -1066,7 +1069,7 @@ class Ui_MainWindow(object):
         self.d1129.setText(_translate("MainWindow", "1129"))
         self.d2810.setText(_translate("MainWindow", "2810"))
         self.showRawdataUI.setText(_translate("MainWindow", "Show Rawdata UI"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabOptions), _translate("MainWindow", "Options"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabOptions), _translate("MainWindow", "ADB cmd"))
         self.pushButtonRead.setText(_translate("MainWindow", "Read"))
         self.pushButtonRegWrite0.setText(_translate("MainWindow", "Write 0"))
         self.pushButtonRegWrite1.setText(_translate("MainWindow", "Write 1"))
@@ -1102,7 +1105,7 @@ class Ui_MainWindow(object):
         self.G3DDClear.setText(_translate("MainWindow", "Clear"))
         self.G3DDCopy.setText(_translate("MainWindow", "Copy"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabDDRegister), _translate("MainWindow", "DD Reg"))
-        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabDDLog), _translate("MainWindow", "Log"))
+        self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabDDLog), _translate("MainWindow", "DD Log"))
 
     # TODO: add functions for all widgets
     def bindEventFunc(self):
@@ -1147,7 +1150,7 @@ class Ui_MainWindow(object):
         # display
         self.d1129.clicked.connect(self.display1129Func)
         self.d2810.clicked.connect(self.display2810Func)
-        # self.openBlight.clicked.connect()
+        self.openBlight.clicked.connect(self.backlight)
 
         # options
         self.diagArr.clicked.connect(self.touchDiagArrFunc)
@@ -1210,23 +1213,37 @@ class Ui_MainWindow(object):
             self.pathV2RadioButton.setChecked(False)
 
             self.pathDiagLineEdit.setText(self.v1DiagPath)
+            self.pathDiagLineEdit.setDisabled(False)
             self.pathRegLineEdit.setText(self.v1RegisterPath)
+            self.pathRegLineEdit.setDisabled(False)
             self.pathIntenLineEdit.setText(self.v1IntEnPath)
+            self.pathIntenLineEdit.setDisabled(False)
             self.pathResetLineEdit.setText(self.v1ResetPath)
+            self.pathResetLineEdit.setDisabled(False)
             self.pathSenseonoffLineEdit.setText(self.v1SenseOnOffPath)
+            self.pathSenseonoffLineEdit.setDisabled(False)
             self.pathDiagarrLineEdit.setText(self.v1DiagArrPath)
+            self.pathDiagarrLineEdit.setDisabled(False)
             self.pathStackLineEdit.clear()
-        else:
+            self.pathStackLineEdit.setDisabled(True)
+        elif self.driverVersionMode == 2:
             self.pathV1RadioButton.setChecked(False)
             self.pathV2RadioButton.setChecked(True)
 
             self.pathStackLineEdit.setText(self.v2ReadStackPath)
+            self.pathStackLineEdit.setDisabled(False)
             self.pathDiagLineEdit.clear()
+            self.pathDiagLineEdit.setDisabled(True)
             self.pathRegLineEdit.clear()
+            self.pathRegLineEdit.setDisabled(True)
             self.pathIntenLineEdit.clear()
+            self.pathIntenLineEdit.setDisabled(True)
             self.pathResetLineEdit.clear()
+            self.pathResetLineEdit.setDisabled(True)
             self.pathSenseonoffLineEdit.clear()
+            self.pathSenseonoffLineEdit.setDisabled(True)
             self.pathDiagarrLineEdit.clear()
+            self.pathDiagarrLineEdit.setDisabled(True)
 
     # TODO: read project file and reconfig touch info
     def readProjectInfo(self, name):
@@ -1352,6 +1369,8 @@ class Ui_MainWindow(object):
         if not path:
             return
 
+        self.v2ReadStackPath = ''
+
         with open(path, 'rb') as r:
             for line in r.readlines():
                 line = str(line, encoding='UTF-8')
@@ -1390,7 +1409,6 @@ class Ui_MainWindow(object):
                     self.fwPath = lineList[1]
 
         self.initEchoMethod(self.driverVersionMode)
-        self.chooseDriverVersion()
         self.fillTouchConfig()
 
     # TODO: init common commands to distinguish v1 or v2 driver mode
@@ -2073,12 +2091,11 @@ class Ui_MainWindow(object):
 
     # TODO: TP Reg page functions
     def initHistoryFunc(self):
-        self.openBlight.setDisabled(True)
+        # self.openBlight.setDisabled(True)
 
         self.ret = ''
         self.beforeRead = ''
         self.historyFile = './settings/register_history'
-        self.showRawdataFlag = 0
         self.showKmsgFlag = 0
         self.showGeteventFlag = 0
         self.device_ip = ""
@@ -2240,7 +2257,6 @@ class Ui_MainWindow(object):
         index = ret.find("RX")
         index1 = ret.find("\n", index)
         rx = int(ret[index:index1].split(':')[1])
-
         index = ret.find("TX")
         index1 = ret.find("\n", index)
         tx = int(ret[index:index1].split(':')[1])
@@ -2263,6 +2279,9 @@ class Ui_MainWindow(object):
         adbtool.shell(self.echoDiag % '1', "SHELL")
         ret = adbtool.shell(self.catDiag, "SHELL")
         index = ret.find('[00]')
+        if index == -1:
+            self.dialogWin("driver version was not match")
+            return
         index1 = ret.find('ChannelEnd')
         ret = ret[index: index1 - 1]
         ret = ret.split('\n')
@@ -2284,10 +2303,7 @@ class Ui_MainWindow(object):
 
     # TODO: disable some functions when show rawdata UI
     def disableFunctions(self, disable):
-        self.wifiGroupBox.setDisabled(disable)
-        self.adbGroupBox.setDisabled(disable)
-        self.touchGroupBox.setDisabled(disable)
-        self.displayGroupBox.setDisabled(disable)
+        self.tabSettings.setDisabled(disable)
 
     # TODO: options page, touch functions
     def touchDiagArrFunc(self):
@@ -2533,13 +2549,13 @@ class Ui_MainWindow(object):
         self.rawdataShowText.append(cmd)
 
     def hideShowVirtualFunc(self):
-        if self.hideShowVirtual.text() == 'ShowVirtual':
-            self.hideShowVirtual.setText("HideVirtual")
+        if self.hideShowVirtual.text() == 'ShowVKey':
+            self.hideShowVirtual.setText("HideVKey")
             cmd = "adb shell settings put global policy_control immersive.full=*"
             adbtool.shell(cmd)
             self.rawdataShowText.append(cmd)
         else:
-            self.hideShowVirtual.setText("ShowVirtual")
+            self.hideShowVirtual.setText("ShowVKey")
             cmd = "adb shell settings put global policy_control null"
             adbtool.shell(cmd)
             self.rawdataShowText.append(cmd)
@@ -2636,6 +2652,18 @@ class Ui_MainWindow(object):
         cmd = "C:\Windows\System32\cmd.exe"
         os.startfile(cmd)
 
+    def backlight(self):
+        if self.openBlight.text() == 'OpenBlight':
+            self.openBlight.setText('CloseBlight')
+            self.rawdataShowText.append(self.echoWriteRegister % ('30053000', '00002000'))
+            adbtool.shell(self.echoWriteRegister % ('30053000', '00002000'), "SHELL")
+        else:
+            self.openBlight.setText('OpenBlight')
+            self.rawdataShowText.append(self.echoWriteRegister % ('30051000', '00ff0f00'))
+            adbtool.shell(self.echoWriteRegister % ('30051000', '00ff0f00'), "SHELL")
+            self.rawdataShowText.append(self.echoWriteRegister % ('30053000', '00002400'))
+            adbtool.shell(self.echoWriteRegister % ('30053000', '00002400'), "SHELL")
+
 
 class ChildWindow(QMainWindow):
     def __init__(self):
@@ -2662,25 +2690,28 @@ class ChildWindow(QMainWindow):
                 ret += '\n'
             pyperclip.copy(ret)
             pyperclip.paste()
-            window.ui.dialogWin("copy ok")
+            window.ui.dialogWin("Copy ok")
 
         if key == QtCore.Qt.Key_S:
             ret = self.ui.origRawdata
             pyperclip.copy(ret)
             pyperclip.paste()
-            window.ui.dialogWin("copy orig ok")
+            window.ui.dialogWin("Copy orig ok")
 
         if key == QtCore.Qt.Key_M:
             self.ui.keepMax = True
             self.ui.keepMin = False
+            window.ui.dialogWin("Keep max")
 
         if key == QtCore.Qt.Key_N:
             self.ui.keepMax = False
             self.ui.keepMin = True
+            window.ui.dialogWin("Keep min")
 
         if key == QtCore.Qt.Key_B:
             self.ui.keepMax = False
             self.ui.keepMin = False
+            window.ui.dialogWin("No keep")
 
     def closeEvent(self, *args, **kwargs):
         window.ui.disableFunctions(False)
@@ -2820,6 +2851,7 @@ class Ui_ChildWindow(object):
         self.logFlag_s = False
         self.logTimes = 0
         self.origRawdata = ''
+        self.showRawdataFlag = 0
 
         self.keepMax = False
         self.keepMin = False
@@ -2873,7 +2905,6 @@ class Ui_ChildWindow(object):
         rawdata = []
         adbtool.shell(window.ui.echoDiag % '2', "SHELL")
         adbtool.shell(window.ui.catDiag, "SHELL")
-
         name = time.strftime("avg_%Y%m%d_%H-%M-%S_", time.localtime()) + value + ".txt"
         file = open(path + name, 'a+')
 
@@ -2921,7 +2952,7 @@ class Ui_ChildWindow(object):
         file.write("%s AVERAGE VALUE:\n" % value + strRawdata)
         file.close()
         self.calcAverage.setDisabled(False)
-        self.calcAverage.setText("AVG")
+        self.calcAverage.setText("VRCollect")
         self.calcAverage.setStyleSheet("color:rgb(0, 0, 0)")
 
         if os.path.exists(path + name):
@@ -2929,8 +2960,11 @@ class Ui_ChildWindow(object):
 
     """ rawdata show """
     def chooseRawdataType(self):
+        self.keepMax = False
+        self.keepMin = False
         if self.radioDC.isChecked():
             adbtool.shell(window.ui.echoDiag % '2', "SHELL")
+
         elif self.radioIIR.isChecked():
             adbtool.shell(window.ui.echoDiag % '1', "SHELL")
         elif self.radioTmp.isChecked():
@@ -2944,9 +2978,10 @@ class Ui_ChildWindow(object):
 
     def rawdataReadFunc(self, reset):
         # choose rawdata type
-        if not self.chooseRawdataType():
-            window.ui.dialogWin("Please set type")
-            return
+        if not reset:
+            if not self.chooseRawdataType():
+                window.ui.dialogWin("Please set type")
+                return
 
         if reset:
             self.rawdataRead.setObjectName('rawdataReadStop')
@@ -3082,9 +3117,7 @@ class Ui_ChildWindow(object):
                 self.MainRawdataShowtableWidget.setItem(i, j, a)
 
     def logFunc(self):
-        self.showRawdataFlag = window.ui.showRawdataFlag
         if self.showRawdataFlag == 0:
-            print("bbb")
             string = "Please read first!"
             window.ui.dialogWin(string)
             return
@@ -3209,7 +3242,7 @@ class Ui_LoginWindow(object):
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.3</b>")
-        self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc.")
+        self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc")
         self.loginPwd.setText("PWD:")
         self.status.setText("<a style='color:rgb(0, 0, 130)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
         self.ps.setText("Welcome! support v1 or v2 but old")
@@ -3235,6 +3268,7 @@ class Ui_LoginWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Login"))
 
     def loginFunc(self):
+        pwdTime = time.strftime("%Y%m%d", time.localtime())[2:]
         pwd = self.loginPwdLineEdit.text()
         if pwd == 'himax':
             login.close()
@@ -3247,7 +3281,7 @@ class Ui_LoginWindow(object):
             child.ui.vrTable.hide()
             child.ui.removeVRTable.hide()
             window.show()
-        elif pwd == 'himaxtouchroot':
+        elif pwd == 'himax' + pwdTime:
             login.close()
             window.show()
         else:

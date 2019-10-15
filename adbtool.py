@@ -1,9 +1,12 @@
 import subprocess
+from threading import Lock
 
 PRE_CMD = 'adb shell "%s"'
 KEYEVENT_CMD = 'adb shell input keyevent "%s"'  # event
 KEYSWIPE_CMD = 'adb shell input swipe %s %s %s %s'  # x1, y1 ,x2 ,y2
 KEYTAP_CMD = 'adb shell input tap %s %s'  # x1, y1
+
+mutex = Lock()
 
 """
     Using subprocess as the thread to implement
@@ -16,6 +19,7 @@ KEYTAP_CMD = 'adb shell input tap %s %s'  # x1, y1
 
 def shell(cmd=None, shell_cmd=None, para=None):
     command = cmd
+    ret = ''
     if shell_cmd == "SHELL":
         command = PRE_CMD % cmd
     elif shell_cmd == "KEYEVENT":
@@ -25,9 +29,11 @@ def shell(cmd=None, shell_cmd=None, para=None):
     elif shell_cmd == "TAP":
         command = KEYTAP_CMD % (str(para[0]), str(para[1]))
 
+    mutex.acquire()
     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
-
-    return p.stdout.read()
+    ret = p.stdout.read()
+    mutex.release()
+    return ret
 
 
 """
