@@ -7,6 +7,7 @@ KEYSWIPE_CMD = 'adb shell input swipe %s %s %s %s'  # x1, y1 ,x2 ,y2
 KEYTAP_CMD = 'adb shell input tap %s %s'  # x1, y1
 
 mutex = Lock()
+keepFlag = True
 
 """
     Using subprocess as the thread to implement
@@ -19,7 +20,6 @@ mutex = Lock()
 
 def shell(cmd=None, shell_cmd=None, para=None):
     command = cmd
-    ret = ''
     if shell_cmd == "SHELL":
         command = PRE_CMD % cmd
     elif shell_cmd == "KEYEVENT":
@@ -44,9 +44,11 @@ def shell(cmd=None, shell_cmd=None, para=None):
 
 
 def keep_listen_shell(cmd, callback=None):
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-    while True:
+    ret = ''
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
+    while keepFlag:
         l = p.stdout.readline()
         if not l:
             break
-        print(l)
+        ret += l
+    return ret

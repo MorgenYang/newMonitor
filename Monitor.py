@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QIcon, QRegExpValidator, QCursor
+from PyQt5.QtGui import QIcon, QRegExpValidator
 import sys
 import adbtool
 from threading import Thread
@@ -47,8 +47,14 @@ class MainWindow(QMainWindow):
             self.close()
             login.show()
 
-        if key == QtCore.Qt.Key_R:
+        if key == QtCore.Qt.Key_T:
             self.ui.readRegValShowText.clear()
+
+        if key == QtCore.Qt.Key_D:
+            self.ui.DDreadRegValShowText.clear()
+
+        if key == QtCore.Qt.Key_A:
+            self.ui.rawdataShowText.clear()
 
 
 class Ui_MainWindow(object):
@@ -3213,22 +3219,6 @@ class LoginWindow(QMainWindow):
         if key == QtCore.Qt.Key_M:
             login.close()
             window.show()
-
-    def mousePressEvent(self, QMouseEvent):
-        if QMouseEvent.button() == QtCore.Qt.LeftButton:
-            self.m_flag = True
-            self.m_Position = QMouseEvent.globalPos() - self.pos()
-            QMouseEvent.accept()
-            self.setCursor(QCursor(QtCore.Qt.OpenHandCursor))
-
-    def mouseMoveEvent(self, QMouseEvent):  # morgen
-        if QtCore.Qt.LeftButton and self.m_flag:
-            QMouseEvent.accept()
-            self.move(QMouseEvent.globalPos() - self.m_Position)
-
-    def mouseReleaseEvent(self, QMouseEvent):
-        self.m_flag = False
-        self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
 
 
 class Ui_LoginWindow(object):
