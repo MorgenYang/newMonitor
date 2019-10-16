@@ -2687,8 +2687,8 @@ class ChildWindow(QMainWindow):
 
         if key == QtCore.Qt.Key_C:
             ret = ''
-            for i in range(window.ui.transRX + 2):
-                for j in range(window.ui.transTX + 2):
+            for i in range(window.ui.transRX):
+                for j in range(window.ui.transTX):
                     try:
                         ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
                     except:
