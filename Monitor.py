@@ -3114,35 +3114,60 @@ class Ui_ChildWindow(object):
                 a = QTableWidgetItem(rawdata[i * window.ui.transTX + j])
                 self.MainRawdataShowtableWidget.setItem(i, j, a)
 
+    # def logThread(self):
+    #     self.keepFlag = True
+	#
+    #     fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
+    #     File = open(fileName, 'ab+')
+	#
+    #     times = self.logTimesBtn.text()
+    #     if times == '':
+    #         cmd = '"i=1;while true;do echo Times: $i;"' +\
+    #               window.ui.catDiag + '";i=$(($i+1));done;"'
+    #     else:
+    #         cmd = '"i=1;j="' + times + '"; while [ $i -le $j ];do echo Times: $i;"' +\
+    #               window.ui.catDiag + '";i=$(($i+1));done;"'
+	#
+    #     p = subprocess.Popen("adb shell " + cmd, shell=True, stdout=subprocess.PIPE)
+    #     while self.keepFlag:
+    #         l = p.stdout.readline()
+    #         if not l:
+    #             break
+    #         File.write(l)
+	#
+    #     File.close()
+	#
+    #     self.log.setDisabled(False)
+    #     self.log.setText("Log")
+    #     self.log.setStyleSheet("color: rgb(0, 0, 0)")
+	#
+    #     if os.path.exists(fileName):
+    #         os.startfile(fileName)
+
     def logThread(self):
+        # push himax tool to data dir
         self.keepFlag = True
-
         fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
-        File = open(fileName, 'ab+')
-
-        times = self.logTimesBtn.text()
-        if times == '':
-            cmd = '"i=1;while true;do echo Times: $i;"' +\
-                  window.ui.catDiag + '";i=$(($i+1));done;"'
-        else:
-            cmd = '"i=1;j="' + times + '"; while [ $i -le $j ];do echo Times: $i;"' +\
-                  window.ui.catDiag + '";i=$(($i+1));done;"'
-
+        # file = open(fileName, 'ab+')
+        adbtool.shell("adb push ./tools/himax /data/")
+        adbtool.shell("chmod 777 /data/himax", "SHELL")
+        delayTime = self.logTimesBtn.text()
+        if delayTime == '':
+            window.ui.dialogWin("please set delay time")
+            return
+        cmd = './data/himax ' + window.ui.v1DiagPath + ' ' + delayTime
         p = subprocess.Popen("adb shell " + cmd, shell=True, stdout=subprocess.PIPE)
         while self.keepFlag:
             l = p.stdout.readline()
             if not l:
                 break
-            File.write(l)
-
-        File.close()
-
+            # file.write(l)
+            print(l)
+        # file.close()
         self.log.setDisabled(False)
-        self.log.setText("Log")
+        self.log.setText("Log.")
         self.log.setStyleSheet("color: rgb(0, 0, 0)")
-
-        if os.path.exists(fileName):
-            os.startfile(fileName)
+        pass
 
     def logFunc(self):
         self.log.setDisabled(True)
