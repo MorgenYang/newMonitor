@@ -11,6 +11,7 @@ import os
 import re
 import pyperclip
 import math
+import subprocess
 
 
 class MainWindow(QMainWindow):
@@ -2102,8 +2103,6 @@ class Ui_MainWindow(object):
         self.ret = ''
         self.beforeRead = ''
         self.historyFile = './settings/register_history'
-        self.showKmsgFlag = 0
-        self.showGeteventFlag = 0
         self.device_ip = ""
         self.device_ip_port = ""
         self.port = ""
@@ -2251,58 +2250,60 @@ class Ui_MainWindow(object):
             self.readRegValShowText.append(cmd)
             adbtool.shell(cmd, "SHELL")
 
+    # TODO: trans rawdata pattern
+    def transRawdataPattern(self):
+        # check rx and tx num is or not match
+        self.commonFlag = True
+        adbtool.shell(window.ui.echoDiag % '1', "SHELL")
+        ret = adbtool.shell(window.ui.catDiag, "SHELL")
+        # print(ret)
+        # check device connect status
+        if ret == '' or ret.find('error') != -1 or ret.find('ChannelStart') == -1:
+            window.ui.dialogWin("Not found devices")
+            return False
+
+        # check the rawdata pattern is common or custom
+        if ret.find('[00]') == -1:
+            self.commonFlag = False
+        else:
+            self.commonFlag = True
+
+        # check rx tx
+        rx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[0]
+        tx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[1]
+        if int(rx) != window.ui.rxnum:
+            window.ui.dialogWin("Project rx/tx num wrong")
+            return False
+
+        rawdata = ret[ret.find('\n')+2:ret.find('ChannelEnd')]
+        rawdata = rawdata[:rawdata.find('\n')].split()
+
+        if self.commonFlag:
+            if (len(rawdata) - 2) == window.ui.txnum:
+                self.transTX = window.ui.txnum + 2
+                self.transRX = window.ui.rxnum + 2
+            else:
+                self.transTX = window.ui.rxnum + 2
+                self.transRX = window.ui.txnum + 2
+        else:
+            if (len(rawdata) - 1) == window.ui.txnum:
+                self.transTX = window.ui.txnum + 1
+                self.transRX = window.ui.rxnum + 1
+            else:
+                self.transTX = window.ui.rxnum + 1
+                self.transRX = window.ui.txnum + 1
+
+        return True
+
     # TODO: show rawdata UI function
     def showRawdataUIFunc(self):
-        # check rx and tx num is or not match
-        adbtool.shell("echo d > " + self.debugPath, "SHELL")
-        ret = adbtool.shell("cat " + self.debugPath, "SHELL")
-        if ret == '' or ret.find("error") != -1:
-            self.dialogWin("Can't read tx or rx info")
+        if not self.transRawdataPattern():
             return
 
-        index = ret.find("RX")
-        index1 = ret.find("\n", index)
-        rx = int(ret[index:index1].split(':')[1])
-        index = ret.find("TX")
-        index1 = ret.find("\n", index)
-        tx = int(ret[index:index1].split(':')[1])
-
-        index = ret.find("X Re")
-        index1 = ret.find("\n", index)
-        resX = int(ret[index:index1].split(':')[1])
-
-        index = ret.find("Y Re")
-        index1 = ret.find("\n", index)
-        resY = int(ret[index:index1].split(':')[1])
-
-        if rx != self.rxnum or tx != self.txnum:
-            self.dialogWin("Project rx/tx was not match read\n info,please reset project info")
-            return
-
-        # check diag arrange type
-        self.transTX = 0
-        self.transRX = 0
-        adbtool.shell(self.echoDiag % '1', "SHELL")
-        ret = adbtool.shell(self.catDiag, "SHELL")
-        index = ret.find('[00]')
-        if index == -1:
-            self.dialogWin("driver version was not match")
-            return
-        index1 = ret.find('ChannelEnd')
-        ret = ret[index: index1 - 1]
-        ret = ret.split('\n')
-
-        ret = ret[0].split()
-        ret = ret[len(ret) - 1]
-        self.transTX = int(ret[1:3])
-        if self.transTX == window.ui.txnum:
-            self.transRX = window.ui.rxnum
-        else:
-            self.transRX = window.ui.txnum
-        child.ui.mainwindow.resize((self.transTX + 2) * window.rawdataWidth,
-                                   (self.transRX + 2) * window.rawdataHeight + 45)
-        child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * (self.transTX + 2),
-                                                                     window.rawdataHeight * (self.transRX + 2)))
+        child.ui.mainwindow.resize(self.transTX * window.rawdataWidth,
+                                   self.transRX * window.rawdataHeight + 45)
+        child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * self.transTX,
+                                                                     window.rawdataHeight * self.transRX))
         child.ui.initRawdataUI(self.transRX, self.transTX)
         child.show()
         self.disableFunctions(True)
@@ -2717,7 +2718,7 @@ class ChildWindow(QMainWindow):
         if key == QtCore.Qt.Key_B:
             self.ui.keepMax = False
             self.ui.keepMin = False
-            window.ui.dialogWin("No keep")
+            self.ui.keepFlag = False
 
     def closeEvent(self, *args, **kwargs):
         window.ui.disableFunctions(False)
@@ -2853,8 +2854,8 @@ class Ui_ChildWindow(object):
         self.removeVRTable.setText(_translate("MainWindow", "Remove"))
 
     def bindEventFunc(self):
-        self.logFlag = False
-        self.logFlag_s = False
+        # self.logFlag = False
+        # self.logFlag_s = False
         self.logTimes = 0
         self.origRawdata = ''
         self.showRawdataFlag = 0
@@ -3015,35 +3016,17 @@ class Ui_ChildWindow(object):
             self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
 
             self.showRawdataFlag = 0
-            self.showKmsgFlag = 0
-            self.showGeteventFlag = 0
-
-            if self.logFlag:
-                self.logFile.close()
-
-            self.logFlag = False
-            self.log.setDisabled(False)
-            self.log.setText("Log")
-            self.log.setStyleSheet("color: rgb(0, 0, 0)")
 
             adbtool.shell(window.ui.echoDiag % '0', "SHELL")
 
-    def resetLogBtnStatus(self):
-        self.log.setDisabled(False)
-        self.log.setText("Log")
-        self.log.setStyleSheet("color: rgb(0, 0, 0)")
-        self.logFile.close()
-
     def showRawdata(self):
         self.showRawdataFlag = 1
-        length = (window.ui.transTX + 2) * (window.ui.transRX + 2)
-        times = 1
+        length = window.ui.transTX * window.ui.transRX
 
         while self.showRawdataFlag:
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
             self.origRawdata = ret
             data = self.analysisRawdata(ret)
-
             if data == '' or len(data) != length:
                 print("error")
                 return
@@ -3055,103 +3038,122 @@ class Ui_ChildWindow(object):
             self.fillRawdataToTable(data)
             self.MainRawdataShowtableWidget.reset()
 
-            if self.logFlag_s:
-                if self.logTimes != 0 and times > self.logTimes:
-                    self.logFlag = False
-                    self.logFlag_s = False
-                    times = 1
-                    self.logTimes = 0
-                    self.resetLogBtnStatus()
-
-            if self.logFlag:
-                timeTmp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
-                title = '\nTime:' + timeTmp + '\n' + 'Counts:%d\n' % times
-                self.logFile.write(title + ret)
-                times += 1
-
     def analysisRawdata(self, rawdata):
-        index = rawdata.find('[00]')
+        index0 = rawdata.find('ChannelStart')
+        index00 = rawdata.find("\n", index0)
         index1 = rawdata.find('ChannelEnd')
-        if index1 == -1:
+        if index0 == -1 or index1 == -1:
             return ''
-        rawdata = rawdata[index:index1]
-        rawdata = rawdata.split()
-        rawdata.insert(window.ui.transTX + 1, '')
-        rawdata.insert((window.ui.transTX + 2) * (window.ui.transRX + 1), '')
-        rawdata.insert((window.ui.transTX + 2) * (window.ui.transRX + 2), '')
+
+        index = rawdata.find('[00]')
+        if index != -1: # common driver
+            rawdata = rawdata[index:index1]
+            rawdata = rawdata.split()
+            rawdata.insert(window.ui.transTX - 1, 'a')
+            rawdata.insert(window.ui.transTX * (window.ui.transRX - 1), 'b')
+            rawdata.insert(window.ui.transTX * window.ui.transRX, 'c')
+
+        else:
+            rawdata = rawdata[index00:index1]
+            rawdata = rawdata.split()
+            rawdata.insert(window.ui.transTX * window.ui.transRX, 'd')
+
         return rawdata
 
     def getFirstFrameRawdata(self, rawdata):
-        for i in range(window.ui.transRX + 2):
-            for j in range(window.ui.transTX + 2):
-                if i == 0 or j == 0 or (j == window.ui.transTX + 1 and i == window.ui.transRX + 1):
+        for i in range(window.ui.transRX):
+            for j in range(window.ui.transTX):
+                if i == 0 or j == 0 or (j == window.ui.transTX-1 and i == window.ui.transRX-1):
                     pass
                 else:
-                    rawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+                    rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
 
         return rawdata
 
     def keepMaxOrMinRawdata(self, rawdata):
         # char to int
-        for i in range(window.ui.transRX + 2):
-            for j in range(window.ui.transTX + 2):
-                if i == 0 or j == 0 or (j == window.ui.transTX + 1 and i == window.ui.transRX + 1):
-                    pass
-                else:
-                    rawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
-                    if self.keepMax:
-                        if int(rawdata[i * (window.ui.transTX + 2) + j]) > int(self.keepRawdata[i * (window.ui.transTX + 2) + j]):
-                            self.keepRawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+        for i in range(window.ui.transRX):
+            for j in range(window.ui.transTX):
+                if window.ui.commonFlag:
+                    if i == 0 or j == 0 or (j == window.ui.transTX - 1 and i == window.ui.transRX - 1):
+                        pass
                     else:
-                        if int(rawdata[i * (window.ui.transTX + 2) + j]) < int(self.keepRawdata[i * (window.ui.transTX + 2) + j]):
-                            self.keepRawdata[i * (window.ui.transTX + 2) + j] = int(rawdata[i * (window.ui.transTX + 2) + j])
+                        rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                        if self.keepMax:
+                            if int(rawdata[i * window.ui.transTX + j]) > int(self.keepRawdata[i * window.ui.transTX + j]):
+                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                        else:
+                            if int(rawdata[i * window.ui.transTX + j]) < int(self.keepRawdata[i * window.ui.transTX + j]):
+                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                else:
+                    if j == window.ui.transTX - 1 and i == window.ui.transRX - 1:
+                        pass
+                    else:
+                        rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                        if self.keepMax:
+                            if int(rawdata[i * window.ui.transTX + j]) > int(self.keepRawdata[i * window.ui.transTX + j]):
+                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                        else:
+                            if int(rawdata[i * window.ui.transTX + j]) < int(self.keepRawdata[i * window.ui.transTX + j]):
+                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+        print(self.keepRawdata)
         return self.keepRawdata
 
     def transMaxOrMinRawdata(self, rawdata):
-        for i in range(window.ui.transRX + 2):
-            for j in range(window.ui.transTX + 2):
-                if i == 0 or j == 0 or (j == window.ui.transTX + 1 and i == window.ui.transRX + 1):
+        for i in range(window.ui.transRX):
+            for j in range(window.ui.transTX):
+                if i == 0 or j == 0 or (j == window.ui.transTX - 1 and i == window.ui.transRX - 1):
                     pass
                 else:
-                    rawdata[i * (window.ui.transTX + 2) + j] = str(rawdata[i * (window.ui.transTX + 2) + j])
+                    rawdata[i * window.ui.transTX + j] = str(rawdata[i * window.ui.transTX + j])
         return rawdata
 
     def fillRawdataToTable(self, rawdata):
-        for i in range(window.ui.transRX + 2):
-            for j in range(window.ui.transTX + 2):
-                a = QTableWidgetItem(rawdata[i * (window.ui.transTX + 2) + j])
+        for i in range(window.ui.transRX):
+            for j in range(window.ui.transTX):
+                a = QTableWidgetItem(rawdata[i * window.ui.transTX + j])
                 self.MainRawdataShowtableWidget.setItem(i, j, a)
 
-    def logFunc(self):
-        times = self.logTimesBtn.text()
-        ret = adbtool.shell('i=0; aa='+times+'; while [ $i -lt $aa ];do echo Times: $i; cat /proc/android_touch/diag/stack; i=$(($i+1));done;', 'SHELL')
-        print(ret)
+    def logThread(self):
+        self.keepFlag = True
+
         fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
-        File = open(fileName, 'w+')
-        File.write(ret)
+        File = open(fileName, 'ab+')
+
+        times = self.logTimesBtn.text()
+        if times == '':
+            cmd = '"i=1;while true;do echo Times: $i;"' +\
+                  window.ui.catDiag + '";i=$(($i+1));done;"'
+        else:
+            cmd = '"i=1;j="' + times + '"; while [ $i -le $j ];do echo Times: $i;"' +\
+                  window.ui.catDiag + '";i=$(($i+1));done;"'
+
+        p = subprocess.Popen("adb shell " + cmd, shell=True, stdout=subprocess.PIPE)
+        while self.keepFlag:
+            l = p.stdout.readline()
+            if not l:
+                break
+            File.write(l)
+
         File.close()
 
-        # if self.showRawdataFlag == 0:
-        #     string = "Please read first!"
-        #     window.ui.dialogWin(string)
-        #     return
-        #
-        # if not os.path.exists("./log"):
-        #     os.mkdir("log")
-        #
-        # self.fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
-        # self.logFlag = True
-        # self.logFlag_s = True
-        # self.logFile = open(self.fileName, 'a+')
-        #
-        # # toggle
-        # self.log.setDisabled(True)
-        # self.log.setText("Ing.")
-        # self.log.setStyleSheet("color: rgb(255, 0, 0)")
-        #
-        # # get counts
-        # if self.logTimesBtn.text() != '':
-        #     self.logTimes = int(self.logTimesBtn.text())
+        self.log.setDisabled(False)
+        self.log.setText("Log")
+        self.log.setStyleSheet("color: rgb(0, 0, 0)")
+
+        if os.path.exists(fileName):
+            os.startfile(fileName)
+
+    def logFunc(self):
+        self.log.setDisabled(True)
+        self.log.setText("Ing.")
+        self.log.setStyleSheet("color: rgb(255, 0, 0)")
+
+        if not os.path.exists("./log"):
+            os.mkdir("log")
+
+        log = Thread(target=self.logThread)
+        log.start()
 
     def initRawdataUI(self, rx, tx):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -3161,8 +3163,8 @@ class Ui_ChildWindow(object):
         self.MainRawdataShowtableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.MainRawdataShowtableWidget.setSizePolicy(sizePolicy)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
-        self.MainRawdataShowtableWidget.setRowCount(rx + 2)
-        self.MainRawdataShowtableWidget.setColumnCount(tx + 2)
+        self.MainRawdataShowtableWidget.setRowCount(rx)
+        self.MainRawdataShowtableWidget.setColumnCount(tx)
         self.MainRawdataShowtableWidget.setObjectName("MainRawdataShowtableWidget")
         self.MainRawdataShowtableWidget.verticalHeader().setVisible(False)
         self.MainRawdataShowtableWidget.horizontalHeader().setVisible(False)
@@ -3173,12 +3175,10 @@ class Ui_ChildWindow(object):
         font = QtGui.QFont()
         font.setPointSize(8)
         self.MainRawdataShowtableWidget.setFont(font)
-        for i in range(tx + 2):
-            if i == 0:
-                self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth - 7)
-            else:
-                self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth)
-        for i in range(rx + 2):
+
+        for i in range(tx):
+            self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth)
+        for i in range(rx):
             self.MainRawdataShowtableWidget.setRowHeight(i, window.rawdataHeight)
 
     def setRegExp(self):
