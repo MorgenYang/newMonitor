@@ -57,6 +57,51 @@ class MainWindow(QMainWindow):
         if key == QtCore.Qt.Key_A:
             self.ui.rawdataShowText.clear()
 
+        # calculate SNR
+        # TODO: start collect no touched rawdata noise
+        if key == QtCore.Qt.Key_S:
+            if not self.ui.transRawdataPattern():
+                return
+
+            times = 20
+
+            sum = [0] * window.ui.rxnum * window.ui.txnum
+            N = [0] * window.ui.rxnum * window.ui.txnum
+            S = [0] * window.ui.rxnum * window.ui.txnum
+            tmp = [0] * window.ui.transTX * window.ui.transRX
+            rawdata = [tmp] * times
+
+            baseData = [0] * window.ui.rxnum * window.ui.txnum
+            adbtool.shell(self.ui.echoDiag % '2', "SHELL")
+
+            # TODO:collect no touched rawdata
+            for i in range(times):
+                ret = adbtool.shell(self.ui.catDiag, "SHELL")
+                ret = child.ui.analysisRawdata(ret)
+                rawdata[i] = child.ui.userPatternToMutual(ret)
+                print(rawdata[i])
+                sum = child.ui.sumRawdata(sum, rawdata[i])
+
+            for j in range(window.ui.rxnum * window.ui.txnum):
+                baseData[j] = sum[j]//times
+
+            print(baseData)
+            for j in range(window.ui.rxnum * window.ui.txnum):
+                for i in range(times):
+                    N[j] += (rawdata[i][j] - baseData[j]) * (rawdata[i][j] - baseData[j])
+                N[j] = math.sqrt(N[j]/times)
+
+            print(N)
+            pass
+
+        # TODO: start collect touched rawdata
+        if key == QtCore.Qt.Key_X:
+            pass
+
+        # TODO: calculate SNR
+        if key == QtCore.Qt.Key_R:
+            pass
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -999,7 +1044,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.3"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.4"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
         self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
@@ -2279,18 +2324,16 @@ class Ui_MainWindow(object):
         rawdata = rawdata[:rawdata.find('\n')].split()
 
         if self.commonFlag:
-            if (len(rawdata) - 2) == window.ui.txnum:
-                self.transTX = window.ui.txnum + 2
+            self.transTX = len(rawdata) + 1
+            if (self.transTX - 2) == window.ui.txnum:
                 self.transRX = window.ui.rxnum + 2
             else:
-                self.transTX = window.ui.rxnum + 2
                 self.transRX = window.ui.txnum + 2
         else:
-            if (len(rawdata) - 1) == window.ui.txnum:
-                self.transTX = window.ui.txnum + 1
+            self.transTX = len(rawdata)
+            if (self.transTX - 1) == window.ui.txnum:
                 self.transRX = window.ui.rxnum + 1
             else:
-                self.transTX = window.ui.rxnum + 1
                 self.transRX = window.ui.txnum + 1
 
         return True
@@ -2418,85 +2461,101 @@ class Ui_MainWindow(object):
         self.threadWifiConnect.start()
 
     def waitConnectFunc(self):
-        self.rawdataShowText.append("Start connect wifi adb")
-        self.port = 8888
+        self.PORT_NUM = '8888'
+        self.wifi_connect_status = 1
+
+        # set btn disabled
+        self.wifiStatus.setText("Connect..")
+        self.wifiStatus.setStyleSheet("color: rgb(255, 0, 0)")
         self.wifiConnect.setDisabled(True)
-        self.wifiConnect.setStyleSheet("color: rgb(105, 105, 105)")
-        self.wifiConnectFlag = 1
-        deviceInfo = (adbtool.shell("adb devices"))
-        self.rawdataShowText.append(deviceInfo)
+        # self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+
+        # check two devices
+        devices = (adbtool.shell("adb devices"))
+        self.rawdataShowText.append(devices)
+        device_list = devices.split()
+        if devices.find("192.168") > 0 and device_list.count("device") > 1:
+            self.rawdataShowText.append("Disconnect wifi adb")
+            adbtool.shell("adb disconnect")
+
+        devices = (adbtool.shell("adb devices"))
+        self.rawdataShowText.append(devices)
+
+        self.rawdataShowText.append("Start...")
+        device_info = (adbtool.shell("adb devices"))
+        self.rawdataShowText.append(device_info)
+
         try:
-            device_list = deviceInfo.split()
+            device_list = device_info.split()
             device_list.remove("List")
             device_list.remove("of")
             device_list.remove("devices")
             device_list.remove("attached")
             device_list.remove("device")
         except:
-            self.rawdataShowText.append("Please connect device first!")
-            self.wifiConnect.setDisabled(False)
-            self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+            self.rawdataShowText.append("Please connect device")
             return False
 
-        deviceName = device_list[0]
-        self.rawdataShowText.append(deviceName)
-        self.wifiStatus.setText("Connect...")
+        device_name = device_list[0]
+        self.rawdataShowText.append(device_name)
 
         # Get device ip & set port
-        cmd = "adb -s %s shell ip -f inet addr show wlan0" % deviceName
+        cmd = "adb -s %s shell ip -f inet addr show wlan0" % (device_name)
+        self.rawdataShowText.append(cmd)
+
         ip = adbtool.shell(cmd)
-        # ip = str(ip, encoding='utf-8')
+        self.rawdataShowText.append(ip)
         ip = ip[ip.find("inet 1") + 5:ip.find("/")]
-        cmd = "adb -s %s tcpip %s" % (deviceName, self.port)
+        self.rawdataShowText.append(ip)
+        cmd = "adb -s %s tcpip %s" % (device_name, self.PORT_NUM)
+        self.rawdataShowText.append(cmd)
         ret = adbtool.shell(cmd)
         self.rawdataShowText.append(ret)
-        if self.wifiConnectFlag == 0:
-            self.wifiConnect.setDisabled(False)
-            self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+
+        if self.wifi_connect_status == 0:
             return
 
         # Connect
         self.device_ip = ip
-        self.device_ip_port = str(ip) + ":" + str(self.port)
-        cmd = "adb connect %s:%s" % (self.device_ip, self.port)
+        self.device_ip_port = str(ip) + ":" + self.PORT_NUM
+        cmd = "adb connect %s:%s" % (self.device_ip, self.PORT_NUM)
+        self.rawdataShowText.append(cmd)
 
         response = ""
-        while response.find("already") < 0 and self.wifiConnectFlag != 0:
+        while response.find("already") < 0 and self.wifi_connect_status != 0:
             response = (adbtool.shell(cmd))
-        if self.wifiConnectFlag == 0:
-            self.wifiConnect.setDisabled(False)
-            self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+            self.rawdataShowText.append(response)
+        if self.wifi_connect_status == 0:
             return
 
         # Polling wait unplugin
         devices = (adbtool.shell("adb devices"))
+        self.rawdataShowText.append(devices)
+
         response = ""
 
         self.rawdataShowText.append("Unplugin")
-        self.wifiStatus.setText("Unplugin...")
 
-        while devices.find(deviceName) < 0 and self.wifiConnectFlag != 0:
+        while devices.find(device_name) < 0 and self.wifi_connect_status != 0:
             devices = (adbtool.shell("adb devices"))
+            self.rawdataShowText.append(devices)
 
-        if self.wifiConnectFlag == 0:
-            self.wifiConnect.setDisabled(False)
-            self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+        if self.wifi_connect_status == 0:
             return
 
         # Connect
-        cmd = "adb connect %s:%s" % (self.device_ip, self.port)
-        while response.find("already") < 0 and self.wifiConnectFlag != 0:
+        cmd = "adb connect %s:%s" % (self.device_ip, self.PORT_NUM)
+        self.rawdataShowText.append(cmd)
+
+        while response.find("already") < 0 and self.wifi_connect_status != 0:
             response = (adbtool.shell(cmd))
-        if self.wifiConnectFlag == 0:
-            self.wifiConnect.setDisabled(False)
-            self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+            self.rawdataShowText.append(response)
+        if self.wifi_connect_status == 0:
             return
 
         self.rawdataShowText.append("Wifi Connect Done")
         self.wifiStatus.setText("Connected")
-        self.wifiStatus.setStyleSheet("color: rgb(0, 255, 0)")
-        self.wifiConnect.setDisabled(False)
-        self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
+        self.wifiStatus.setStyleSheet("color:rgb(0, 255, 0)")
 
     def wifiReconnectFunc(self):
         cmd = "adb connect %s:%s" % (self.device_ip, self.port)
@@ -2504,14 +2563,15 @@ class Ui_MainWindow(object):
         self.rawdataShowText.append(cmd)
 
     def wifiDisconnectFunc(self):
-        adbtool.shell("adb disconnect")
         self.wifiStatus.setText("Disconnect")
         self.wifiStatus.setStyleSheet("color: rgb(255, 0, 0)")
         self.wifiConnect.setDisabled(False)
         self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0)")
         self.wifiConnectFlag = 0
+        self.wifi_connect_status = 0
         self.device_ip = ""
         self.device_ip_port = ""
+        adbtool.shell("adb disconnect")
         self.rawdataShowText.append("adb disconnect")
 
     # TODO: options page, ADB functions
@@ -2569,6 +2629,7 @@ class Ui_MainWindow(object):
 
     def powerKeyFunc(self):
         adbtool.shell(None, "KEYEVENT", 26)
+        adbtool.shell(None, "KEYEVENT", 82)
 
     def openClosePointFunc(self):
         if self.openClosePoint.text() == 'OpenPoint':
@@ -2728,7 +2789,6 @@ class ChildWindow(QMainWindow):
 class Ui_ChildWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        # MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.MainRawdataShowtableWidget = QtWidgets.QTableWidget(self.centralwidget)
@@ -2790,7 +2850,7 @@ class Ui_ChildWindow(object):
         font.setPointSize(9)
         self.logTimesBtn.setFont(font)
         self.logTimesBtn.setObjectName("logTimesBtn")
-        self.logTimesBtn.setPlaceholderText("Counts")
+        self.logTimesBtn.setPlaceholderText("mseconds")
         self.calcAverage = QtWidgets.QPushButton(self.centralwidget)
         self.calcAverage.setEnabled(True)
         self.calcAverage.setGeometry(QtCore.QRect(320, 5, 80, 30))
@@ -3002,8 +3062,11 @@ class Ui_ChildWindow(object):
 
             # init first data
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            print(ret)
             data = self.analysisRawdata(ret)
+            print(data)
             self.keepRawdata = self.getFirstFrameRawdata(data)
+            print(data)
 
             # cat diag
             self.readRawdataThread = Thread(target=self.showRawdata)
@@ -3049,14 +3112,13 @@ class Ui_ChildWindow(object):
         if index != -1: # common driver
             rawdata = rawdata[index:index1]
             rawdata = rawdata.split()
-            rawdata.insert(window.ui.transTX - 1, 'a')
-            rawdata.insert(window.ui.transTX * (window.ui.transRX - 1), 'b')
-            rawdata.insert(window.ui.transTX * window.ui.transRX, 'c')
-
+            rawdata.insert(window.ui.transTX - 1, '0')
+            rawdata.insert(window.ui.transTX * (window.ui.transRX - 1), '0')
+            rawdata.insert(window.ui.transTX * window.ui.transRX, '0')
         else:
             rawdata = rawdata[index00:index1]
             rawdata = rawdata.split()
-            rawdata.insert(window.ui.transTX * window.ui.transRX, 'd')
+            rawdata.insert(window.ui.transTX * window.ui.transRX, '0')
 
         return rawdata
 
@@ -3069,6 +3131,27 @@ class Ui_ChildWindow(object):
                     rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
 
         return rawdata
+
+    def sumRawdata(self, sum, rawdata):
+        for i in range(window.ui.rxnum):
+            for j in range(window.ui.txnum):
+                sum[i * window.ui.txnum + j] += rawdata[i * window.ui.txnum + j]
+        return sum
+
+    def userPatternToMutual(self, rawdata):
+        if window.ui.commonFlag:
+            ret = [None] * window.ui.rxnum * window.ui.txnum
+            k = 0
+            for i in range(window.ui.transRX):
+                for j in range(window.ui.transTX):
+                    if i == 0 or j == 0 or i == window.ui.transRX - 1 or j == window.ui.transTX - 1:
+                        pass
+                    else:
+                        ret[k] = int(rawdata[i * window.ui.transTX + j])
+                        k = k + 1
+            return ret
+        else:
+            pass
 
     def keepMaxOrMinRawdata(self, rawdata):
         # char to int
@@ -3096,16 +3179,21 @@ class Ui_ChildWindow(object):
                         else:
                             if int(rawdata[i * window.ui.transTX + j]) < int(self.keepRawdata[i * window.ui.transTX + j]):
                                 self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
-        print(self.keepRawdata)
         return self.keepRawdata
 
     def transMaxOrMinRawdata(self, rawdata):
         for i in range(window.ui.transRX):
             for j in range(window.ui.transTX):
-                if i == 0 or j == 0 or (j == window.ui.transTX - 1 and i == window.ui.transRX - 1):
-                    pass
+                if window.ui.commonFlag:
+                    if i == 0 or j == 0 or (j == window.ui.transTX - 1 and i == window.ui.transRX - 1):
+                        pass
+                    else:
+                        rawdata[i * window.ui.transTX + j] = str(rawdata[i * window.ui.transTX + j])
                 else:
-                    rawdata[i * window.ui.transTX + j] = str(rawdata[i * window.ui.transTX + j])
+                    if j == window.ui.transTX - 1 and i == window.ui.transRX - 1:
+                        pass
+                    else:
+                        rawdata[i * window.ui.transTX + j] = str(rawdata[i * window.ui.transTX + j])
         return rawdata
 
     def fillRawdataToTable(self, rawdata):
@@ -3116,29 +3204,37 @@ class Ui_ChildWindow(object):
 
     def logThread(self):
         self.keepFlag = True
-        fileName = time.strftime('.\/log\/' + "%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
-        file = open(fileName, 'ab+')
+        name = time.strftime("%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
+        path = ' > /sdcard/' + name
         adbtool.shell("adb push ./tools/himax /data/")
         adbtool.shell("chmod 777 /data/himax", "SHELL")
         delayTime = self.logTimesBtn.text()
         if delayTime == '':
             window.ui.dialogWin("please set delay time")
             return
-        cmd = './data/himax ' + window.ui.v1DiagPath + ' ' + delayTime
-        p = subprocess.Popen("adb shell " + cmd, shell=True, stdout=subprocess.PIPE)
+
+        # if delayTime.find(','):
+
+        delayTime = int(delayTime)*1000
+
+        cmd = './data/himax ' + window.ui.v1DiagPath + ' ' + str(delayTime) + ' 0'
+        print('adb shell "' + cmd + '"')
+        # adbtool.shell('adb shell "' + cmd + '"')
+        p = subprocess.Popen('adb shell "' + cmd + '"', shell=True, stdout=subprocess.PIPE)
         while self.keepFlag:
             l = p.stdout.readline()
             if not l:
                 break
-            file.write(l)
-        file.close()
+            print(l)
+
         self.log.setDisabled(False)
-        self.log.setText("Log.")
+        self.log.setText("Log")
         self.log.setStyleSheet("color: rgb(0, 0, 0)")
 
-        adbtool.shell("adb shell rm -rf /data/himax")
+        # adbtool.shell("adb shell rm -rf /data/himax")
 
     def logFunc(self):
+        pass
         self.log.setDisabled(True)
         self.log.setText("Ing.")
         self.log.setStyleSheet("color: rgb(255, 0, 0)")
@@ -3187,7 +3283,7 @@ class Ui_ChildWindow(object):
         pValidator.setRegExp(reg)
         self.frameTimes.setValidator(pValidator)
 
-        reg = QRegExp('[0-9]{5}')
+        reg = QRegExp('[0-9,]{8}')
         pValidator = QRegExpValidator()
         pValidator.setRegExp(reg)
         self.logTimesBtn.setValidator(pValidator)
@@ -3233,7 +3329,7 @@ class Ui_LoginWindow(object):
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.3</b>")
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.4</b>")
         self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc")
         self.loginPwd.setText("PWD:")
         self.status.setText("<a style='color:rgb(0, 0, 130)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
