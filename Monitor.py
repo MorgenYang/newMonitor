@@ -63,38 +63,66 @@ class MainWindow(QMainWindow):
             if not self.ui.transRawdataPattern():
                 return
 
-            times = 20
+            times = 10
 
-            sum = [0] * window.ui.rxnum * window.ui.txnum
+            sumN = [0] * window.ui.rxnum * window.ui.txnum
             N = [0] * window.ui.rxnum * window.ui.txnum
-            S = [0] * window.ui.rxnum * window.ui.txnum
             tmp = [0] * window.ui.transTX * window.ui.transRX
-            rawdata = [tmp] * times
+            rawdataN = [tmp] * times
 
             baseData = [0] * window.ui.rxnum * window.ui.txnum
             adbtool.shell(self.ui.echoDiag % '2', "SHELL")
 
-            # TODO:collect no touched rawdata
+            # TODO: collect no touched rawdata and calculate N
             for i in range(times):
                 ret = adbtool.shell(self.ui.catDiag, "SHELL")
                 ret = child.ui.analysisRawdata(ret)
-                rawdata[i] = child.ui.userPatternToMutual(ret)
-                print(rawdata[i])
-                sum = child.ui.sumRawdata(sum, rawdata[i])
+                rawdataN[i] = child.ui.userPatternToMutual(ret)
+                sumN = child.ui.sumRawdata(sumN, rawdataN[i])
 
+            # TODO: calculate base data
             for j in range(window.ui.rxnum * window.ui.txnum):
-                baseData[j] = sum[j]//times
+                baseData[j] = sumN[j]/times
 
             print(baseData)
+
+            # TODO: calculate each block data
             for j in range(window.ui.rxnum * window.ui.txnum):
                 for i in range(times):
-                    N[j] += (rawdata[i][j] - baseData[j]) * (rawdata[i][j] - baseData[j])
+                    N[j] += (rawdataN[i][j] - baseData[j]) * (rawdataN[i][j] - baseData[j])
                 N[j] = math.sqrt(N[j]/times)
 
             print(N)
-            pass
 
-        # TODO: start collect touched rawdata
+            avgN = sum(N)/(window.ui.rxnum * window.ui.txnum)
+            print(avgN)
+            print("Calculated N")
+
+            # TODO: collect touched rawdata and calculate S
+            window.ui.dialogWin("Now start collect touched rdata")
+            print("started")
+
+            maxS = [0] * times
+            tmp = [0] * window.ui.transTX * window.ui.transRX
+            rawdataS = [tmp] * times
+
+            for i in range(times):
+                ret = adbtool.shell(self.ui.catDiag, "SHELL")
+                ret = child.ui.analysisRawdata(ret)
+                rawdataS[i] = child.ui.userPatternToMutual(ret)
+
+            for j in range(window.ui.rxnum * window.ui.txnum):
+                for i in range(times):
+                    rawdataS[i][j] = rawdataS[i][j] - baseData[j]
+
+            for i in range(times):
+                maxS[i] = max(rawdataS[i])
+
+            S = sum(maxS)/times
+            print("calculated S")
+
+            print(math.log(S/avgN, 10) * 20)
+
         if key == QtCore.Qt.Key_X:
             pass
 
@@ -3062,11 +3090,11 @@ class Ui_ChildWindow(object):
 
             # init first data
             ret = adbtool.shell(window.ui.catDiag, "SHELL")
-            print(ret)
             data = self.analysisRawdata(ret)
-            print(data)
+            if data == '' or len(data) != window.ui.transTX * window.ui.transRX:
+                print("error")
+                return
             self.keepRawdata = self.getFirstFrameRawdata(data)
-            print(data)
 
             # cat diag
             self.readRawdataThread = Thread(target=self.showRawdata)
@@ -3129,7 +3157,6 @@ class Ui_ChildWindow(object):
                     pass
                 else:
                     rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
-
         return rawdata
 
     def sumRawdata(self, sum, rawdata):
