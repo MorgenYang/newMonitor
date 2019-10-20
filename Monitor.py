@@ -56,6 +56,9 @@ class MainWindow(QMainWindow):
         if key == QtCore.Qt.Key_A:
             self.ui.rawdataShowText.clear()
 
+        if key == QtCore.Qt.Key_P:
+            swipe.show()
+
         # calculate SNR
         # TODO: start collect no touched rawdata noise
         if key == QtCore.Qt.Key_S:
@@ -2754,10 +2757,10 @@ class Ui_MainWindow(object):
             adbtool.shell(self.echoWriteRegister % ('30053000', '00002400'), "SHELL")
 
 
-class ChildWindow(QMainWindow):
+class RawdataWindow(QMainWindow):
     def __init__(self):
-        super(ChildWindow, self).__init__()
-        self.ui = Ui_ChildWindow()
+        super(RawdataWindow, self).__init__()
+        self.ui = Ui_RawdataWindow()
         self.ui.setupUi(self)
         self.ui.bindEventFunc()
         self.ui.setRegExp()
@@ -2807,7 +2810,7 @@ class ChildWindow(QMainWindow):
         child.ui.rawdataReadFunc(True)
 
 
-class Ui_ChildWindow(object):
+class Ui_RawdataWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -3310,6 +3313,73 @@ class Ui_ChildWindow(object):
         self.logTimesBtn.setValidator(pValidator)
 
 
+class SwipeWindow(QMainWindow):
+    def __init__(self):
+        super(SwipeWindow, self).__init__()
+        self.ui = Ui_SwipeWindow()
+        self.ui.setupUi(self)
+
+    def mousePressEvent(self, event):
+        if event.buttons() == QtCore.Qt.LeftButton:
+            print(event.pos())
+            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
+            adbtool.shell("sendevent /dev/input/event0 1 330 1", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 48 15", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 50 15", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 58 15", "SHELL")
+
+            adbtool.shell("sendevent /dev/input/event0 3 53 %d" % event.pos().x(), "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 54 %d" % event.pos().y(), "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 57 78", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
+            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
+            print("aaa")
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() and QtCore.Qt.LeftButton:
+            print(event.pos())
+            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
+            adbtool.shell("sendevent /dev/input/event0 3 53 %d" % event.pos().x(), "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 54 %d" % event.pos().y(), "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
+            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
+            print("bbb")
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == QtCore.Qt.LeftButton:
+            print(event.pos())
+            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
+            adbtool.shell("sendevent /dev/input/event0 3 48 0", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 50 0", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 58 0", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 57 4294967295‬", "SHELL")
+
+            adbtool.shell("sendevent /dev/input/event0 1 330 0", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
+            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
+            print("ccc")
+            # event.accept()
+
+
+class Ui_SwipeWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        # MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        MainWindow.resize(400, 600)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Swipe UI"))
+
+
 class LoginWindow(QMainWindow):
     def __init__(self):
         super(LoginWindow, self).__init__()
@@ -3409,5 +3479,6 @@ if __name__ == '__main__':
     login = LoginWindow()
     login.show()
     window = MainWindow()
-    child = ChildWindow()
+    child = RawdataWindow()
+    swipe = SwipeWindow()
     sys.exit(app.exec_())
