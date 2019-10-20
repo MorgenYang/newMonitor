@@ -3321,46 +3321,31 @@ class SwipeWindow(QMainWindow):
 
     def mousePressEvent(self, event):
         if event.buttons() == QtCore.Qt.LeftButton:
-            print(event.pos())
-            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
-            adbtool.shell("sendevent /dev/input/event0 1 330 1", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 48 15", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 50 15", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 58 15", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 1 330 1;sendevent /dev/input/event0 3 48 15;sendevent /dev/input/event0 3 50 15;sendevent /dev/input/event0 3 58 15;", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 48 15", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 50 15", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 58 15", "SHELL")
 
-            adbtool.shell("sendevent /dev/input/event0 3 53 %d" % event.pos().x(), "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 54 %d" % event.pos().y(), "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 57 78", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
-            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
-            print("aaa")
-            event.accept()
+            adbtool.shell("sendevent /dev/input/event0 3 53 %d;" % math.ceil(1080*event.pos().x()/400) + "sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600) + "sendevent /dev/input/event0 3 57 78;sendevent /dev/input/event0 0 0 0;", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600), "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 57 78;sendevent /dev/input/event0 0 0 0;", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
 
     def mouseMoveEvent(self, event):
         if event.buttons() and QtCore.Qt.LeftButton:
-            print(event.pos())
-            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
-            adbtool.shell("sendevent /dev/input/event0 3 53 %d" % event.pos().x(), "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 54 %d" % event.pos().y(), "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
-            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
-            print("bbb")
-            event.accept()
+            adbtool.shell("sendevent /dev/input/event0 3 53 %d;" % math.ceil(1080*event.pos().x()/400) + "sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600) + "sendevent /dev/input/event0 0 0 0;", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600), "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 0 0 0;", "SHELL")
 
     def mouseReleaseEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
-            print(event.pos())
-            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
-            adbtool.shell("sendevent /dev/input/event0 3 48 0", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 50 0", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 58 0", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 57 4294967295‬", "SHELL")
+            adbtool.shell("sendevent /dev/input/event0 3 48 0;sendevent /dev/input/event0 3 50 0;sendevent /dev/input/event0 3 58 0;sendevent /dev/input/event0 3 57 4294967295;sendevent /dev/input/event0 1 330 0;sendevent /dev/input/event0 0 0 0;", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 50 0", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 58 0", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 3 57 4294967295‬", "SHELL")
 
-            adbtool.shell("sendevent /dev/input/event0 1 330 0", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
-            print(time.strftime("%Y%m%d%H%M%S", time.localtime()))
-            print("ccc")
-            # event.accept()
+            # adbtool.shell("sendevent /dev/input/event0 1 330 0;sendevent /dev/input/event0 0 0 0", "SHELL")
+            # adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
 
 
 class Ui_SwipeWindow(object):
