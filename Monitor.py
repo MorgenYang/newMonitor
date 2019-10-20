@@ -6,7 +6,6 @@ import sys
 import adbtool
 from threading import Thread
 import time
-import datetime
 import os
 import re
 import pyperclip
@@ -67,13 +66,13 @@ class MainWindow(QMainWindow):
 
             sumN = [0] * window.ui.rxnum * window.ui.txnum
             N = [0] * window.ui.rxnum * window.ui.txnum
-            tmp = [0] * window.ui.transTX * window.ui.transRX
+            tmp = [0] * window.ui.rxnum * window.ui.txnum
             rawdataN = [tmp] * times
 
             baseData = [0] * window.ui.rxnum * window.ui.txnum
             adbtool.shell(self.ui.echoDiag % '2', "SHELL")
 
-            # TODO: collect no touched rawdata and calculate N
+            # TODO: collect no touched rawdata and calculate Noise
             for i in range(times):
                 ret = adbtool.shell(self.ui.catDiag, "SHELL")
                 ret = child.ui.analysisRawdata(ret)
@@ -89,7 +88,7 @@ class MainWindow(QMainWindow):
             # TODO: calculate each block data
             for j in range(window.ui.rxnum * window.ui.txnum):
                 for i in range(times):
-                    N[j] += (rawdataN[i][j] - baseData[j]) * (rawdataN[i][j] - baseData[j])
+                    N[j] += (rawdataN[i][j] - baseData[j]) ** 2
                 N[j] = math.sqrt(N[j]/times)
 
             print(N)
@@ -98,18 +97,20 @@ class MainWindow(QMainWindow):
             print(avgN)
             print("Calculated N")
 
-            # TODO: collect touched rawdata and calculate S
+            # TODO: collect touched rawdata and calculate Signal
             window.ui.dialogWin("Now start collect touched rdata")
             print("started")
 
             maxS = [0] * times
-            tmp = [0] * window.ui.transTX * window.ui.transRX
+            tmp = [0] * window.ui.rxnum * window.ui.txnum
+            S = [0] * window.ui.rxnum * window.ui.txnum
             rawdataS = [tmp] * times
 
             for i in range(times):
                 ret = adbtool.shell(self.ui.catDiag, "SHELL")
                 ret = child.ui.analysisRawdata(ret)
                 rawdataS[i] = child.ui.userPatternToMutual(ret)
+                print(rawdataS[i])
 
             for j in range(window.ui.rxnum * window.ui.txnum):
                 for i in range(times):
@@ -118,17 +119,10 @@ class MainWindow(QMainWindow):
             for i in range(times):
                 maxS[i] = max(rawdataS[i])
 
-            S = sum(maxS)/times
+            Signal = sum(maxS)/times
+            print(sum(maxS)/times)
+            print(math.log(Signal/avgN, 10) * 20)
             print("calculated S")
-
-            print(math.log(S/avgN, 10) * 20)
-
-        if key == QtCore.Qt.Key_X:
-            pass
-
-        # TODO: calculate SNR
-        if key == QtCore.Qt.Key_R:
-            pass
 
 
 class Ui_MainWindow(object):
@@ -175,29 +169,29 @@ class Ui_MainWindow(object):
         self.touchInfoTXLineEdit.setObjectName("touchInfoTXLineEdit")
         self.touchInfoRXLabel = QtWidgets.QLabel(self.touchInfoGroupBox)
         self.touchInfoRXLabel.setGeometry(QtCore.QRect(10, 20, 20, 20))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.touchInfoRXLabel.setFont(font)
         self.touchInfoRXLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.touchInfoRXLabel.setObjectName("touchInfoRXLabel")
         self.touchInfoTXLabel = QtWidgets.QLabel(self.touchInfoGroupBox)
         self.touchInfoTXLabel.setGeometry(QtCore.QRect(10, 45, 20, 20))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.touchInfoTXLabel.setFont(font)
         self.touchInfoTXLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.touchInfoTXLabel.setObjectName("touchInfoTXLabel")
         self.touchInfoRexYLabel = QtWidgets.QLabel(self.touchInfoGroupBox)
         self.touchInfoRexYLabel.setGeometry(QtCore.QRect(100, 45, 50, 20))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.touchInfoRexYLabel.setFont(font)
         self.touchInfoRexYLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.touchInfoRexYLabel.setObjectName("touchInfoRexYLabel")
         self.touchInfoRexXLabel = QtWidgets.QLabel(self.touchInfoGroupBox)
         self.touchInfoRexXLabel.setGeometry(QtCore.QRect(100, 20, 50, 20))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.touchInfoRexXLabel.setFont(font)
         self.touchInfoRexXLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.touchInfoRexXLabel.setObjectName("touchInfoRexXLabel")
@@ -218,8 +212,8 @@ class Ui_MainWindow(object):
         self.settingsGroupBox.setObjectName("settingsGroupBox")
         self.pathV1RadioButton = QtWidgets.QRadioButton(self.settingsGroupBox)
         self.pathV1RadioButton.setGeometry(QtCore.QRect(130, 20, 41, 16))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathV1RadioButton.setFont(font)
         self.pathV1RadioButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pathV1RadioButton.setMouseTracking(True)
@@ -229,8 +223,8 @@ class Ui_MainWindow(object):
         self.pathV1RadioButton.setObjectName("pathV1RadioButton")
         self.pathV2RadioButton = QtWidgets.QRadioButton(self.settingsGroupBox)
         self.pathV2RadioButton.setGeometry(QtCore.QRect(170, 20, 41, 16))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathV2RadioButton.setFont(font)
         self.pathV2RadioButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pathV2RadioButton.setMouseTracking(True)
@@ -240,8 +234,8 @@ class Ui_MainWindow(object):
         self.pathV2RadioButton.setObjectName("pathV2RadioButton")
         self.pathDriVerLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathDriVerLabel.setGeometry(QtCore.QRect(10, 20, 120, 16))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.pathDriVerLabel.setFont(font)
@@ -257,88 +251,88 @@ class Ui_MainWindow(object):
         self.pathDiagLabel.setObjectName("pathDiagLabel")
         self.pathRegLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathRegLabel.setGeometry(QtCore.QRect(0, 73, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathRegLabel.setFont(font)
         self.pathRegLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathRegLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathRegLabel.setObjectName("pathRegLabel")
         self.pathResetLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathResetLabel.setGeometry(QtCore.QRect(0, 96, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathResetLabel.setFont(font)
         self.pathResetLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathResetLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathResetLabel.setObjectName("pathResetLabel")
         self.pathIntenLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathIntenLabel.setGeometry(QtCore.QRect(0, 119, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathIntenLabel.setFont(font)
         self.pathIntenLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathIntenLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathIntenLabel.setObjectName("pathIntenLabel")
         self.pathDiagarrLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathDiagarrLabel.setGeometry(QtCore.QRect(0, 142, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathDiagarrLabel.setFont(font)
         self.pathDiagarrLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathDiagarrLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathDiagarrLabel.setObjectName("pathDiagarrLabel")
         self.pathSenseonoffLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathSenseonoffLabel.setGeometry(QtCore.QRect(0, 165, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathSenseonoffLabel.setFont(font)
         self.pathSenseonoffLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathSenseonoffLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathSenseonoffLabel.setObjectName("pathSenseonoffLabel")
         self.pathStackLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathStackLabel.setGeometry(QtCore.QRect(0, 199, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathStackLabel.setFont(font)
         self.pathStackLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathStackLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathStackLabel.setObjectName("pathStackLabel")
         self.pathDebugLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathDebugLabel.setGeometry(QtCore.QRect(0, 231, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathDebugLabel.setFont(font)
         self.pathDebugLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathDebugLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathDebugLabel.setObjectName("pathDebugLabel")
         self.pathSelftestLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathSelftestLabel.setGeometry(QtCore.QRect(0, 254, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathSelftestLabel.setFont(font)
         self.pathSelftestLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathSelftestLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathSelftestLabel.setObjectName("pathSelftestLabel")
         self.pathFlashdumpLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathFlashdumpLabel.setGeometry(QtCore.QRect(0, 277, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathFlashdumpLabel.setFont(font)
         self.pathFlashdumpLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathFlashdumpLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathFlashdumpLabel.setObjectName("pathFlashdumpLabel")
         self.pathHXFolderLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathHXFolderLabel.setGeometry(QtCore.QRect(0, 307, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathHXFolderLabel.setFont(font)
         self.pathHXFolderLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathHXFolderLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.pathHXFolderLabel.setObjectName("pathHXFolderLabel")
         self.pathFWLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathFWLabel.setGeometry(QtCore.QRect(0, 330, 80, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.pathFWLabel.setFont(font)
         self.pathFWLabel.setStyleSheet("color: rgb(0, 0, 0);")
         self.pathFWLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
@@ -393,10 +387,10 @@ class Ui_MainWindow(object):
         self.pathFWLineEdit.setObjectName("pathFWLineEdit")
         self.pathConmmentLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.pathConmmentLabel.setGeometry(QtCore.QRect(210, 20, 281, 16))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
+        # font.setBold(True)
+        # font.setWeight(75)
         self.pathConmmentLabel.setFont(font)
         self.pathConmmentLabel.setStyleSheet("color: rgb(255, 0, 0);")
         self.pathConmmentLabel.setObjectName("pathConmmentLabel")
@@ -417,15 +411,14 @@ class Ui_MainWindow(object):
         self.settingsProComboBox.setObjectName("settingsProComboBox")
         self.pathSavePushButton = QtWidgets.QPushButton(self.groupBox)
         self.pathSavePushButton.setGeometry(QtCore.QRect(100, 50, 160, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
+        # font.setBold(True)
+        # font.setWeight(75)
         self.pathSavePushButton.setFont(font)
         self.pathSavePushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pathSavePushButton.setWhatsThis("")
-        self.pathSavePushButton.setStyleSheet("color: rgb(255, 255, 255);\n"
-	"background-color: rgb(0, 170, 0);")
+        self.pathSavePushButton.setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(0, 170, 0);")
         self.pathSavePushButton.setObjectName("pathSavePushButton")
         self.conmment_2 = QtWidgets.QLabel(self.groupBox)
         self.conmment_2.setGeometry(QtCore.QRect(0, 25, 95, 15))
@@ -434,10 +427,10 @@ class Ui_MainWindow(object):
         self.conmment_2.setObjectName("conmment_2")
         self.settingRemove = QtWidgets.QPushButton(self.groupBox)
         self.settingRemove.setGeometry(QtCore.QRect(270, 50, 75, 30))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
+        # font = QtGui.QFont()
+        # font.setPointSize(11)
+        # font.setBold(True)
+        # font.setWeight(75)
         self.settingRemove.setFont(font)
         self.settingRemove.setStyleSheet("background-color: rgb(255, 0, 0); color: rgb(255, 255, 255)")
         self.settingRemove.setObjectName("settingRemove")
@@ -460,8 +453,8 @@ class Ui_MainWindow(object):
         self.wifiConnect = QtWidgets.QPushButton(self.wifiGroupBox)
         self.wifiConnect.setGeometry(QtCore.QRect(10, 15, 90, 30))
         self.wifiConnect.setMaximumSize(QtCore.QSize(100, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.wifiConnect.setFont(font)
         self.wifiConnect.setStyleSheet("color: rgb(0, 0, 0);")
         self.wifiConnect.setFlat(False)
@@ -469,8 +462,8 @@ class Ui_MainWindow(object):
         self.wifiDisconnect = QtWidgets.QPushButton(self.wifiGroupBox)
         self.wifiDisconnect.setGeometry(QtCore.QRect(105, 15, 90, 30))
         self.wifiDisconnect.setMaximumSize(QtCore.QSize(100, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.wifiDisconnect.setFont(font)
         self.wifiDisconnect.setStyleSheet("color: rgb(0, 0, 0);")
         self.wifiDisconnect.setCheckable(False)
@@ -478,8 +471,8 @@ class Ui_MainWindow(object):
         self.wifiReconnect = QtWidgets.QPushButton(self.wifiGroupBox)
         self.wifiReconnect.setGeometry(QtCore.QRect(200, 15, 90, 30))
         self.wifiReconnect.setMaximumSize(QtCore.QSize(100, 30))
-        font = QtGui.QFont()
-        font.setPointSize(10)
+        # font = QtGui.QFont()
+        # font.setPointSize(10)
         self.wifiReconnect.setFont(font)
         self.wifiReconnect.setStyleSheet("color: rgb(0, 0, 0);")
         self.wifiReconnect.setCheckable(False)
@@ -3126,6 +3119,7 @@ class Ui_ChildWindow(object):
                 data = self.keepMaxOrMinRawdata(data)
                 data = self.transMaxOrMinRawdata(data)
 
+            print(data)
             self.fillRawdataToTable(data)
             self.MainRawdataShowtableWidget.reset()
 
