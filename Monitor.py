@@ -47,85 +47,176 @@ class MainWindow(QMainWindow):
             self.close()
             login.show()
 
-        if key == QtCore.Qt.Key_T:
-            self.ui.readRegValShowText.clear()
+        if event.modifiers() == QtCore.Qt.ControlModifier:
+            if key == QtCore.Qt.Key_T:
+                self.ui.readRegValShowText.clear()
 
-        if key == QtCore.Qt.Key_D:
-            self.ui.DDreadRegValShowText.clear()
+            if key == QtCore.Qt.Key_D:
+                self.ui.DDreadRegValShowText.clear()
 
-        if key == QtCore.Qt.Key_A:
-            self.ui.rawdataShowText.clear()
+            if key == QtCore.Qt.Key_A:
+                self.ui.rawdataShowText.clear()
 
-        if key == QtCore.Qt.Key_P:
-            swipe.show()
+            if key == QtCore.Qt.Key_P:
+                swipe.show()
 
-        # calculate SNR
-        # TODO: start collect no touched rawdata noise
-        if key == QtCore.Qt.Key_S:
-            if not self.ui.transRawdataPattern():
-                return
+            if key == QtCore.Qt.Key_M:
+                thread = Thread(target=self.calcMaxSNR)
+                thread.run()
 
-            times = 10
+            if key == QtCore.Qt.Key_S:
+                thread = Thread(target=self.calcAvgSNR)
+                thread.run()
 
-            sumN = [0] * window.ui.rxnum * window.ui.txnum
-            N = [0] * window.ui.rxnum * window.ui.txnum
-            tmp = [0] * window.ui.rxnum * window.ui.txnum
-            rawdataN = [tmp] * times
+    def calcMaxSNR(self):
+        times = window.ui.dialogInputgWin("Enter collect frames", True)
+        if times == '':
+            times = 20
+        else:
+            times = int(times)
 
-            baseData = [0] * window.ui.rxnum * window.ui.txnum
-            adbtool.shell(self.ui.echoDiag % '2', "SHELL")
+        window.ui.dialogWin("Now collect <b>untouched</b> rdata")
 
-            # TODO: collect no touched rawdata and calculate Noise
+        if not self.ui.transRawdataPattern():
+            return
+
+        sumN = [0] * window.ui.rxnum * window.ui.txnum
+        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        rawdataNmax = [tmp] * times
+
+        baseDataAvg = [0] * window.ui.rxnum * window.ui.txnum
+        baseDataMax = [0] * times
+
+        # TODO: enter active mode
+        adbtool.shell(self.ui.echoWriteRegister % ("10007fd4", "cdcdcdcd"), "SHELL")
+
+        adbtool.shell(self.ui.echoDiag % '2', "SHELL")
+        adbtool.shell(self.ui.catDiag, "SHELL")
+
+        # TODO: collect no touched rawdata and calculate Noise
+        for i in range(times):
+            ret = adbtool.shell(self.ui.catDiag, "SHELL")
+            ret = child.ui.analysisRawdata(ret)
+            rawdataNmax[i] = child.ui.userPatternToMutual(ret)
+            sumN = child.ui.sumRawdata(sumN, rawdataNmax[i])
+
+        # TODO: calculate base data
+        for j in range(window.ui.rxnum * window.ui.txnum):
+            baseDataAvg[j] = sumN[j] / times
+
+        for j in range(window.ui.rxnum * window.ui.txnum):
             for i in range(times):
-                ret = adbtool.shell(self.ui.catDiag, "SHELL")
-                ret = child.ui.analysisRawdata(ret)
-                rawdataN[i] = child.ui.userPatternToMutual(ret)
-                sumN = child.ui.sumRawdata(sumN, rawdataN[i])
+                rawdataNmax[i][j] = rawdataNmax[i][j] - baseDataAvg[j]
 
-            # TODO: calculate base data
-            for j in range(window.ui.rxnum * window.ui.txnum):
-                baseData[j] = sumN[j]/times
+        for i in range(times):
+            baseDataMax[i] = max(rawdataNmax[i])
 
-            print(baseData)
+        maxN = max(baseDataMax)
 
-            # TODO: calculate each block data
-            for j in range(window.ui.rxnum * window.ui.txnum):
-                for i in range(times):
-                    N[j] += (rawdataN[i][j] - baseData[j]) ** 2
-                N[j] = math.sqrt(N[j]/times)
+        # TODO: collect touched rawdata and calculate Signal
+        window.ui.dialogWin("Now start collect <b>touched</b> rdata")
 
-            print(N)
+        maxS = [0] * times
+        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        rawdataS = [tmp] * times
 
-            avgN = sum(N)/(window.ui.rxnum * window.ui.txnum)
-            print(avgN)
-            print("Calculated N")
+        for i in range(times):
+            ret = adbtool.shell(self.ui.catDiag, "SHELL")
+            ret = child.ui.analysisRawdata(ret)
+            rawdataS[i] = child.ui.userPatternToMutual(ret)
 
-            # TODO: collect touched rawdata and calculate Signal
-            window.ui.dialogWin("Now start collect touched rdata")
-            print("started")
-
-            maxS = [0] * times
-            tmp = [0] * window.ui.rxnum * window.ui.txnum
-            S = [0] * window.ui.rxnum * window.ui.txnum
-            rawdataS = [tmp] * times
-
+        for j in range(window.ui.rxnum * window.ui.txnum):
             for i in range(times):
-                ret = adbtool.shell(self.ui.catDiag, "SHELL")
-                ret = child.ui.analysisRawdata(ret)
-                rawdataS[i] = child.ui.userPatternToMutual(ret)
-                print(rawdataS[i])
+                rawdataS[i][j] = rawdataS[i][j] - baseDataAvg[j]
 
-            for j in range(window.ui.rxnum * window.ui.txnum):
-                for i in range(times):
-                    rawdataS[i][j] = rawdataS[i][j] - baseData[j]
+        for i in range(times):
+            maxS[i] = max(rawdataS[i])
 
+        Signal = sum(maxS) / times
+
+        # TODO: exit active mode
+        adbtool.shell(self.ui.echoWriteRegister % ("10007fd4", "00000000"), "SHELL")
+
+        cmd = "<b>MAX</b><br/>" + \
+              "Noise:%s<br/>" % str(round(maxN, 2)) + \
+              "Signal:%s<br/>" % str(round(Signal, 2)) + \
+              "SNR(ratio):%s<br/>" % str(round(Signal / maxN, 2)) + \
+              "SNR(dB):%s<br/>" % str(round(math.log(Signal / maxN, 10) * 20, 2))
+        window.ui.dialogWin(cmd)
+
+    def calcAvgSNR(self):
+        times = window.ui.dialogInputgWin("Enter collect frames", True)
+        if times == '':
+            times = 20
+        else:
+            times = int(times)
+
+        window.ui.dialogWin("Now collect <b>untouched</b> rdata")
+        if not self.ui.transRawdataPattern():
+            return
+
+        sumN = [0] * window.ui.rxnum * window.ui.txnum
+        N = [0] * window.ui.rxnum * window.ui.txnum
+        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        rawdataNavg = [tmp] * times
+
+        baseDataAvg = [0] * window.ui.rxnum * window.ui.txnum
+
+        # TODO: enter active mode
+        adbtool.shell(self.ui.echoWriteRegister % ("10007fd4", "cdcdcdcd"), "SHELL")
+
+        adbtool.shell(self.ui.echoDiag % '2', "SHELL")
+        adbtool.shell(self.ui.catDiag, "SHELL")
+
+        # TODO: collect no touched rawdata and calculate Noise
+        for i in range(times):
+            ret = adbtool.shell(self.ui.catDiag, "SHELL")
+            ret = child.ui.analysisRawdata(ret)
+            rawdataNavg[i] = child.ui.userPatternToMutual(ret)
+            sumN = child.ui.sumRawdata(sumN, rawdataNavg[i])
+
+        # TODO: calculate base data
+        for j in range(window.ui.rxnum * window.ui.txnum):
+            baseDataAvg[j] = sumN[j] / times
+
+        # TODO: calculate each block data
+        for j in range(window.ui.rxnum * window.ui.txnum):
             for i in range(times):
-                maxS[i] = max(rawdataS[i])
+                N[j] += (rawdataNavg[i][j] - baseDataAvg[j]) ** 2
+            N[j] = math.sqrt(N[j] / times)
 
-            Signal = sum(maxS)/times
-            print(sum(maxS)/times)
-            print(math.log(Signal/avgN, 10) * 20)
-            print("calculated S")
+        avgN = sum(N) / (window.ui.rxnum * window.ui.txnum)
+
+        # TODO: collect touched rawdata and calculate Signal
+        window.ui.dialogWin("Now start collect <b>touched</b> rdata")
+
+        maxS = [0] * times
+        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        rawdataS = [tmp] * times
+
+        for i in range(times):
+            ret = adbtool.shell(self.ui.catDiag, "SHELL")
+            ret = child.ui.analysisRawdata(ret)
+            rawdataS[i] = child.ui.userPatternToMutual(ret)
+
+        for j in range(window.ui.rxnum * window.ui.txnum):
+            for i in range(times):
+                rawdataS[i][j] = rawdataS[i][j] - baseDataAvg[j]
+
+        for i in range(times):
+            maxS[i] = max(rawdataS[i])
+
+        Signal = sum(maxS) / times
+
+        # TODO: enter active mode
+        adbtool.shell(self.ui.echoWriteRegister % ("10007fd4", "00000000"), "SHELL")
+
+        cmd = "<b>AVG</b><br/>" + \
+              "Noise:%s<br/>" % str(round(avgN, 2)) + \
+              "Signal:%s<br/>" % str(round(Signal, 2)) + \
+              "SNR(ratio):%s<br/>" % str(round(Signal / avgN, 2)) + \
+              "SNR(dB):%s<br/>" % str(round(math.log(Signal / avgN, 10) * 20, 2))
+        window.ui.dialogWin(cmd)
 
 
 class Ui_MainWindow(object):
@@ -1740,7 +1831,7 @@ class Ui_MainWindow(object):
         self.dialog.resize(300, 115)
         self.dialog.setMaximumSize(QtCore.QSize(300, 115))
         self.labelTmp = QtWidgets.QLabel(self.dialog)
-        self.labelTmp.setGeometry(QtCore.QRect(5, 11, 295, 61))
+        self.labelTmp.setGeometry(QtCore.QRect(0, 0, 300, 115))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.labelTmp.setFont(font)
@@ -1773,7 +1864,7 @@ class Ui_MainWindow(object):
 
         if numFlag:
             reg = QRegExp('[0-9]{0,3}')
-            self.inputName.setPlaceholderText("Time < 180")
+            # self.inputName.setPlaceholderText("Time < 180")
         else:
             reg = QRegExp('[a-zA-Z0-9_]*')
         pValidator = QRegExpValidator()
@@ -2325,7 +2416,6 @@ class Ui_MainWindow(object):
         self.commonFlag = True
         adbtool.shell(window.ui.echoDiag % '1', "SHELL")
         ret = adbtool.shell(window.ui.catDiag, "SHELL")
-        # print(ret)
         # check device connect status
         if ret == '' or ret.find('error') != -1 or ret.find('ChannelStart') == -1:
             window.ui.dialogWin("Not found devices")
@@ -2770,40 +2860,39 @@ class RawdataWindow(QMainWindow):
         if key == QtCore.Qt.Key_Escape:
             self.close()
 
-        if key == QtCore.Qt.Key_C:
-            ret = ''
-            for i in range(window.ui.transRX):
-                for j in range(window.ui.transTX):
-                    try:
-                        ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
-                    except:
-                        window.ui.dialogWin("unexcept wrong")
-                        return
-                ret += '\n'
-            pyperclip.copy(ret)
-            pyperclip.paste()
-            window.ui.dialogWin("Copy ok")
+        if event.modifiers() == QtCore.Qt.ControlModifier:
+            if key == QtCore.Qt.Key_C:
+                ret = ''
+                for i in range(window.ui.transRX):
+                    for j in range(window.ui.transTX):
+                        try:
+                            ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
+                        except:
+                            window.ui.dialogWin("unexcept wrong")
+                            return
+                    ret += '\n'
+                pyperclip.copy(ret)
+                pyperclip.paste()
+                window.ui.dialogWin("Copy ok")
 
-        if key == QtCore.Qt.Key_S:
-            ret = self.ui.origRawdata
-            pyperclip.copy(ret)
-            pyperclip.paste()
-            window.ui.dialogWin("Copy orig ok")
+            if key == QtCore.Qt.Key_S:
+                ret = self.ui.origRawdata
+                pyperclip.copy(ret)
+                pyperclip.paste()
+                window.ui.dialogWin("Copy orig ok")
 
-        if key == QtCore.Qt.Key_M:
-            self.ui.keepMax = True
-            self.ui.keepMin = False
-            window.ui.dialogWin("Keep max")
+            if key == QtCore.Qt.Key_M:
+                self.ui.keepMax = True
+                self.ui.keepMin = False
 
-        if key == QtCore.Qt.Key_N:
-            self.ui.keepMax = False
-            self.ui.keepMin = True
-            window.ui.dialogWin("Keep min")
+            if key == QtCore.Qt.Key_N:
+                self.ui.keepMax = False
+                self.ui.keepMin = True
 
-        if key == QtCore.Qt.Key_B:
-            self.ui.keepMax = False
-            self.ui.keepMin = False
-            self.ui.keepFlag = False
+            if key == QtCore.Qt.Key_B:
+                self.ui.keepMax = False
+                self.ui.keepMin = False
+                self.ui.keepFlag = False
 
     def closeEvent(self, *args, **kwargs):
         window.ui.disableFunctions(False)
@@ -3122,7 +3211,6 @@ class Ui_RawdataWindow(object):
                 data = self.keepMaxOrMinRawdata(data)
                 data = self.transMaxOrMinRawdata(data)
 
-            print(data)
             self.fillRawdataToTable(data)
             self.MainRawdataShowtableWidget.reset()
 
@@ -3237,13 +3325,9 @@ class Ui_RawdataWindow(object):
             window.ui.dialogWin("please set delay time")
             return
 
-        # if delayTime.find(','):
-
         delayTime = int(delayTime)*1000
 
         cmd = './data/himax ' + window.ui.v1DiagPath + ' ' + str(delayTime) + ' 0'
-        print('adb shell "' + cmd + '"')
-        # adbtool.shell('adb shell "' + cmd + '"')
         p = subprocess.Popen('adb shell "' + cmd + '"', shell=True, stdout=subprocess.PIPE)
         while self.keepFlag:
             l = p.stdout.readline()
@@ -3255,19 +3339,17 @@ class Ui_RawdataWindow(object):
         self.log.setText("Log")
         self.log.setStyleSheet("color: rgb(0, 0, 0)")
 
-        # adbtool.shell("adb shell rm -rf /data/himax")
-
     def logFunc(self):
         pass
-        self.log.setDisabled(True)
-        self.log.setText("Ing.")
-        self.log.setStyleSheet("color: rgb(255, 0, 0)")
-
-        if not os.path.exists("./log"):
-            os.mkdir("log")
-
-        log = Thread(target=self.logThread)
-        log.start()
+        # self.log.setDisabled(True)
+        # self.log.setText("Ing.")
+        # self.log.setStyleSheet("color: rgb(255, 0, 0)")
+        #
+        # if not os.path.exists("./log"):
+        #     os.mkdir("log")
+        #
+        # log = Thread(target=self.logThread)
+        # log.start()
 
     def initRawdataUI(self, rx, tx):
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -3318,34 +3400,44 @@ class SwipeWindow(QMainWindow):
         super(SwipeWindow, self).__init__()
         self.ui = Ui_SwipeWindow()
         self.ui.setupUi(self)
+        self.event = 'event2'
+        self.resx = 720
+        self.resy = 1080
 
     def mousePressEvent(self, event):
         if event.buttons() == QtCore.Qt.LeftButton:
-            adbtool.shell("sendevent /dev/input/event0 1 330 1;sendevent /dev/input/event0 3 48 15;sendevent /dev/input/event0 3 50 15;sendevent /dev/input/event0 3 58 15;", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 48 15", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 50 15", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 58 15", "SHELL")
+            adbtool.shell("sendevent /dev/input/%s 1 330 1;" % self.event +
+                          "sendevent /dev/input/%s 3 48 15;" % self.event +
+                          "sendevent /dev/input/%s 3 50 15;" % self.event +
+                          "sendevent /dev/input/%s 3 58 15;" % self.event, "SHELL")
+            adbtool.shell("sendevent /dev/input/%s 3 53 %d;" % (self.event, math.ceil(self.resx*event.pos().x()/400)) +
+                          "sendevent /dev/input/%s 3 54 %d;" % (self.event, math.ceil(self.resy*event.pos().y()/600)) +
+                          "sendevent /dev/input/%s 3 57 68;" % self.event +
+                          "sendevent /dev/input/%s 0 0 0;" % self.event, "SHELL")
 
-            adbtool.shell("sendevent /dev/input/event0 3 53 %d;" % math.ceil(1080*event.pos().x()/400) + "sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600) + "sendevent /dev/input/event0 3 57 78;sendevent /dev/input/event0 0 0 0;", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600), "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 57 78;sendevent /dev/input/event0 0 0 0;", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
+        if event.buttons() == QtCore.Qt.RightButton:
+            info = window.ui.dialogInputgWin("Enter event?", False)
+            info = info.split('_')
+            if len(info) != 3:
+                return
+            self.event = info[0]
+            self.resx = int(info[1])
+            self.resy = int(info[2])
 
     def mouseMoveEvent(self, event):
         if event.buttons() and QtCore.Qt.LeftButton:
-            adbtool.shell("sendevent /dev/input/event0 3 53 %d;" % math.ceil(1080*event.pos().x()/400) + "sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600) + "sendevent /dev/input/event0 0 0 0;", "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 3 54 %d;" % math.ceil(2520*event.pos().y()/600), "SHELL")
-            adbtool.shell("sendevent /dev/input/event0 0 0 0;", "SHELL")
+            adbtool.shell("sendevent /dev/input/%s 3 53 %d;" % (self.event, math.ceil(1080*event.pos().x()/400)) +
+                          "sendevent /dev/input/%s 3 54 %d;" % (self.event, math.ceil(2520*event.pos().y()/600)) +
+                          "sendevent /dev/input/%s 0 0 0;" % self.event, "SHELL")
 
     def mouseReleaseEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
-            adbtool.shell("sendevent /dev/input/event0 3 48 0;sendevent /dev/input/event0 3 50 0;sendevent /dev/input/event0 3 58 0;sendevent /dev/input/event0 3 57 4294967295;sendevent /dev/input/event0 1 330 0;sendevent /dev/input/event0 0 0 0;", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 50 0", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 58 0", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 3 57 4294967295‬", "SHELL")
-
-            # adbtool.shell("sendevent /dev/input/event0 1 330 0;sendevent /dev/input/event0 0 0 0", "SHELL")
-            # adbtool.shell("sendevent /dev/input/event0 0 0 0", "SHELL")
+            adbtool.shell("sendevent /dev/input/%s 3 48 0;" % self.event +
+                          "sendevent /dev/input/%s 3 50 0;" % self.event +
+                          "sendevent /dev/input/%s 3 58 0;" % self.event +
+                          "sendevent /dev/input/%s 3 57 4294967295;" % self.event +
+                          "sendevent /dev/input/%s 1 330 0;" % self.event +
+                          "sendevent /dev/input/%s 0 0 0;" % self.event, "SHELL")
 
 
 class Ui_SwipeWindow(object):
@@ -3375,6 +3467,7 @@ class LoginWindow(QMainWindow):
 
     def keyPressEvent(self, event):
         key = event.key()
+
         if key == QtCore.Qt.Key_Enter or key == 16777220:
             self.login.loginFunc()
             self.enterTimes += 1
@@ -3382,9 +3475,10 @@ class LoginWindow(QMainWindow):
         if key == QtCore.Qt.Key_Escape:
             self.close()
 
-        if key == QtCore.Qt.Key_M:
-            login.close()
-            window.show()
+        if event.modifiers() == QtCore.Qt.ControlModifier:
+            if key == QtCore.Qt.Key_M:
+                login.close()
+                window.show()
 
 
 class Ui_LoginWindow(object):
