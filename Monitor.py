@@ -41,6 +41,11 @@ class MainWindow(QMainWindow):
         self.uiThreadBindEventFunc.start()
         self.statusBar().addWidget(QLabel("Ready"))
 
+    def mousePressEvent(self, event):
+        if event.buttons() == QtCore.Qt.MiddleButton:
+            cmd = "<br/>Author: morgen<br/>"
+            window.ui.dialogWin(cmd)
+
     def keyPressEvent(self, event):
         key = event.key()
         if key == QtCore.Qt.Key_Escape:
@@ -69,7 +74,7 @@ class MainWindow(QMainWindow):
                 thread.run()
 
     def calcMaxSNR(self):
-        times = window.ui.dialogInputgWin("Enter collect frames", True)
+        times = window.ui.dialogInputWin("Enter collect frames", True)
         if times == '':
             times = 20
         else:
@@ -145,7 +150,7 @@ class MainWindow(QMainWindow):
         window.ui.dialogWin(cmd)
 
     def calcAvgSNR(self):
-        times = window.ui.dialogInputgWin("Enter collect frames", True)
+        times = window.ui.dialogInputWin("Enter collect frames", True)
         if times == '':
             times = 20
         else:
@@ -1364,7 +1369,6 @@ class Ui_MainWindow(object):
             self.fillTouchConfig()
             self.initEchoMethod(self.driverVersionMode)
 
-    # TODO: fill touch config in settings page
     def fillTouchConfig(self):
         self.pathDebugLineEdit.setText(self.debugPath)
         self.pathSelftestLineEdit.setText(self.selfTestPath)
@@ -1412,7 +1416,6 @@ class Ui_MainWindow(object):
             self.pathDiagarrLineEdit.clear()
             self.pathDiagarrLineEdit.setDisabled(True)
 
-    # TODO: read project file and reconfig touch info
     def readProjectInfo(self, name):
         path = './project/'
         fileName = path + name
@@ -1508,7 +1511,6 @@ class Ui_MainWindow(object):
             getattr(self, "G2lineEdit%d" % (i + 1)).setValidator(pValidator)
             getattr(self, "G3lineEdit%d" % (i + 1)).setValidator(pValidator)
 
-    # TODO: when new project was created or one project removed, it will be called
     def initSelectProjectItems(self, init):
         if not init:
             self.settingsProComboBox.blockSignals(True)
@@ -1530,7 +1532,6 @@ class Ui_MainWindow(object):
         if not init:
             self.settingsProComboBox.blockSignals(False)
 
-    # TODO: load latest project one time while start this app
     def loadLatestTouchInfoConfig(self):
         path = self.findProjectDocFilesPath()
         if not path:
@@ -1578,7 +1579,6 @@ class Ui_MainWindow(object):
         self.initEchoMethod(self.driverVersionMode)
         self.fillTouchConfig()
 
-    # TODO: init common commands to distinguish v1 or v2 driver mode
     def initEchoMethod(self, n):
         if n == 1:
             self.echoDiag = "echo %s > " + self.v1DiagPath
@@ -1649,7 +1649,7 @@ class Ui_MainWindow(object):
                 return
 
         # TODO:need show sub window to let user enter project name
-        name = self.dialogInputgWin("Please enter project name", False)
+        name = self.dialogInputWin("Please enter project name", False)
         if name == '':
             return
 
@@ -1742,7 +1742,6 @@ class Ui_MainWindow(object):
         pyperclip.paste()
         self.dialogWin("output data was already copied,\nnow you can paste")
 
-    # def writeDataToNewFile(self, path, name):
     def readAVGRawdata(self, name):
         if not os.path.exists(name):
             return
@@ -1831,7 +1830,7 @@ class Ui_MainWindow(object):
         self.dialog.resize(300, 115)
         self.dialog.setMaximumSize(QtCore.QSize(300, 115))
         self.labelTmp = QtWidgets.QLabel(self.dialog)
-        self.labelTmp.setGeometry(QtCore.QRect(0, 0, 300, 115))
+        self.labelTmp.setGeometry(QtCore.QRect(0, 0, 300, 100))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.labelTmp.setFont(font)
@@ -1846,7 +1845,7 @@ class Ui_MainWindow(object):
         self.dialog.setWindowTitle(_translate("Dialog", "Message"))
         self.dialog.exec_()
 
-    def dialogInputgWin(self, title, numFlag):
+    def dialogInputWin(self, title, numFlag):
         self.dialog = QDialog()
         self.dialog.resize(300, 115)
         self.dialog.setMaximumSize(QtCore.QSize(300, 100))
@@ -2781,7 +2780,7 @@ class Ui_MainWindow(object):
 
     def screenRecordFunc(self):
         if self.screenRecord.text() == 'ScreenRecord':
-            recordTime = self.dialogInputgWin("Please enter time", True)
+            recordTime = self.dialogInputWin("Please enter time", True)
             if recordTime == '' or int(recordTime) > 180:
                 self.dialogWin("time was not right")
                 return
@@ -3069,7 +3068,7 @@ class Ui_RawdataWindow(object):
         if not os.path.exists(path):
             os.mkdir(path)
 
-        value = window.ui.dialogInputgWin("Enter name include 'max/min'", False)
+        value = window.ui.dialogInputWin("Enter name include 'max/min'", False)
         if value == '' or (value.find('max') == -1 and value.find('min') == -1):
             window.ui.dialogWin("You need set name\ninclude 'max' or 'min'")
             return
@@ -3404,19 +3403,24 @@ class SwipeWindow(QMainWindow):
         self.resx = 720
         self.resy = 1080
 
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == QtCore.Qt.Key_Escape:
+            self.close()
+
     def mousePressEvent(self, event):
         if event.buttons() == QtCore.Qt.LeftButton:
             adbtool.shell("sendevent /dev/input/%s 1 330 1;" % self.event +
                           "sendevent /dev/input/%s 3 48 15;" % self.event +
                           "sendevent /dev/input/%s 3 50 15;" % self.event +
-                          "sendevent /dev/input/%s 3 58 15;" % self.event, "SHELL")
-            adbtool.shell("sendevent /dev/input/%s 3 53 %d;" % (self.event, math.ceil(self.resx*event.pos().x()/400)) +
+                          "sendevent /dev/input/%s 3 58 15;" % self.event +
+                          "sendevent /dev/input/%s 3 53 %d;" % (self.event, math.ceil(self.resx*event.pos().x()/400)) +
                           "sendevent /dev/input/%s 3 54 %d;" % (self.event, math.ceil(self.resy*event.pos().y()/600)) +
                           "sendevent /dev/input/%s 3 57 68;" % self.event +
                           "sendevent /dev/input/%s 0 0 0;" % self.event, "SHELL")
 
         if event.buttons() == QtCore.Qt.RightButton:
-            info = window.ui.dialogInputgWin("Enter event?", False)
+            info = window.ui.dialogInputWin("Enter event?", False)
             info = info.split('_')
             if len(info) != 3:
                 return
@@ -3500,15 +3504,15 @@ class Ui_LoginWindow(object):
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.4</b>")
-        self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc")
+        self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc</a>")
         self.loginPwd.setText("PWD:")
-        self.status.setText("<a style='color:rgb(0, 0, 130)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
-        self.ps.setText("Welcome! support v1 or v2 but old")
+        # self.status.setText("<a style='color:rgb(0, 0, 130)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
+        self.ps.setText("Welcome! support v1/v2/oppo but old")
         self.girdLayout.addWidget(self.titleLabel, 0, 1)
         self.girdLayout.addWidget(self.empty, 1, 1)
         self.girdLayout.addWidget(self.loginPwd, 2, 0)
         self.girdLayout.addWidget(self.loginPwdLineEdit, 2, 1)
-        self.girdLayout.addWidget(self.status, 3, 1)
+        # self.girdLayout.addWidget(self.status, 3, 1)
         self.girdLayout.addWidget(self.ps, 4, 1)
         self.girdLayout.addWidget(self.empty, 5, 1)
         self.girdLayout.addWidget(self.copyrightLabel, 6, 1)
