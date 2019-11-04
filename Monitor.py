@@ -43,14 +43,10 @@ class MainWindow(QMainWindow):
     def mousePressEvent(self, event):
         if event.buttons() == QtCore.Qt.MiddleButton:
             cmd = "<br/>Author: morgen<br/>"
-            window.ui.dialogWin(cmd)
+            windowclass.ui.dialogWin(cmd)
 
     def keyPressEvent(self, event):
         key = event.key()
-        if key == QtCore.Qt.Key_Escape:
-            self.close()
-            login.show()
-
         if event.modifiers() == QtCore.Qt.ControlModifier:
             if key == QtCore.Qt.Key_T:
                 self.ui.readRegValShowText.clear()
@@ -62,7 +58,7 @@ class MainWindow(QMainWindow):
                 self.ui.rawdataShowText.clear()
 
             if key == QtCore.Qt.Key_P:
-                swipe.show()
+                swipeclass.show()
 
             if key == QtCore.Qt.Key_M:
                 thread = Thread(target=self.calcMaxSNR)
@@ -73,22 +69,22 @@ class MainWindow(QMainWindow):
                 thread.run()
 
     def calcMaxSNR(self):
-        times = window.ui.dialogInputWin("Enter collect frames", True)
+        times = windowclass.ui.dialogInputWin("Enter collect frames", True, "default: 20")
         if times == '':
             times = 20
         else:
             times = int(times)
 
-        window.ui.dialogWin("Now collect <b>untouched</b> rdata")
+        windowclass.ui.dialogWin("<b>ESC</b> Close this msg<br/>start collect <b style='color:rgb(255,0,0)'>Noise</b>")
 
         if not self.ui.transRawdataPattern():
             return
 
-        sumN = [0] * window.ui.rxnum * window.ui.txnum
-        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        sumN = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
+        tmp = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
         rawdataNmax = [tmp] * times
 
-        baseDataAvg = [0] * window.ui.rxnum * window.ui.txnum
+        baseDataAvg = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
         baseDataMax = [0] * times
 
         # TODO: enter active mode
@@ -100,15 +96,15 @@ class MainWindow(QMainWindow):
         # TODO: collect no touched rawdata and calculate Noise
         for i in range(times):
             ret = adbtool.shell(self.ui.catDiag, "SHELL")
-            ret = child.ui.analysisRawdata(ret)
-            rawdataNmax[i] = child.ui.userPatternToMutual(ret)
-            sumN = child.ui.sumRawdata(sumN, rawdataNmax[i])
+            ret = childclass.ui.analysisRawdata(ret)
+            rawdataNmax[i] = childclass.ui.userPatternToMutual(ret)
+            sumN = childclass.ui.sumRawdata(sumN, rawdataNmax[i])
 
         # TODO: calculate base data
-        for j in range(window.ui.rxnum * window.ui.txnum):
+        for j in range(windowclass.ui.rxnum * windowclass.ui.txnum):
             baseDataAvg[j] = sumN[j] / times
 
-        for j in range(window.ui.rxnum * window.ui.txnum):
+        for j in range(windowclass.ui.rxnum * windowclass.ui.txnum):
             for i in range(times):
                 rawdataNmax[i][j] = rawdataNmax[i][j] - baseDataAvg[j]
 
@@ -118,18 +114,18 @@ class MainWindow(QMainWindow):
         maxN = max(baseDataMax)
 
         # TODO: collect touched rawdata and calculate Signal
-        window.ui.dialogWin("Now start collect <b>touched</b> rdata")
+        windowclass.ui.dialogWin("ESC Close this msg<br/>start collect <b>Signal</b>")
 
         maxS = [0] * times
-        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        tmp = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
         rawdataS = [tmp] * times
 
         for i in range(times):
             ret = adbtool.shell(self.ui.catDiag, "SHELL")
-            ret = child.ui.analysisRawdata(ret)
-            rawdataS[i] = child.ui.userPatternToMutual(ret)
+            ret = childclass.ui.analysisRawdata(ret)
+            rawdataS[i] = childclass.ui.userPatternToMutual(ret)
 
-        for j in range(window.ui.rxnum * window.ui.txnum):
+        for j in range(windowclass.ui.rxnum * windowclass.ui.txnum):
             for i in range(times):
                 rawdataS[i][j] = rawdataS[i][j] - baseDataAvg[j]
 
@@ -146,25 +142,25 @@ class MainWindow(QMainWindow):
               "Signal:%s<br/>" % str(round(Signal, 2)) + \
               "SNR(ratio):%s<br/>" % str(round(Signal / maxN, 2)) + \
               "SNR(dB):%s<br/>" % str(round(math.log(Signal / maxN, 10) * 20, 2))
-        window.ui.dialogWin(cmd)
+        windowclass.ui.dialogWin(cmd)
 
     def calcAvgSNR(self):
-        times = window.ui.dialogInputWin("Enter collect frames", True)
+        times = windowclass.ui.dialogInputWin("Enter collect frames", True, "default: 20")
         if times == '':
             times = 20
         else:
             times = int(times)
 
-        window.ui.dialogWin("Now collect <b>untouched</b> rdata")
+        windowclass.ui.dialogWin("<b>ESC</b> Close this msg<br/>start collect <b>Noise</b>")
         if not self.ui.transRawdataPattern():
             return
 
-        sumN = [0] * window.ui.rxnum * window.ui.txnum
-        N = [0] * window.ui.rxnum * window.ui.txnum
-        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        sumN = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
+        N = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
+        tmp = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
         rawdataNavg = [tmp] * times
 
-        baseDataAvg = [0] * window.ui.rxnum * window.ui.txnum
+        baseDataAvg = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
 
         # TODO: enter active mode
         adbtool.shell(self.ui.echoWriteRegister % ("10007fd4", "cdcdcdcd"), "SHELL")
@@ -175,35 +171,35 @@ class MainWindow(QMainWindow):
         # TODO: collect no touched rawdata and calculate Noise
         for i in range(times):
             ret = adbtool.shell(self.ui.catDiag, "SHELL")
-            ret = child.ui.analysisRawdata(ret)
-            rawdataNavg[i] = child.ui.userPatternToMutual(ret)
-            sumN = child.ui.sumRawdata(sumN, rawdataNavg[i])
+            ret = childclass.ui.analysisRawdata(ret)
+            rawdataNavg[i] = childclass.ui.userPatternToMutual(ret)
+            sumN = childclass.ui.sumRawdata(sumN, rawdataNavg[i])
 
         # TODO: calculate base data
-        for j in range(window.ui.rxnum * window.ui.txnum):
+        for j in range(windowclass.ui.rxnum * windowclass.ui.txnum):
             baseDataAvg[j] = sumN[j] / times
 
         # TODO: calculate each block data
-        for j in range(window.ui.rxnum * window.ui.txnum):
+        for j in range(windowclass.ui.rxnum * windowclass.ui.txnum):
             for i in range(times):
                 N[j] += (rawdataNavg[i][j] - baseDataAvg[j]) ** 2
             N[j] = math.sqrt(N[j] / times)
 
-        avgN = sum(N) / (window.ui.rxnum * window.ui.txnum)
+        avgN = sum(N) / (windowclass.ui.rxnum * windowclass.ui.txnum)
 
         # TODO: collect touched rawdata and calculate Signal
-        window.ui.dialogWin("Now start collect <b>touched</b> rdata")
+        windowclass.ui.dialogWin("<b>ESC</b> Close this msg<br/>start collect <b>Signal</b>")
 
         maxS = [0] * times
-        tmp = [0] * window.ui.rxnum * window.ui.txnum
+        tmp = [0] * windowclass.ui.rxnum * windowclass.ui.txnum
         rawdataS = [tmp] * times
 
         for i in range(times):
             ret = adbtool.shell(self.ui.catDiag, "SHELL")
-            ret = child.ui.analysisRawdata(ret)
-            rawdataS[i] = child.ui.userPatternToMutual(ret)
+            ret = childclass.ui.analysisRawdata(ret)
+            rawdataS[i] = childclass.ui.userPatternToMutual(ret)
 
-        for j in range(window.ui.rxnum * window.ui.txnum):
+        for j in range(windowclass.ui.rxnum * windowclass.ui.txnum):
             for i in range(times):
                 rawdataS[i][j] = rawdataS[i][j] - baseDataAvg[j]
 
@@ -220,7 +216,7 @@ class MainWindow(QMainWindow):
               "Signal:%s<br/>" % str(round(Signal, 2)) + \
               "SNR(ratio):%s<br/>" % str(round(Signal / avgN, 2)) + \
               "SNR(dB):%s<br/>" % str(round(math.log(Signal / avgN, 10) * 20, 2))
-        window.ui.dialogWin(cmd)
+        windowclass.ui.dialogWin(cmd)
 
 
 class Ui_MainWindow(object):
@@ -617,14 +613,14 @@ class Ui_MainWindow(object):
         self.openClosePoint.setFont(font)
         self.openClosePoint.setStyleSheet("color: rgb(0, 0, 0);")
         self.openClosePoint.setObjectName("openClosePoint")
-        self.opencmd = QtWidgets.QPushButton(self.adbGroupBox)
-        self.opencmd.setGeometry(QtCore.QRect(295, 15, 90, 30))
-        self.opencmd.setMaximumSize(QtCore.QSize(100, 30))
+        self.unlock = QtWidgets.QPushButton(self.adbGroupBox)
+        self.unlock.setGeometry(QtCore.QRect(295, 15, 90, 30))
+        self.unlock.setMaximumSize(QtCore.QSize(100, 30))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.opencmd.setFont(font)
-        self.opencmd.setStyleSheet("color: rgb(0, 0, 0);")
-        self.opencmd.setObjectName("opencmd")
+        self.unlock.setFont(font)
+        self.unlock.setStyleSheet("color: rgb(0, 0, 0);")
+        self.unlock.setObjectName("opencmd")
         self.hideShowVirtual = QtWidgets.QPushButton(self.adbGroupBox)
         self.hideShowVirtual.setGeometry(QtCore.QRect(10, 15, 90, 30))
         self.hideShowVirtual.setMaximumSize(QtCore.QSize(100, 30))
@@ -1055,7 +1051,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.5"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.6"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
         self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
@@ -1104,7 +1100,7 @@ class Ui_MainWindow(object):
         self.powerKey.setText(_translate("MainWindow", "PowerKey"))
         self.screenShot.setText(_translate("MainWindow", "ScreenShot"))
         self.openClosePoint.setText(_translate("MainWindow", "OpenPoint"))
-        self.opencmd.setText(_translate("MainWindow", "Open cmd"))
+        self.unlock.setText(_translate("MainWindow", "Unlock"))
         self.hideShowVirtual.setText(_translate("MainWindow", "ShowVKey"))
         self.shutDown.setText(_translate("MainWindow", "ShutDown"))
         self.screenRecord.setText(_translate("MainWindow", "ScreenRecord"))
@@ -1199,7 +1195,7 @@ class Ui_MainWindow(object):
         self.screenRecord.clicked.connect(self.screenRecordFunc)
         self.shutDown.clicked.connect(self.shutDownFunc)
         self.reboot.clicked.connect(self.rebootFunc)
-        self.opencmd.clicked.connect(self.openCMDFunc)
+        self.unlock.clicked.connect(self.unlockFunc)
 
         # touch
         self.fwVersion.clicked.connect(self.touchFWVersionFunc)
@@ -1249,7 +1245,7 @@ class Ui_MainWindow(object):
         self.wifiConnect.setToolTip("You should connect <b style='color:red'>USB</b> and <b>WIFI</b>,\nthen click this")
         self.showRawdataUI.setToolTip("<h3 style='color:black'>It will check <b style='color:red'>rx and tx num</b>,\nand then show rawdata UI</h3>")
         self.settingRemove.setToolTip("<b style='color:blue'>Delete project what you selected</b>")
-        self.opencmd.setToolTip('<b>Open windows cmd.exe</b>')
+        self.unlock.setToolTip('<b>Unlock screen</b>')
         self.screenShot.setToolTip("The picture will be saved\nin this monitor.exe's path")
         self.G1AddrlineEdit.setToolTip("<b style='color:blue'>B90009:</b><br/>B9:ddregister<br/>00:bank<br/>0A:length")
 
@@ -1540,7 +1536,7 @@ class Ui_MainWindow(object):
                 return
 
         # TODO:need show sub window to let user enter project name
-        name = self.dialogInputWin("Please enter project name", False)
+        name = self.dialogInputWin("Please enter project name", False, "")
         if name == '':
             return
 
@@ -1623,7 +1619,7 @@ class Ui_MainWindow(object):
         for i in range(len(tmp1)):
             tmp1[i] = 128 * tmp1[i] / avg
             tmp1[i] = round(tmp1[i])
-            if (i + 1) % window.ui.transTX == 0:
+            if (i + 1) % (windowclass.ui.transTX - 2) == 0:
                 ret += str(tmp1[i]) + ',' + '\n'
             else:
                 ret += str(tmp1[i]) + ','
@@ -1736,7 +1732,7 @@ class Ui_MainWindow(object):
         self.dialog.setWindowTitle(_translate("Dialog", "Message"))
         self.dialog.exec_()
 
-    def dialogInputWin(self, title, numFlag):
+    def dialogInputWin(self, title, numFlag, hint):
         self.dialog = QDialog()
         self.dialog.resize(300, 115)
         self.dialog.setMaximumSize(QtCore.QSize(300, 100))
@@ -1747,6 +1743,7 @@ class Ui_MainWindow(object):
         self.buttonBoxTmp.setObjectName("buttonBoxTmp")
         self.inputName = QtWidgets.QLineEdit(self.dialog)
         self.inputName.setGeometry(QtCore.QRect(5, 11, 290, 40))
+        self.inputName.setPlaceholderText(hint)
         font = QtGui.QFont()
         font.setPointSize(16)
         self.inputName.setFont(font)
@@ -2304,11 +2301,11 @@ class Ui_MainWindow(object):
     def transRawdataPattern(self):
         # check rx and tx num is or not match
         self.commonFlag = True
-        adbtool.shell(window.ui.echoDiag % '1', "SHELL")
-        ret = adbtool.shell(window.ui.catDiag, "SHELL")
+        adbtool.shell(windowclass.ui.echoDiag % '1', "SHELL")
+        ret = adbtool.shell(windowclass.ui.catDiag, "SHELL")
         # check device connect status
         if ret == '' or ret.find('error') != -1 or ret.find('ChannelStart') == -1:
-            window.ui.dialogWin("Not found devices")
+            windowclass.ui.dialogWin("Not found devices")
             return False
 
         # check the rawdata pattern is common or custom
@@ -2320,25 +2317,26 @@ class Ui_MainWindow(object):
         # check rx tx
         rx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[0]
         tx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[1]
-        if int(rx) != window.ui.rxnum:
-            window.ui.dialogWin("Project rx/tx num wrong")
+        if int(rx) != windowclass.ui.rxnum:
+            windowclass.ui.dialogWin("Project rx/tx num wrong")
             return False
 
         rawdata = ret[ret.find('\n')+2:ret.find('ChannelEnd')]
         rawdata = rawdata[:rawdata.find('\n')].split()
+        print(rawdata)
 
         if self.commonFlag:
             self.transTX = len(rawdata) + 1
-            if (self.transTX - 2) == window.ui.txnum:
-                self.transRX = window.ui.rxnum + 2
+            if (self.transTX - 2) == windowclass.ui.txnum:
+                self.transRX = windowclass.ui.rxnum + 2
             else:
-                self.transRX = window.ui.txnum + 2
+                self.transRX = windowclass.ui.txnum + 2
         else:
             self.transTX = len(rawdata)
-            if (self.transTX - 1) == window.ui.txnum:
-                self.transRX = window.ui.rxnum + 1
+            if (self.transTX - 1) == windowclass.ui.txnum:
+                self.transRX = windowclass.ui.rxnum + 1
             else:
-                self.transRX = window.ui.txnum + 1
+                self.transRX = windowclass.ui.txnum + 1
 
         return True
 
@@ -2347,12 +2345,12 @@ class Ui_MainWindow(object):
         if not self.transRawdataPattern():
             return
 
-        child.ui.mainwindow.resize(self.transTX * window.rawdataWidth,
-                                   self.transRX * window.rawdataHeight + 45)
-        child.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, window.rawdataWidth * self.transTX,
-                                                                     window.rawdataHeight * self.transRX))
-        child.ui.initRawdataUI(self.transRX, self.transTX)
-        child.show()
+        childclass.ui.mainwindow.resize(self.transTX * windowclass.rawdataWidth,
+                                        self.transRX * windowclass.rawdataHeight + 45)
+        childclass.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, windowclass.rawdataWidth * self.transTX,
+                                                                          windowclass.rawdataHeight * self.transRX))
+        childclass.ui.initRawdataUI(self.transRX, self.transTX)
+        childclass.show()
         self.disableFunctions(True)
 
     # TODO: disable some functions when show rawdata UI
@@ -2420,8 +2418,10 @@ class Ui_MainWindow(object):
         if fw_path == "":
             self.rawdataShowText.append("please choose fw file!")
             return
-        ret = adbtool.shell("adb push '%s' " % fw_path + self.fwPath)
+        self.rawdataShowText.append('adb push "%s" "%s"' % (fw_path, self.fwPath))
+        ret = adbtool.shell('adb push "%s %s"' % (fw_path, self.fwPath))
         self.rawdataShowText.append(ret)
+        self.rawdataShowText.append('adb shell "' + "echo t Himax_firmware.bin > " + self.debugPath + '"')
         ret = adbtool.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
         self.rawdataShowText.append(ret)
 
@@ -2633,7 +2633,6 @@ class Ui_MainWindow(object):
 
     def powerKeyFunc(self):
         adbtool.shell(None, "KEYEVENT", 26)
-        adbtool.shell(None, "KEYEVENT", 82)
 
     def openClosePointFunc(self):
         if self.openClosePoint.text() == 'OpenPoint':
@@ -2671,7 +2670,7 @@ class Ui_MainWindow(object):
 
     def screenRecordFunc(self):
         if self.screenRecord.text() == 'ScreenRecord':
-            recordTime = self.dialogInputWin("Please enter time", True)
+            recordTime = self.dialogInputWin("Please enter time", True, "< 180 seconds")
             if recordTime == '' or int(recordTime) > 180:
                 self.dialogWin("time was not right")
                 return
@@ -2720,9 +2719,8 @@ class Ui_MainWindow(object):
     def rebootFunc(self):
         adbtool.shell("adb reboot")
 
-    def openCMDFunc(self):
-        cmd = "C:\Windows\System32\cmd.exe"
-        os.startfile(cmd)
+    def unlockFunc(self):
+        adbtool.shell(None, "KEYEVENT", 82)
 
     def backlight(self):
         if self.openBlight.text() == 'OpenBlight':
@@ -2753,23 +2751,23 @@ class RawdataWindow(QMainWindow):
         if event.modifiers() == QtCore.Qt.ControlModifier:
             if key == QtCore.Qt.Key_C:
                 ret = ''
-                for i in range(window.ui.transRX):
-                    for j in range(window.ui.transTX):
+                for i in range(windowclass.ui.transRX):
+                    for j in range(windowclass.ui.transTX):
                         try:
                             ret += '\t' + self.ui.MainRawdataShowtableWidget.item(i, j).text() + ','
                         except:
-                            window.ui.dialogWin("unexcept wrong")
+                            windowclass.ui.dialogWin("unexcept wrong")
                             return
                     ret += '\n'
                 pyperclip.copy(ret)
                 pyperclip.paste()
-                window.ui.dialogWin("Copy ok")
+                windowclass.ui.dialogWin("Copy ok")
 
             if key == QtCore.Qt.Key_S:
                 ret = self.ui.origRawdata
                 pyperclip.copy(ret)
                 pyperclip.paste()
-                window.ui.dialogWin("Copy orig ok")
+                windowclass.ui.dialogWin("Copy orig ok")
 
             if key == QtCore.Qt.Key_M:
                 self.ui.keepMax = True
@@ -2785,8 +2783,8 @@ class RawdataWindow(QMainWindow):
                 self.ui.keepFlag = False
 
     def closeEvent(self, *args, **kwargs):
-        window.ui.disableFunctions(False)
-        child.ui.rawdataReadFunc(True)
+        windowclass.ui.disableFunctions(False)
+        childclass.ui.rawdataReadFunc(True)
 
 
 class Ui_RawdataWindow(object):
@@ -2938,10 +2936,10 @@ class Ui_RawdataWindow(object):
         self.removeVRTable.clicked.connect(self.removeVRTableFunc)
 
     def removeVRTableFunc(self):
-        window.ui.dialogSelectFilesWin('./log/', 'Remove', True)
+        windowclass.ui.dialogSelectFilesWin('./log/', 'Remove', True)
 
     def calcVRTable(self):
-        window.ui.dialogSelectFilesWin('./log', 'Get VR Table', False)
+        windowclass.ui.dialogSelectFilesWin('./log', 'Get VR Table', False)
 
     def hintMsg(self):
         self.textEditDiag.setToolTip("Sram:11 or 12\nStack:1 or 2")
@@ -2956,16 +2954,16 @@ class Ui_RawdataWindow(object):
     def calcAverageFunc(self):
         times = self.frameTimes.text()
         if times == '' or int(times) > 200:
-            window.ui.dialogWin("Frame num was not right")
+            windowclass.ui.dialogWin("Frame num was not right")
             return
 
         path = 'log\\'
         if not os.path.exists(path):
             os.mkdir(path)
 
-        value = window.ui.dialogInputWin("Enter name include 'max/min'", False)
+        value = windowclass.ui.dialogInputWin("Enter name include 'max/min'", False, "name include max or min")
         if value == '' or (value.find('max') == -1 and value.find('min') == -1):
-            window.ui.dialogWin("You need set name\ninclude 'max' or 'min'")
+            windowclass.ui.dialogWin("You need set name\ninclude 'max' or 'min'")
             return
 
         self.calcAverage.setDisabled(True)
@@ -2976,25 +2974,22 @@ class Ui_RawdataWindow(object):
 
     def calcAverageFuncThread(self, times, value, path):
         beforeRawdata = []
-        rawdata = []
-        adbtool.shell(window.ui.echoDiag % '2', "SHELL")
-        adbtool.shell(window.ui.catDiag, "SHELL")
+        # rawdata = []
+        adbtool.shell(windowclass.ui.echoDiag % '2', "SHELL")
+        adbtool.shell(windowclass.ui.catDiag, "SHELL")
         name = time.strftime("avg_%Y%m%d_%H-%M-%S_", time.localtime()) + value + ".txt"
         file = open(path + name, 'a+')
 
+        adbtool.shell(windowclass.ui.echoWriteRegister % ("10007fd4", "cdcdcdcd"), "SHELL")
+
         for k in range(int(times)):
-            ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            ret = adbtool.shell(windowclass.ui.catDiag, "SHELL")
             tmpRawdata = self.analysisRawdata(ret)
             if tmpRawdata == '':
-                window.ui.dialogWin("data wrong")
+                windowclass.ui.dialogWin("data wrong")
                 return
 
-            for i in range(window.ui.transRX + 2):
-                for j in range(window.ui.transTX + 2):
-                    if i == 0 or i == window.ui.transRX + 1 or j == 0 or j == window.ui.transTX + 1:
-                        continue
-                    else:
-                        rawdata.append(int(tmpRawdata[i*(window.ui.transTX + 2) + j]))
+            rawdata = self.userPatternToMutual(tmpRawdata)
 
             if k == 0:
                 beforeRawdata = rawdata
@@ -3005,7 +3000,7 @@ class Ui_RawdataWindow(object):
             # write every rawdata to file
             strRawdata = ''
             for l in range(len(rawdata)):
-                if (l + 1) % window.ui.transTX == 0:
+                if (l + 1) % (windowclass.ui.transTX - 2) == 0:
                     strRawdata += str(rawdata[l]) + '\n'
                 else:
                     strRawdata += str(rawdata[l]) + ' '
@@ -3018,13 +3013,15 @@ class Ui_RawdataWindow(object):
         strRawdata = ''
         for n in range(len(beforeRawdata)):
             beforeRawdata[n] = beforeRawdata[n]//int(times)
-            if (n + 1) % window.ui.transTX == 0:
+            if (n + 1) % (windowclass.ui.transTX - 2) == 0:
                 strRawdata += str(beforeRawdata[n]) + '\n'
             else:
                 strRawdata += str(beforeRawdata[n]) + ' '
 
         file.write("%s AVERAGE VALUE:\n" % value + strRawdata)
         file.close()
+
+        adbtool.shell(windowclass.ui.echoWriteRegister % ("10007fd4", "00000000"), "SHELL")
         self.calcAverage.setDisabled(False)
         self.calcAverage.setText("VRCollect")
         self.calcAverage.setStyleSheet("color:rgb(0, 0, 0)")
@@ -3037,15 +3034,15 @@ class Ui_RawdataWindow(object):
         self.keepMax = False
         self.keepMin = False
         if self.radioDC.isChecked():
-            adbtool.shell(window.ui.echoDiag % '2', "SHELL")
+            adbtool.shell(windowclass.ui.echoDiag % '2', "SHELL")
 
         elif self.radioIIR.isChecked():
-            adbtool.shell(window.ui.echoDiag % '1', "SHELL")
+            adbtool.shell(windowclass.ui.echoDiag % '1', "SHELL")
         elif self.radioTmp.isChecked():
             type = self.textEditDiag.text()
             if type == '':
                 return False
-            adbtool.shell(window.ui.echoDiag % type, "SHELL")
+            adbtool.shell(windowclass.ui.echoDiag % type, "SHELL")
         else:
             return False
         return True
@@ -3054,7 +3051,7 @@ class Ui_RawdataWindow(object):
         # choose rawdata type
         if not reset:
             if not self.chooseRawdataType():
-                window.ui.dialogWin("Please set type")
+                windowclass.ui.dialogWin("Please set type")
                 return
 
         if reset:
@@ -3068,9 +3065,9 @@ class Ui_RawdataWindow(object):
             self.rawdataRead.setIconSize(QtCore.QSize(39, 39))
 
             # init first data
-            ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            ret = adbtool.shell(windowclass.ui.catDiag, "SHELL")
             data = self.analysisRawdata(ret)
-            if data == '' or len(data) != window.ui.transTX * window.ui.transRX:
+            if data == '' or len(data) != windowclass.ui.transTX * windowclass.ui.transRX:
                 print("error")
                 return
             self.keepRawdata = self.getFirstFrameRawdata(data)
@@ -3087,14 +3084,14 @@ class Ui_RawdataWindow(object):
 
             self.showRawdataFlag = 0
 
-            adbtool.shell(window.ui.echoDiag % '0', "SHELL")
+            adbtool.shell(windowclass.ui.echoDiag % '0', "SHELL")
 
     def showRawdata(self):
         self.showRawdataFlag = 1
-        length = window.ui.transTX * window.ui.transRX
+        length = windowclass.ui.transTX * windowclass.ui.transRX
 
         while self.showRawdataFlag:
-            ret = adbtool.shell(window.ui.catDiag, "SHELL")
+            ret = adbtool.shell(windowclass.ui.catDiag, "SHELL")
             self.origRawdata = ret
             data = self.analysisRawdata(ret)
             if data == '' or len(data) != length:
@@ -3119,101 +3116,102 @@ class Ui_RawdataWindow(object):
         if index != -1: # common driver
             rawdata = rawdata[index:index1]
             rawdata = rawdata.split()
-            rawdata.insert(window.ui.transTX - 1, '0')
-            rawdata.insert(window.ui.transTX * (window.ui.transRX - 1), '0')
-            rawdata.insert(window.ui.transTX * window.ui.transRX, '0')
+            rawdata.insert(windowclass.ui.transTX - 1, '0')
+            rawdata.insert(windowclass.ui.transTX * (windowclass.ui.transRX - 1), '0')
+            rawdata.insert(windowclass.ui.transTX * windowclass.ui.transRX, '0')
         else:
             rawdata = rawdata[index00:index1]
             rawdata = rawdata.split()
-            rawdata.insert(window.ui.transTX * window.ui.transRX, '0')
+            rawdata.insert(windowclass.ui.transTX * windowclass.ui.transRX, '0')
 
         return rawdata
 
     def getFirstFrameRawdata(self, rawdata):
-        for i in range(window.ui.transRX):
-            for j in range(window.ui.transTX):
-                if i == 0 or j == 0 or (j == window.ui.transTX-1 and i == window.ui.transRX-1):
+        for i in range(windowclass.ui.transRX):
+            for j in range(windowclass.ui.transTX):
+                if i == 0 or j == 0 or (j == windowclass.ui.transTX - 1 and i == windowclass.ui.transRX - 1):
                     pass
                 else:
-                    rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                    rawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
         return rawdata
 
     def sumRawdata(self, sum, rawdata):
-        for i in range(window.ui.rxnum):
-            for j in range(window.ui.txnum):
-                sum[i * window.ui.txnum + j] += rawdata[i * window.ui.txnum + j]
+        for i in range(windowclass.ui.rxnum):
+            for j in range(windowclass.ui.txnum):
+                sum[i * windowclass.ui.txnum + j] += rawdata[i * windowclass.ui.txnum + j]
         return sum
 
     def userPatternToMutual(self, rawdata):
-        if window.ui.commonFlag:
-            ret = [None] * window.ui.rxnum * window.ui.txnum
+        if windowclass.ui.commonFlag:
+            ret = [None] * windowclass.ui.rxnum * windowclass.ui.txnum
             k = 0
-            for i in range(window.ui.transRX):
-                for j in range(window.ui.transTX):
-                    if i == 0 or j == 0 or i == window.ui.transRX - 1 or j == window.ui.transTX - 1:
+            for i in range(windowclass.ui.transRX):
+                for j in range(windowclass.ui.transTX):
+                    if i == 0 or j == 0 or i == windowclass.ui.transRX - 1 or j == windowclass.ui.transTX - 1:
                         pass
                     else:
-                        ret[k] = int(rawdata[i * window.ui.transTX + j])
+                        ret[k] = int(rawdata[i * windowclass.ui.transTX + j])
                         k = k + 1
             return ret
         else:
-            pass
+            return ''
 
     def keepMaxOrMinRawdata(self, rawdata):
         # char to int
-        for i in range(window.ui.transRX):
-            for j in range(window.ui.transTX):
-                if window.ui.commonFlag:
-                    if i == 0 or j == 0 or (j == window.ui.transTX - 1 and i == window.ui.transRX - 1):
+        for i in range(windowclass.ui.transRX):
+            for j in range(windowclass.ui.transTX):
+                if windowclass.ui.commonFlag:
+                    if i == 0 or j == 0 or (j == windowclass.ui.transTX - 1 and i == windowclass.ui.transRX - 1):
                         pass
                     else:
-                        rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                        rawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
                         if self.keepMax:
-                            if int(rawdata[i * window.ui.transTX + j]) > int(self.keepRawdata[i * window.ui.transTX + j]):
-                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                            if int(rawdata[i * windowclass.ui.transTX + j]) > int(self.keepRawdata[i * windowclass.ui.transTX + j]):
+                                self.keepRawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
                         else:
-                            if int(rawdata[i * window.ui.transTX + j]) < int(self.keepRawdata[i * window.ui.transTX + j]):
-                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                            if int(rawdata[i * windowclass.ui.transTX + j]) < int(self.keepRawdata[i * windowclass.ui.transTX + j]):
+                                self.keepRawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
                 else:
-                    if j == window.ui.transTX - 1 and i == window.ui.transRX - 1:
+                    if j == windowclass.ui.transTX - 1 and i == windowclass.ui.transRX - 1:
                         pass
                     else:
-                        rawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                        rawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
                         if self.keepMax:
-                            if int(rawdata[i * window.ui.transTX + j]) > int(self.keepRawdata[i * window.ui.transTX + j]):
-                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                            if int(rawdata[i * windowclass.ui.transTX + j]) > int(self.keepRawdata[i * windowclass.ui.transTX + j]):
+                                self.keepRawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
                         else:
-                            if int(rawdata[i * window.ui.transTX + j]) < int(self.keepRawdata[i * window.ui.transTX + j]):
-                                self.keepRawdata[i * window.ui.transTX + j] = int(rawdata[i * window.ui.transTX + j])
+                            if int(rawdata[i * windowclass.ui.transTX + j]) < int(self.keepRawdata[i * windowclass.ui.transTX + j]):
+                                self.keepRawdata[i * windowclass.ui.transTX + j] = int(rawdata[i * windowclass.ui.transTX + j])
         return self.keepRawdata
 
     def transMaxOrMinRawdata(self, rawdata):
-        for i in range(window.ui.transRX):
-            for j in range(window.ui.transTX):
-                if window.ui.commonFlag:
-                    if i == 0 or j == 0 or (j == window.ui.transTX - 1 and i == window.ui.transRX - 1):
+        for i in range(windowclass.ui.transRX):
+            for j in range(windowclass.ui.transTX):
+                if windowclass.ui.commonFlag:
+                    if i == 0 or j == 0 or (j == windowclass.ui.transTX - 1 and i == windowclass.ui.transRX - 1):
                         pass
                     else:
-                        rawdata[i * window.ui.transTX + j] = str(rawdata[i * window.ui.transTX + j])
+                        rawdata[i * windowclass.ui.transTX + j] = str(rawdata[i * windowclass.ui.transTX + j])
                 else:
-                    if j == window.ui.transTX - 1 and i == window.ui.transRX - 1:
+                    if j == windowclass.ui.transTX - 1 and i == windowclass.ui.transRX - 1:
                         pass
                     else:
-                        rawdata[i * window.ui.transTX + j] = str(rawdata[i * window.ui.transTX + j])
+                        rawdata[i * windowclass.ui.transTX + j] = str(rawdata[i * windowclass.ui.transTX + j])
         return rawdata
 
     def fillRawdataToTable(self, rawdata):
-        for i in range(window.ui.transRX):
-            for j in range(window.ui.transTX):
-                a = QTableWidgetItem(rawdata[i * window.ui.transTX + j])
+        for i in range(windowclass.ui.transRX):
+            for j in range(windowclass.ui.transTX):
+                a = QTableWidgetItem(rawdata[i * windowclass.ui.transTX + j])
                 self.MainRawdataShowtableWidget.setItem(i, j, a)
+                self.MainRawdataShowtableWidget.item(i, j).setTextAlignment(QtCore.Qt.AlignRight)
 
     def logThread(self, Times):
         self.keepFlag = True
         name = time.strftime("/sdcard/%Y%m%d_%H_%M_%S", time.localtime()) + ".txt"
 
-        cmd = "(i=1;times=" + Times + ";while [ $i -le $times ];do echo ;echo Times:$i;"\
-              + window.ui.catDiag\
+        cmd = "(i=1;times=" + Times + ";while [ $i -le $times ];do echo ;echo Times:$i;" \
+              + windowclass.ui.catDiag \
               + ";i=$(( $i + 1 ));done;) > " + name
         print(cmd)
         adbtool.shell(cmd, "SHELL")
@@ -3224,9 +3222,17 @@ class Ui_RawdataWindow(object):
         self.log.setStyleSheet("color: rgb(0, 0, 0)")
 
     def logFunc(self):
+        if self.showRawdataFlag:
+            windowclass.ui.dialogWin("You need stop read rawdata")
+            return
+
         Times = self.logTimesBtn.text()
         if Times == '' or int(Times) > 2000:
-            window.ui.dialogWin("Please set num and < 2000")
+            windowclass.ui.dialogWin("Please set num and < 2000")
+            return
+
+        if not self.chooseRawdataType():
+            windowclass.ui.dialogWin("Please set type")
             return
 
         self.log.setDisabled(True)
@@ -3261,9 +3267,9 @@ class Ui_RawdataWindow(object):
         self.MainRawdataShowtableWidget.setFont(font)
 
         for i in range(tx):
-            self.MainRawdataShowtableWidget.setColumnWidth(i, window.rawdataWidth)
+            self.MainRawdataShowtableWidget.setColumnWidth(i, windowclass.rawdataWidth)
         for i in range(rx):
-            self.MainRawdataShowtableWidget.setRowHeight(i, window.rawdataHeight)
+            self.MainRawdataShowtableWidget.setRowHeight(i, windowclass.rawdataHeight)
 
     def setRegExp(self):
         # rawdata type, time
@@ -3309,7 +3315,7 @@ class SwipeWindow(QMainWindow):
                           "sendevent /dev/input/%s 0 0 0;" % self.event, "SHELL")
 
         if event.buttons() == QtCore.Qt.RightButton:
-            info = window.ui.dialogInputWin("Enter event?", False)
+            info = windowclass.ui.dialogInputWin("Enter event?", False, "event2_720_1080")
             info = info.split('_')
             if len(info) != 3:
                 return
@@ -3319,8 +3325,8 @@ class SwipeWindow(QMainWindow):
 
     def mouseMoveEvent(self, event):
         if event.buttons() and QtCore.Qt.LeftButton:
-            adbtool.shell("sendevent /dev/input/%s 3 53 %d;" % (self.event, math.ceil(1080*event.pos().x()/400)) +
-                          "sendevent /dev/input/%s 3 54 %d;" % (self.event, math.ceil(2520*event.pos().y()/600)) +
+            adbtool.shell("sendevent /dev/input/%s 3 53 %d;" % (self.event, math.ceil(self.resx*event.pos().x()/400)) +
+                          "sendevent /dev/input/%s 3 54 %d;" % (self.event, math.ceil(self.resy*event.pos().y()/600)) +
                           "sendevent /dev/input/%s 0 0 0;" % self.event, "SHELL")
 
     def mouseReleaseEvent(self, event):
@@ -3338,10 +3344,10 @@ class Ui_SwipeWindow(object):
         MainWindow.setObjectName("MainWindow")
         # MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         MainWindow.resize(400, 600)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
+        centralwidget = QtWidgets.QWidget(MainWindow)
+        centralwidget.setObjectName("centralwidget")
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        MainWindow.setCentralWidget(centralwidget)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -3355,15 +3361,12 @@ class LoginWindow(QMainWindow):
         super(LoginWindow, self).__init__()
         self.login = Ui_LoginWindow()
         self.login.initUI(self)
-        self.login.centralwidget.setMouseTracking(True)
-        self.enterTimes = 1
 
     def keyPressEvent(self, event):
         key = event.key()
 
         if key == QtCore.Qt.Key_Enter or key == 16777220:
             self.login.loginFunc()
-            self.enterTimes += 1
 
         if key == QtCore.Qt.Key_Escape:
             self.close()
@@ -3371,7 +3374,7 @@ class LoginWindow(QMainWindow):
         if event.modifiers() == QtCore.Qt.ControlModifier | QtCore.Qt.ShiftModifier:
             if key == QtCore.Qt.Key_L:
                 login.close()
-                window.show()
+                windowclass.show()
 
 
 class Ui_LoginWindow(object):
@@ -3392,10 +3395,10 @@ class Ui_LoginWindow(object):
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.5</b>")
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.6</b>")
         self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc</a>")
         self.loginPwd.setText("PWD:")
-        self.status.setText("<a style='color:rgb(0, 0, 130)'>Input pwd, then click <b>Enter</b> or Esc exit!</a>")
+        self.status.setText("<a style='color:rgb(0, 0, 130)'>Input, then click <b>Enter</b> or Esc exit!</a>")
         self.ps.setText("Welcome! support v1/v2/oppo but old")
         self.girdLayout.addWidget(self.titleLabel, 0, 1)
         self.girdLayout.addWidget(self.empty, 1, 1)
@@ -3419,29 +3422,24 @@ class Ui_LoginWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Login"))
 
     def loginFunc(self):
-        pwdTime = time.strftime("%Y%m%d", time.localtime())[2:]
+        pwdTime = time.strftime("%Y%m%d", time.localtime())[4:]
         pwd = self.loginPwdLineEdit.text()
         if pwd == 'himax':
             login.close()
-            window.ui.TabMainWindow.removeTab(2)
-            window.ui.TabMainWindow.removeTab(2)
-            window.ui.TabMainWindow.removeTab(2)
-            child.ui.log.hide()
-            child.ui.calcAverage.hide()
-            child.ui.frameTimes.hide()
-            child.ui.vrTable.hide()
-            child.ui.removeVRTable.hide()
-            window.show()
-        elif pwd == 'himax' + pwdTime:
+            windowclass.ui.TabMainWindow.removeTab(2)
+            windowclass.ui.TabMainWindow.removeTab(2)
+            windowclass.ui.TabMainWindow.removeTab(2)
+            childclass.ui.log.hide()
+            childclass.ui.calcAverage.hide()
+            childclass.ui.frameTimes.hide()
+            childclass.ui.vrTable.hide()
+            childclass.ui.removeVRTable.hide()
+            windowclass.show()
+        elif pwd == 'hx' + pwdTime:
             login.close()
-            window.show()
+            windowclass.show()
         else:
-            if 5 > login.enterTimes > 2:
-                self.status.setText("Congratulations! You have a bad memory!")
-            elif login.enterTimes >= 5:
-                self.status.setText("Badly!")
-            else:
-                self.status.setText("Pwd was wrong!")
+            self.status.setText("Wrong!")
             self.loginPwdLineEdit.clear()
             self.status.setStyleSheet("color:rgb(255, 0, 0)")
 
@@ -3450,7 +3448,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     login = LoginWindow()
     login.show()
-    window = MainWindow()
-    child = RawdataWindow()
-    swipe = SwipeWindow()
+    windowclass = MainWindow()
+    childclass = RawdataWindow()
+    swipeclass = SwipeWindow()
     sys.exit(app.exec_())
