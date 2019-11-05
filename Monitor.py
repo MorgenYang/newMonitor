@@ -10,6 +10,7 @@ import os
 import re
 import pyperclip
 import math
+import subprocess
 
 
 class MainWindow(QMainWindow):
@@ -67,6 +68,9 @@ class MainWindow(QMainWindow):
             if key == QtCore.Qt.Key_S:
                 thread = Thread(target=self.calcAvgSNR)
                 thread.run()
+
+            if key == QtCore.Qt.Key_E:
+                testclass.show()
 
     def calcMaxSNR(self):
         times = windowclass.ui.dialogInputWin("Enter collect frames", True, "default: 20")
@@ -1051,7 +1055,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.6"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.7"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
         self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
@@ -3395,7 +3399,7 @@ class Ui_LoginWindow(object):
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.6</b>")
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.7</b>")
         self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc</a>")
         self.loginPwd.setText("PWD:")
         self.status.setText("<a style='color:rgb(0, 0, 130)'>Input, then click <b>Enter</b> or Esc exit!</a>")
@@ -3444,6 +3448,215 @@ class Ui_LoginWindow(object):
             self.status.setStyleSheet("color:rgb(255, 0, 0)")
 
 
+class TestWindow(QMainWindow):
+    def __init__(self):
+        super(TestWindow, self).__init__()
+        self.test = Ui_TestWindow()
+        self.test.initUI(self)
+        self.test.bindEvent()
+        self.test.setRegExp()
+
+
+class Ui_TestWindow(object):
+    def initUI(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(250, 300)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.girdLayout = QtWidgets.QGridLayout()
+
+        font = QtGui.QFont()
+        font.setPointSize(10)
+
+        self.item1 = QtWidgets.QLabel()
+        self.item1.setText("Input dev register check")
+        self.item1.setFont(font)
+        self.item2 = QtWidgets.QLabel()
+        self.item2.setText("Debug file node check")
+        self.item2.setFont(font)
+        self.item3 = QtWidgets.QLabel()
+        self.item3.setText("Raw data out Test check")
+        self.item3.setFont(font)
+        self.item4 = QtWidgets.QLabel()
+        self.item4.setText("Inspection Test check")
+        self.item4.setFont(font)
+        self.item5 = QtWidgets.QLabel()
+        self.item5.setText("FW upgrade Test check")
+        self.item5.setFont(font)
+        self.item6 = QtWidgets.QLabel()
+        self.item6.setText("Suspend Resume Test check")
+        self.item6.setFont(font)
+        self.item7 = QtWidgets.QLabel()
+        self.item7.setText("Reboot Test check")
+        self.item7.setFont(font)
+
+        self.item1_box = QtWidgets.QCheckBox()
+        self.item2_box = QtWidgets.QCheckBox()
+        self.item3_box = QtWidgets.QCheckBox()
+        self.item4_box = QtWidgets.QCheckBox()
+        self.item5_box = QtWidgets.QCheckBox()
+        self.item6_box = QtWidgets.QCheckBox()
+        self.item7_box = QtWidgets.QCheckBox()
+
+        self.runbtn = QtWidgets.QPushButton()
+        self.runbtn.setText('Run')
+
+        self.item4_input = QtWidgets.QLineEdit()
+        self.item4_input.setPlaceholderText('Times')
+        self.item4_input.setFixedWidth(50)
+        self.item4_input.setDisabled(True)
+        self.item5_input = QtWidgets.QLineEdit()
+        self.item5_input.setPlaceholderText('Times')
+        self.item5_input.setFixedWidth(50)
+        self.item5_input.setDisabled(True)
+        self.item6_input = QtWidgets.QLineEdit()
+        self.item6_input.setPlaceholderText('Times')
+        self.item6_input.setFixedWidth(50)
+        self.item6_input.setDisabled(True)
+        self.item7_input = QtWidgets.QLineEdit()
+        self.item7_input.setPlaceholderText('Times')
+        self.item7_input.setFixedWidth(50)
+        self.item7_input.setDisabled(True)
+
+        self.girdLayout.addWidget(self.item1_box, 1, 0)
+        self.girdLayout.addWidget(self.item2_box, 2, 0)
+        self.girdLayout.addWidget(self.item3_box, 3, 0)
+        self.girdLayout.addWidget(self.item4_box, 4, 0)
+        self.girdLayout.addWidget(self.item5_box, 5, 0)
+        self.girdLayout.addWidget(self.item6_box, 6, 0)
+        self.girdLayout.addWidget(self.item7_box, 7, 0)
+        self.girdLayout.addWidget(self.item1, 1, 1)
+        self.girdLayout.addWidget(self.item2, 2, 1)
+        self.girdLayout.addWidget(self.item3, 3, 1)
+        self.girdLayout.addWidget(self.item4, 4, 1)
+        self.girdLayout.addWidget(self.item5, 5, 1)
+        self.girdLayout.addWidget(self.item6, 6, 1)
+        self.girdLayout.addWidget(self.item7, 7, 1)
+        self.girdLayout.addWidget(self.item4_input, 4, 2)
+        self.girdLayout.addWidget(self.item5_input, 5, 2)
+        self.girdLayout.addWidget(self.item6_input, 6, 2)
+        self.girdLayout.addWidget(self.item7_input, 7, 2)
+        self.girdLayout.addWidget(self.runbtn, 9, 1)
+
+        self.girdLayout.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.centralwidget.setLayout(self.girdLayout)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Test"))
+
+    def bindEvent(self):
+        self.runbtn.clicked.connect(self.runThread)
+        self.item4_box.clicked.connect(lambda: self.boxSelect(4))
+        self.item5_box.clicked.connect(lambda: self.boxSelect(5))
+        self.item6_box.clicked.connect(lambda: self.boxSelect(6))
+        self.item7_box.clicked.connect(lambda: self.boxSelect(7))
+
+    def boxSelect(self, n):
+        if n == 4:
+            if self.item4_box.isChecked():
+                self.item4_input.setDisabled(False)
+            else:
+                self.item4_input.setDisabled(True)
+        elif n == 5:
+            if self.item5_box.isChecked():
+                self.item5_input.setDisabled(False)
+            else:
+                self.item5_input.setDisabled(True)
+        elif n == 6:
+            if self.item6_box.isChecked():
+                self.item6_input.setDisabled(False)
+            else:
+                self.item6_input.setDisabled(True)
+        else:
+            if self.item7_box.isChecked():
+                self.item7_input.setDisabled(False)
+            else:
+                self.item7_input.setDisabled(True)
+
+    def setRegExp(self):
+        reg = QRegExp('[1-9][0-9]{3}')
+        pValidator = QRegExpValidator()
+        pValidator.setRegExp(reg)
+
+        self.item4_input.setValidator(pValidator)
+        self.item5_input.setValidator(pValidator)
+        self.item6_input.setValidator(pValidator)
+        self.item7_input.setValidator(pValidator)
+
+    def runThread(self):
+        t1 = ''
+        t2 = ''
+        t3 = ''
+        t4 = ''
+        t4_times = '1'
+        t5 = ''
+        t5_times = '1'
+        t6 = ''
+        t6_times = '1'
+        t7 = ''
+        t7_times = '1'
+
+        filename = windowclass.ui.settingsProComboBox.currentText()
+        print(filename)
+
+        if self.item1_box.isChecked():
+            t1 = 'y'
+        else:
+            t1 = 'n'
+        if self.item2_box.isChecked():
+            t2 = 'y'
+        else:
+            t2 = 'n'
+        if self.item3_box.isChecked():
+            t3 = 'y'
+        else:
+            t3 = 'n'
+        if self.item4_box.isChecked():
+            t4 = 'y'
+            if self.item4_input.text() != '':
+                t4_times = self.item4_input.text()
+        else:
+            t4 = 'n'
+        if self.item5_box.isChecked():
+            t5 = 'y'
+            if self.item5_input.text() != '':
+                t5_times = self.item5_input.text()
+        else:
+            t5 = 'n'
+        if self.item6_box.isChecked():
+            t6 = 'y'
+            if self.item6_input.text() != '':
+                t6_times = self.item6_input.text()
+        else:
+            t6 = 'n'
+        if self.item7_box.isChecked():
+            t7 = 'y'
+            if self.item7_input.text() != '':
+                t7_times = self.item7_input.text()
+        else:
+            t7 = 'n'
+
+        run = Thread(target=self.runFunc, args=(t1, t2, t3, t4, t5, t6, t7, filename, t4_times, t5_times, t6_times, t7_times, ))
+        run.start()
+
+    def runFunc(self, t1, t2, t3, t4, t5, t6, t7, filename, t4_times, t5_times, t6_times, t7_times):
+        cmd = "python file_node_test_scripts/mainFunc.py %s %s %s %s %s %s %s %s %s %s %s %s" % (t1, t2, t3, t4, t5, t6, t7, filename, t4_times, t5_times, t6_times, t7_times)
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                             universal_newlines=True)
+        while True:
+            l = p.stdout.readline()
+            if not l:
+                break
+            windowclass.ui.DDreadRegValShowText.append(l[:-1])
+
+        windowclass.ui.DDreadRegValShowText.append('\n')
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     login = LoginWindow()
@@ -3451,4 +3664,5 @@ if __name__ == '__main__':
     windowclass = MainWindow()
     childclass = RawdataWindow()
     swipeclass = SwipeWindow()
+    testclass = TestWindow()
     sys.exit(app.exec_())

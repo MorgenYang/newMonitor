@@ -1,0 +1,14 @@
+DRIVER_VERSION=1
+RX=36
+TX=16
+SELFTEST_PATH=/proc/android_touch/self_test
+DEBUG_PATH=/proc/android_touch/debug
+FLASH_DUMP_PATH=/proc/android_touch/flash_dump
+HX_FOLDER_PATH=/sdcard/HimaxAPK/tmp
+FW_PATH=/vendor/firmware/Himax_firmware.bin
+V1_DIAG_PATH=/proc/android_touch/diag
+V1_REG_PATH=/proc/android_touch/register
+V1_INT_EN_PATH=/proc/android_touch/int_en
+V1_RESET_PATH=/proc/android_touch/reset
+V1_SENSEONOFF_PATH=/proc/android_touch/SenseOnOff
+V1_DIAGARR_PATH=/proc/android_touch/diag_arr
