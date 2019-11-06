@@ -35,20 +35,3 @@ def shell(cmd=None, shell_cmd=None, para=None):
     mutex.release()
     return ret
 
-
-"""
-    During the process get the process msg
-    -It should set to the thread queue
-    -Set the callback function to implement other function
-"""
-
-
-def keep_listen_shell(cmd, callback=None):
-    ret = ''
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
-    while keepFlag:
-        l = p.stdout.readline()
-        if not l:
-            break
-        ret += l
-    return ret

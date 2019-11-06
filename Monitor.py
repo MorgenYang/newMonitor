@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
 
     def mousePressEvent(self, event):
         if event.buttons() == QtCore.Qt.MiddleButton:
-            cmd = "<br/>Author: morgen<br/>"
+            cmd = "Report bugs to -->\nmorgen_cai@himax.com.cn"
             windowclass.ui.dialogWin(cmd)
 
     def keyPressEvent(self, event):
@@ -3466,7 +3466,7 @@ class Ui_TestWindow(object):
         self.girdLayout = QtWidgets.QGridLayout()
 
         font = QtGui.QFont()
-        font.setPointSize(10)
+        font.setPointSize(13)
 
         self.item1 = QtWidgets.QLabel()
         self.item1.setText("Input dev register check")
@@ -3500,6 +3500,7 @@ class Ui_TestWindow(object):
 
         self.runbtn = QtWidgets.QPushButton()
         self.runbtn.setText('Run')
+        self.runbtn.setFont(font)
 
         self.item4_input = QtWidgets.QLineEdit()
         self.item4_input.setPlaceholderText('Times')
@@ -3547,7 +3548,7 @@ class Ui_TestWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Test"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Node Test"))
 
     def bindEvent(self):
         self.runbtn.clicked.connect(self.runThread)
@@ -3601,9 +3602,6 @@ class Ui_TestWindow(object):
         t7 = ''
         t7_times = '1'
 
-        filename = windowclass.ui.settingsProComboBox.currentText()
-        print(filename)
-
         if self.item1_box.isChecked():
             t1 = 'y'
         else:
@@ -3641,11 +3639,11 @@ class Ui_TestWindow(object):
         else:
             t7 = 'n'
 
-        run = Thread(target=self.runFunc, args=(t1, t2, t3, t4, t5, t6, t7, filename, t4_times, t5_times, t6_times, t7_times, ))
+        run = Thread(target=self.runFunc, args=(t1, t2, t3, t4, t5, t6, t7, t4_times, t5_times, t6_times, t7_times, ))
         run.start()
 
-    def runFunc(self, t1, t2, t3, t4, t5, t6, t7, filename, t4_times, t5_times, t6_times, t7_times):
-        cmd = "python file_node_test_scripts/mainFunc.py %s %s %s %s %s %s %s %s %s %s %s %s" % (t1, t2, t3, t4, t5, t6, t7, filename, t4_times, t5_times, t6_times, t7_times)
+    def runFunc(self, t1, t2, t3, t4, t5, t6, t7, t4_times, t5_times, t6_times, t7_times):
+        cmd = "python scripts/node_test.py %s %s %s %s %s %s %s %s %s %s %s" % (t1, t2, t3, t4, t5, t6, t7, t4_times, t5_times, t6_times, t7_times)
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              universal_newlines=True)
         while True:
