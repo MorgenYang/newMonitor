@@ -1055,7 +1055,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.7"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.8"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
         self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
@@ -3399,7 +3399,7 @@ class Ui_LoginWindow(object):
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.7</b>")
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.8</b>")
         self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc</a>")
         self.loginPwd.setText("PWD:")
         self.status.setText("<a style='color:rgb(0, 0, 130)'>Input, then click <b>Enter</b> or Esc exit!</a>")
