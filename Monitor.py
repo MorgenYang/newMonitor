@@ -41,13 +41,18 @@ class MainWindow(QMainWindow):
         self.uiThreadBindEventFunc.start()
         self.statusBar().addWidget(QLabel("Ready"))
 
-    def mousePressEvent(self, event):
-        if event.buttons() == QtCore.Qt.MiddleButton:
-            cmd = "Report bugs to -->\nmorgen_cai@himax.com.cn"
-            windowclass.ui.dialogWin(cmd)
-
     def keyPressEvent(self, event):
         key = event.key()
+        if key == QtCore.Qt.Key_F1:
+            cmd = "  ctrl+T: clear TP reg log\n" \
+                  "  ctrl+D: clear DD log\n" \
+                  "  ctrl+A: clear adb cmd log\n" \
+                  "  ctrl+P: show swipe UI\n" \
+                  "  ctrl+M: calc max SNR\n" \
+                  "  ctrl+S: calc avg SNR\n" \
+                  "  ctrl+E: show node test script UI"
+            self.ui.dialogWin(cmd, 'left')
+
         if event.modifiers() == QtCore.Qt.ControlModifier:
             if key == QtCore.Qt.Key_T:
                 self.ui.readRegValShowText.clear()
@@ -1050,7 +1055,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.8"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ADB Monitor 2.0.9"))
         self.touchInfoGroupBox.setTitle(_translate("MainWindow", "Touch info"))
         self.touchInfoRXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
         self.touchInfoTXLineEdit.setPlaceholderText(_translate("MainWindow", "0"))
@@ -1708,18 +1713,23 @@ class Ui_MainWindow(object):
         self.pathFWLineEdit.setText("/vendor/firmware/Himax_firmware.bin")
 
     # TODO: dialog window functions
-    def dialogWin(self, string):
+    def dialogWin(self, string, *argv):
         self.dialog = QDialog()
-        self.dialog.resize(300, 115)
-        self.dialog.setMaximumSize(QtCore.QSize(300, 115))
+        self.dialog.resize(300, 130)
+        self.dialog.setMaximumSize(QtCore.QSize(300, 130))
         self.labelTmp = QtWidgets.QLabel(self.dialog)
-        self.labelTmp.setGeometry(QtCore.QRect(0, 0, 300, 100))
+        self.labelTmp.setGeometry(QtCore.QRect(0, 0, 300, 130))
         font = QtGui.QFont()
-        font.setPointSize(13)
+        font.setPointSize(12)
         self.labelTmp.setFont(font)
         self.labelTmp.setObjectName("labelTmp")
         self.labelTmp.setText(string)
-        self.labelTmp.setAlignment(QtCore.Qt.AlignCenter)
+
+        if len(argv) == 0:
+            self.labelTmp.setAlignment(QtCore.Qt.AlignCenter)
+        else:
+            if argv[0] == 'left':
+                self.labelTmp.setAlignment(QtCore.Qt.AlignLeft)
 
         self.retranslateUi(self.dialog)
         QtCore.QMetaObject.connectSlotsByName(self.dialog)
@@ -2391,7 +2401,6 @@ class Ui_MainWindow(object):
 
         rawdata = ret[ret.find('\n')+2:ret.find('ChannelEnd')]
         rawdata = rawdata[:rawdata.find('\n')].split()
-        print(rawdata)
 
         if self.commonFlag:
             self.transTX = len(rawdata) + 1
@@ -2740,6 +2749,15 @@ class RawdataWindow(QMainWindow):
         key = event.key()
         if key == QtCore.Qt.Key_Escape:
             self.close()
+
+        if key == QtCore.Qt.Key_F1:
+            cmd = "  ESC: close this UI\n" \
+                  "  ctrl+C: copy current rawdata\n" \
+                  "  ctrl+S: copy current org rawdata\n" \
+                  "  ctrl+M: keep max\n" \
+                  "  ctrl+N: keep min\n" \
+                  "  ctrl+B: back normal\n"
+            windowclass.ui.dialogWin(cmd, 'left')
 
         if event.modifiers() == QtCore.Qt.ControlModifier:
             if key == QtCore.Qt.Key_C:
@@ -3206,7 +3224,6 @@ class Ui_RawdataWindow(object):
         cmd = "(i=1;times=" + Times + ";while [ $i -le $times ];do echo ;echo Times:$i;" \
               + windowclass.ui.catDiag \
               + ";i=$(( $i + 1 ));done;) > " + name
-        print(cmd)
         adbtool.shell(cmd, "SHELL")
         adbtool.shell("adb pull " + name + " ./log")
 
@@ -3388,7 +3405,7 @@ class Ui_LoginWindow(object):
         self.ps = QtWidgets.QLabel()
         self.loginPwdLineEdit = QtWidgets.QLineEdit()
         self.loginPwdLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.8</b>")
+        self.titleLabel.setText("<b><font size='5'>ADB Monitor </font>2.0.9</b>")
         self.copyrightLabel.setText("<a style='color:rgb(102, 102, 102)'>Copyright 2019 Himax Technologies, Inc. mc</a>")
         self.loginPwd.setText("PWD:")
         self.status.setText("<a style='color:rgb(0, 0, 130)'>Input, then click <b>Enter</b> or Esc exit!</a>")
