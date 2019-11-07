@@ -8,12 +8,10 @@ test_tool_ver = "1.0.0.2"
 # TODO: User Settings -start
 driver_ver = 'v2'                       # you need to check phone's driver version
 dev_event_name = 'hxmax-touchscreen'    # getevent to check this device name
-
 # common
 path_debug = '/proc/android_touch/debug'
 path_vendor = '/proc/android_touch/vendor'
 path_self_test = '/proc/android_touch/self_test'
-
 # v1
 path1_reset = '/proc/android_touch/reset'
 path1_inten = '/proc/android_touch/int_en'
@@ -22,7 +20,6 @@ path1_attn = '/proc/android_touch/attn'
 path1_register = '/proc/android_touch/register'
 path1_crc_test = '/proc/android_touch/CRC_test'
 path1_diag = '/proc/android_touch/diag'
-
 # v2
 path2_stack = '/proc/android_touch/diag/stack'
 path2_delta_s = '/proc/android_touch/diag/delta_s'
@@ -119,6 +116,7 @@ if t6 == 'y':
 t7 = sys.argv[7]
 if t7 == 'y':
     t7_times = sys.argv[11]
+
 
 # TODO: print argv
 # for i in range(len(sys.argv)):
@@ -606,10 +604,10 @@ def reboot_test(times):
 
 
 def inspection_test(times):
-    if os.path.isfile("hx_criteria_pass.csv") and os.path.isfile("hx_criteria_fail.csv"):
+    if os.path.isfile("criteria/hx_criteria_pass.csv") and os.path.isfile("criteria/hx_criteria_fail.csv"):
         print("hx_criteria_pass.csv,hx_criteria_fail.csv check ok")
     else:
-        print("Please put hx_criteria_pass.csv,hx_criteria_fail.csv")
+        print("Please put hx_criteria_pass.csv,hx_criteria_fail.csv into criteria/ folder")
         return False
 
     os.system('adb shell "dmesg -c" > ' + log_tmp)
@@ -617,7 +615,7 @@ def inspection_test(times):
     for i in range(0, int(times), 1):
         print('[HX_AUTO_TEST]test times', i, 'Total', times)
         # =================himax_self test pass case=====================
-        os.system('adb push hx_criteria_pass.csv /system/etc/firmware/hx_criteria.csv')
+        os.system('adb push criteria/hx_criteria_pass.csv /system/etc/firmware/hx_criteria.csv')
         # time.sleep(5)
         self_test_result = os.popen('adb shell "cat %s"' % path_self_test).read()
         os.system('adb shell "dmesg -c | grep HXTP" > ' + log_self_test)
@@ -633,7 +631,7 @@ def inspection_test(times):
             return False
         # =================himax_self test pass case=====================
         # =================himax_self test fail case=====================
-        os.system('adb push hx_criteria_fail.csv /system/etc/firmware/hx_criteria.csv')
+        os.system('adb push criteria/hx_criteria_fail.csv /system/etc/firmware/hx_criteria.csv')
         # time.sleep(5)
         self_test_result = os.popen('adb shell "cat %s"' % path_self_test).read()
         os.system('adb shell "dmesg -c | grep HXTP" > ' + log_self_test)
@@ -652,10 +650,10 @@ def inspection_test(times):
 
 
 def fw_upgrade_test(times):
-    if os.path.isfile("himax_firmware_1.bin") and os.path.isfile("himax_firmware_2.bin"):
+    if os.path.isfile("firmware/himax_firmware_1.bin") and os.path.isfile("firmware/himax_firmware_2.bin"):
         print("himax_firmware_1.bin,himax_firmware_2.bin check ok")
     else:
-        print("Please put himax_firmware_1.bin,himax_firmware_2.bin into folder")
+        print("Please put himax_firmware_1.bin,himax_firmware_2.bin into firmware/ folder")
         return False
 
     os.system('adb shell "dmesg -c" > ' + log_tmp)
@@ -663,7 +661,7 @@ def fw_upgrade_test(times):
     for i in range(0, int(times), 1):
         print('[HX_AUTO_TEST]test times', i, 'Total', times)
         # =================himax_firmware test 1st time=====================
-        os.system('adb push himax_firmware_1.bin /system/etc/firmware/himax_firmware.bin')
+        os.system('adb push firmware/himax_firmware_1.bin /system/etc/firmware/himax_firmware.bin')
         os.system('adb shell "echo t "himax_firmware.bin" > %s' % path_debug)
         # time.sleep(5)
         fw_upgrade_result = os.popen('adb shell "cat %s"' % path_debug).read()
@@ -680,7 +678,7 @@ def fw_upgrade_test(times):
             return False
         # =================himax_firmware test 1st time=====================
         # =================himax_firmware test 2nd time=====================
-        os.system('adb push himax_firmware_2.bin /system/etc/firmware/himax_firmware.bin')
+        os.system('adb push firmware/himax_firmware_2.bin /system/etc/firmware/himax_firmware.bin')
         os.system('adb shell "echo t "himax_firmware.bin" > %s' % path_debug)
         # time.sleep(5)
         fw_upgrade_result = os.popen('adb shell "cat %s"' % path_debug).read()

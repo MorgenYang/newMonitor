@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QTableWidgetItem, QFileDialog
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QIcon, QRegExpValidator
@@ -703,11 +703,6 @@ class Ui_MainWindow(object):
         self.flashDump.setFont(font)
         self.flashDump.setStyleSheet("color: rgb(0, 0, 0);")
         self.flashDump.setObjectName("flashDump")
-        self.updateFWText = QtWidgets.QTextEdit(self.touchGroupBox)
-        self.updateFWText.setGeometry(QtCore.QRect(290, 50, 80, 30))
-        self.updateFWText.setMaximumSize(QtCore.QSize(100, 30))
-        self.updateFWText.setStyleSheet("color: rgb(0, 0, 0);")
-        self.updateFWText.setObjectName("updateFWText")
         self.reset = QtWidgets.QPushButton(self.touchGroupBox)
         self.reset.setGeometry(QtCore.QRect(105, 15, 90, 30))
         self.reset.setMaximumSize(QtCore.QSize(100, 30))
@@ -1170,7 +1165,6 @@ class Ui_MainWindow(object):
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabDDRegister), _translate("MainWindow", "DD Reg"))
         self.TabMainWindow.setTabText(self.TabMainWindow.indexOf(self.tabDDLog), _translate("MainWindow", "DD Log"))
 
-    # TODO: add functions for all widgets
     def bindEventFunc(self):
         self.hintMessages()
 
@@ -1244,7 +1238,6 @@ class Ui_MainWindow(object):
         self.G2DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(1))
         self.G3DDClear.clicked.connect(lambda: self.ddClearRegisterFunc(2))
 
-    # TODO: hint some key messages
     def hintMessages(self):
         self.wifiConnect.setToolTip("You should connect <b style='color:red'>USB</b> and <b>WIFI</b>,\nthen click this")
         self.showRawdataUI.setToolTip("<h3 style='color:black'>It will check <b style='color:red'>rx and tx num</b>,\nand then show rawdata UI</h3>")
@@ -1355,7 +1348,6 @@ class Ui_MainWindow(object):
 
         return True
 
-    # TODO: init all input widgets rule
     def setRegExp(self):
         # settings limit rx tx input style
         reg = QRegExp('[1-9][0-9]')
@@ -2301,66 +2293,6 @@ class Ui_MainWindow(object):
             self.readRegValShowText.append(cmd)
             adbtool.shell(cmd, "SHELL")
 
-    # TODO: trans rawdata pattern
-    def transRawdataPattern(self):
-        # check rx and tx num is or not match
-        self.commonFlag = True
-        adbtool.shell(windowclass.ui.echoDiag % '1', "SHELL")
-        ret = adbtool.shell(windowclass.ui.catDiag, "SHELL")
-        # check device connect status
-        if ret == '' or ret.find('error') != -1 or ret.find('ChannelStart') == -1:
-            windowclass.ui.dialogWin("Not found devices")
-            return False
-
-        # check the rawdata pattern is common or custom
-        if ret.find('[00]') == -1:
-            self.commonFlag = False
-        else:
-            self.commonFlag = True
-
-        # check rx tx
-        rx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[0]
-        tx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[1]
-        if int(rx) != windowclass.ui.rxnum:
-            windowclass.ui.dialogWin("Project rx/tx num wrong")
-            return False
-
-        rawdata = ret[ret.find('\n')+2:ret.find('ChannelEnd')]
-        rawdata = rawdata[:rawdata.find('\n')].split()
-        print(rawdata)
-
-        if self.commonFlag:
-            self.transTX = len(rawdata) + 1
-            if (self.transTX - 2) == windowclass.ui.txnum:
-                self.transRX = windowclass.ui.rxnum + 2
-            else:
-                self.transRX = windowclass.ui.txnum + 2
-        else:
-            self.transTX = len(rawdata)
-            if (self.transTX - 1) == windowclass.ui.txnum:
-                self.transRX = windowclass.ui.rxnum + 1
-            else:
-                self.transRX = windowclass.ui.txnum + 1
-
-        return True
-
-    # TODO: show rawdata UI function
-    def showRawdataUIFunc(self):
-        if not self.transRawdataPattern():
-            return
-
-        childclass.ui.mainwindow.resize(self.transTX * windowclass.rawdataWidth,
-                                        self.transRX * windowclass.rawdataHeight + 45)
-        childclass.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, windowclass.rawdataWidth * self.transTX,
-                                                                          windowclass.rawdataHeight * self.transRX))
-        childclass.ui.initRawdataUI(self.transRX, self.transTX)
-        childclass.show()
-        self.disableFunctions(True)
-
-    # TODO: disable some functions when show rawdata UI
-    def disableFunctions(self, disable):
-        self.tabSettings.setDisabled(disable)
-
     # TODO: options page, touch functions
     def touchDiagArrFunc(self):
         name = self.diagArrText.text()
@@ -2418,12 +2350,12 @@ class Ui_MainWindow(object):
         self.rawdataShowText.append("will be add flash dump func\n")
 
     def touchUpdateFWFunc(self):
-        fw_path = self.updateFWText.toPlainText()
+        fw_path, file_type = QFileDialog.getOpenFileName(None, 'choose', os.getcwd(), "Text Files (*.bin)")
         if fw_path == "":
             self.rawdataShowText.append("please choose fw file!")
             return
         self.rawdataShowText.append('adb push "%s" "%s"' % (fw_path, self.fwPath))
-        ret = adbtool.shell('adb push "%s %s"' % (fw_path, self.fwPath))
+        ret = adbtool.shell('adb push "%s" "%s"' % (fw_path, self.fwPath))
         self.rawdataShowText.append(ret)
         self.rawdataShowText.append('adb shell "' + "echo t Himax_firmware.bin > " + self.debugPath + '"')
         ret = adbtool.shell("echo t Himax_firmware.bin > " + self.debugPath, "SHELL")
@@ -2433,6 +2365,63 @@ class Ui_MainWindow(object):
         adbtool.shell("echo %s > " % self.debugComboBox.currentText() + self.debugPath, 'SHELL')
         ret = adbtool.shell("cat " + self.debugPath, 'SHELL')
         self.rawdataShowText.append(ret)
+
+    def transRawdataPattern(self):
+        # check rx and tx num is or not match
+        self.commonFlag = True
+        adbtool.shell(windowclass.ui.echoDiag % '1', "SHELL")
+        ret = adbtool.shell(windowclass.ui.catDiag, "SHELL")
+        # check device connect status
+        if ret == '' or ret.find('error') != -1 or ret.find('ChannelStart') == -1:
+            windowclass.ui.dialogWin("Not found devices")
+            return False
+
+        # check the rawdata pattern is common or custom
+        if ret.find('[00]') == -1:
+            self.commonFlag = False
+        else:
+            self.commonFlag = True
+
+        # check rx tx
+        rx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[0]
+        tx = ret[ret.find('ChannelStart'):ret.find('\n')].split(':')[1].split(',')[1]
+        if int(rx) != windowclass.ui.rxnum:
+            windowclass.ui.dialogWin("Project rx/tx num wrong")
+            return False
+
+        rawdata = ret[ret.find('\n')+2:ret.find('ChannelEnd')]
+        rawdata = rawdata[:rawdata.find('\n')].split()
+        print(rawdata)
+
+        if self.commonFlag:
+            self.transTX = len(rawdata) + 1
+            if (self.transTX - 2) == windowclass.ui.txnum:
+                self.transRX = windowclass.ui.rxnum + 2
+            else:
+                self.transRX = windowclass.ui.txnum + 2
+        else:
+            self.transTX = len(rawdata)
+            if (self.transTX - 1) == windowclass.ui.txnum:
+                self.transRX = windowclass.ui.rxnum + 1
+            else:
+                self.transRX = windowclass.ui.txnum + 1
+
+        return True
+
+    def showRawdataUIFunc(self):
+        if not self.transRawdataPattern():
+            return
+
+        childclass.ui.mainwindow.resize(self.transTX * windowclass.rawdataWidth,
+                                        self.transRX * windowclass.rawdataHeight + 45)
+        childclass.ui.MainRawdataShowtableWidget.setGeometry(QtCore.QRect(0, 40, windowclass.rawdataWidth * self.transTX,
+                                                                          windowclass.rawdataHeight * self.transRX))
+        childclass.ui.initRawdataUI(self.transRX, self.transTX)
+        childclass.show()
+        self.disableFunctions(True)
+
+    def disableFunctions(self, disable):
+        self.tabSettings.setDisabled(disable)
 
     # TODO: options page, display functions
     def display1129Func(self):
@@ -2462,6 +2451,18 @@ class Ui_MainWindow(object):
         adbtool.shell(cmd2, "SHELL")
         self.rawdataShowText.append(cmd1)
         self.rawdataShowText.append(cmd2)
+
+    def backlight(self):
+        if self.openBlight.text() == 'OpenBlight':
+            self.openBlight.setText('CloseBlight')
+            self.rawdataShowText.append(self.echoWriteRegister % ('30053000', '00002000'))
+            adbtool.shell(self.echoWriteRegister % ('30053000', '00002000'), "SHELL")
+        else:
+            self.openBlight.setText('OpenBlight')
+            self.rawdataShowText.append(self.echoWriteRegister % ('30051000', '00ff0f00'))
+            adbtool.shell(self.echoWriteRegister % ('30051000', '00ff0f00'), "SHELL")
+            self.rawdataShowText.append(self.echoWriteRegister % ('30053000', '00002400'))
+            adbtool.shell(self.echoWriteRegister % ('30053000', '00002400'), "SHELL")
 
     # TODO: options page, WIFI functions
     def wifiConnectFunc(self):
@@ -2725,18 +2726,6 @@ class Ui_MainWindow(object):
 
     def unlockFunc(self):
         adbtool.shell(None, "KEYEVENT", 82)
-
-    def backlight(self):
-        if self.openBlight.text() == 'OpenBlight':
-            self.openBlight.setText('CloseBlight')
-            self.rawdataShowText.append(self.echoWriteRegister % ('30053000', '00002000'))
-            adbtool.shell(self.echoWriteRegister % ('30053000', '00002000'), "SHELL")
-        else:
-            self.openBlight.setText('OpenBlight')
-            self.rawdataShowText.append(self.echoWriteRegister % ('30051000', '00ff0f00'))
-            adbtool.shell(self.echoWriteRegister % ('30051000', '00ff0f00'), "SHELL")
-            self.rawdataShowText.append(self.echoWriteRegister % ('30053000', '00002400'))
-            adbtool.shell(self.echoWriteRegister % ('30053000', '00002400'), "SHELL")
 
 
 class RawdataWindow(QMainWindow):
